@@ -72,6 +72,10 @@
 #define	ERROR_EPOLL_WAIT		DELIM BRED ERROR "Epoll failed to wait for events!\n" DELIM
 #define	ERROR_GETADDRINFO		DELIM BRED ERROR "Getaddrinfo failed!\n" DELIM
 #define	ERROR_FCNTL				DELIM BRED ERROR "Fcntl failed to set socket to non-blocking mode\n" DELIM
+#define	ERROR_READ			 	DELIM BRED ERROR "Failed to read from client!\n" DELIM
+#define	ERROR_SEND			 	DELIM BRED ERROR "Failed to send msg to client!\n" DELIM
+#define	ERROR_PASSW				DELIM BRED ERROR "Invalid password : connection to server refused\n" DELIM
+
 //est ce qu on peut ecrire ca comme ca? : (si oui faire pour tous les erno)
 // #define	ERROR_GETADDRINFO		DELIM BRED ERROR "Getaddrinfo failed: " + static_cast<std::string>(gai_strerror(ret)) PRINT_END
 
@@ -89,6 +93,9 @@
 //Classes
 #define	CLIENT		"Client"
 #define	SERVER		"Server"
+
+/****	PROTOCOL MESSAGES	****/
+// #define WELCOME_MSG
 
 /****	Visuals	****/
 

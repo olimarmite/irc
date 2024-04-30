@@ -54,14 +54,122 @@ Server::~Server()
 	}
 } */
 
-void	Server::send_welcome_message(int client_fd)
+void	Server::send_welcome_message(User user)
 {
-	char message[] = "Welcome to the server"; //si je depasse char[1024] il me faut les protections et la while comme dans send_data()
+	std::string message = ":ircserv 001 " + user.getUsername() + \
+	" :Welcome to the ircserv IRC Network " + user.getUsername() + \
+	"!~" + user.getUsername() + "@127.0.0.1\n" + \
+	":ircserv 002 " + user.getUsername() + \
+	" :Your host is ircserv, running version bahamut-2.2.2\n" + \
+	":ircserv 003 " + user.getUsername() + \
+	"This server was created Tue Apr 30 2024 at 16:38:57 UTC"; //si je depasse char[1024] il me faut les protections et la while comme dans send_data()
 
-	// int bytes_sent = send(client_fd, message, strlen(message), DEFAULT_FLAG);
-	int bytes_sent = send(client_fd, message, strlen(message), MSG_NOSIGNAL);
+	// int bytes_sent = send(user.getFd(), message, strlen(message), DEFAULT_FLAG);
+	int bytes_sent = send(user.getFd(), message.c_str(), message.length(), MSG_NOSIGNAL);
 	if (bytes_sent == INVALID_NB)
 		throw std::runtime_error(ERROR_FAIL_MSG + static_cast<std::string>(gai_strerror(bytes_sent)));
+}
+
+User	Server::create_client(int client_fd)
+{
+/* Tous les messages envoyes par le serveur et par le client doivent finir par \r\n
+Du coup lancer : nc -C localhost 1500 */
+
+	User newUser(client_fd);
+	char input[1024];
+	std::string message;
+	int bytes_read = 0;
+	int bytes_sent = 0;
+	int i;
+
+	message = "Enter password : ";
+	bytes_sent = send(client_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+	if (bytes_sent == INVALID_NB)
+	{
+		throw std::runtime_error(ERROR_SEND);
+		return NULL;
+	}
+	bytes_read = read(client_fd, input, sizeof(input));
+	if (bytes_read == INVALID_NB)
+	{
+		throw std::runtime_error(ERROR_READ);
+		return NULL;
+	}
+
+	i = 0;
+	while(input[i] != '\n')
+		i++;
+	input[i] = '\0';
+
+	// std::cout <<"input = [" <<input <<"]" <<std::endl;
+	// std::cout <<"password = [" <<_password <<"]" <<std::endl;
+
+	if (input != _password)
+	{
+		message = "Invalid password : connection to server refused";
+		send(client_fd, message.c_str(), message.length(), MSG_NOSIGNAL); //le proteger
+		close (client_fd);
+		throw std::runtime_error(ERROR_PASSW);
+		return NULL;
+	}
+
+	message = "Enter username : ";
+	bytes_sent = send(client_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+	if (bytes_sent == INVALID_NB)
+	{
+		throw std::runtime_error(ERROR_SEND);
+		return NULL;
+	}
+	bytes_read = read(client_fd, input, sizeof(input));
+	if (bytes_read == INVALID_NB)
+	{
+		throw std::runtime_error(ERROR_READ);
+		return NULL;
+	}
+	// if (isValidUsername(input) == false) //mettre dans utils.cpp?
+	// {
+			//throw error
+			// close(client_fd)?
+			// 		return NULL;
+	// }
+
+	i = 0;
+	while(input[i] != '\n')
+		i++;
+	input[i] = '\0';
+
+	newUser.setUsername(input);
+
+	message = "Enter nickname : ";
+	bytes_sent = send(client_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+	if (bytes_sent == INVALID_NB)
+	{
+		throw std::runtime_error(ERROR_SEND);
+		return NULL;
+	}
+	bytes_read = read(client_fd, input, sizeof(input));
+	if (bytes_read == INVALID_NB)
+	{
+		throw std::runtime_error(ERROR_READ);
+		return NULL;
+	}
+	// if (isValidNickame(input) == false)
+	// {
+			//throw error
+			// close(client_fd)?
+			// 		return NULL;
+	// }
+
+	i = 0;
+	while(input[i] != '\n')
+		i++;
+	input[i] = '\0';
+
+	newUser.setNickname(input);
+
+	_userList.push_back(newUser);
+
+	return newUser;
 }
 
 /* Accepts new client connection and returns their fd.
@@ -77,6 +185,7 @@ void	Server::accept_connections(struct epoll_event * requests)
 	int client_fd = INVALID_FD;
 	struct epoll_event settings;
 	int ret;
+	User user;
 
 	for (int i = 0; requests[i].data.fd; i++)
 	{
@@ -96,10 +205,11 @@ void	Server::accept_connections(struct epoll_event * requests)
 			if (ret == INVALID_NB)
 				throw std::runtime_error(ERROR_EPOLL_CTL + static_cast<std::string>(strerror(errno)));
 
-			_clients_fd_list.push_back(client_fd);
-			std::cout << "Accepted client fd: " << client_fd << std::endl;
+			// std::cout << "Accepted client fd: " << client_fd << std::endl;
 
-			send_welcome_message(client_fd);
+			//TODO:send welcome message APRES avoir demande password, nickname, etc
+			user = create_client(client_fd);
+			send_welcome_message(user);
 
 			//TODO : delete les requests[i] qui ont ete acceptees
 		}

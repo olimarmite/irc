@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Macros.hpp"
+#include "User.hpp"
 
 class Server
 {
@@ -11,7 +12,9 @@ class Server
 		int _server_fd;
 		int _epoll_fd;
 
-		std::vector<int>	_clients_fd_list;
+		// std::vector<int>	_clients_fd_list;
+		std::vector<User>	_userList;
+
 
 		int						create_socket(struct addrinfo const & settings);
 		struct addrinfo			set_settings();
@@ -20,10 +23,12 @@ class Server
 		struct epoll_event *	poll_for_requests();
 		int						launch_epoll(int server_fd);
 		void					manage_requests(struct epoll_event * requests);
-		void					accept_connections(struct epoll_event * requests);
-		void					send_welcome_message(int client_fd);
 
-		void					send_data(struct epoll_event * requests);
+		void					accept_connections(struct epoll_event * requests);
+		User					create_client(int client_fd);
+		void					send_welcome_message(User user);
+
+		// void					send_data(struct epoll_event * requests);
 
 	
 	public :
