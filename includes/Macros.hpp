@@ -50,8 +50,6 @@
 #define SERVER_IP	ai_flags
 #define PROTOCOL	ai_protocol
 
-#define DEFAULT_FLAG	0
-
 /****	Errors	****/
 #define ERROR			"Error\n"
 

@@ -11,10 +11,7 @@ class Server
 
 		int _server_fd;
 		int _epoll_fd;
-
-		// std::vector<int>	_clients_fd_list;
 		std::vector<User>	_userList;
-
 
 		int						create_socket(struct addrinfo const & settings);
 		struct addrinfo			set_settings();
@@ -25,11 +22,8 @@ class Server
 		void					manage_requests(struct epoll_event * requests);
 
 		void					accept_connections(struct epoll_event * requests);
-		User					create_client(int client_fd);
+		User					create_user(int user_fd);
 		void					send_welcome_message(User user);
-
-		// void					send_data(struct epoll_event * requests);
-
 	
 	public :
 		Server(std::string port, std::string password);
@@ -37,5 +31,4 @@ class Server
  
 		void 				launch();
 		void 				run();
-
 };
