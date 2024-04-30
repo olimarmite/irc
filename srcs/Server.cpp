@@ -72,7 +72,7 @@ void	Server::send_welcome_message(User user)
 
 User	Server::create_client(int client_fd)
 {
-/* Tous les messages envoyes par le serveur et par le client doivent finir par \r\n
+/* TODO : Tous les messages envoyes par le serveur et par le client doivent finir par \r\n
 Du coup lancer : nc -C localhost 1500 */
 
 	User newUser(client_fd);
@@ -85,16 +85,10 @@ Du coup lancer : nc -C localhost 1500 */
 	message = "Enter password : ";
 	bytes_sent = send(client_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
 	if (bytes_sent == INVALID_NB)
-	{
 		throw std::runtime_error(ERROR_SEND);
-		return NULL;
-	}
 	bytes_read = read(client_fd, input, sizeof(input));
 	if (bytes_read == INVALID_NB)
-	{
 		throw std::runtime_error(ERROR_READ);
-		return NULL;
-	}
 
 	i = 0;
 	while(input[i] != '\n')
@@ -110,22 +104,15 @@ Du coup lancer : nc -C localhost 1500 */
 		send(client_fd, message.c_str(), message.length(), MSG_NOSIGNAL); //le proteger
 		close (client_fd);
 		throw std::runtime_error(ERROR_PASSW);
-		return NULL;
 	}
 
 	message = "Enter username : ";
 	bytes_sent = send(client_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
 	if (bytes_sent == INVALID_NB)
-	{
 		throw std::runtime_error(ERROR_SEND);
-		return NULL;
-	}
 	bytes_read = read(client_fd, input, sizeof(input));
 	if (bytes_read == INVALID_NB)
-	{
 		throw std::runtime_error(ERROR_READ);
-		return NULL;
-	}
 	// if (isValidUsername(input) == false) //mettre dans utils.cpp?
 	// {
 			//throw error
@@ -143,16 +130,10 @@ Du coup lancer : nc -C localhost 1500 */
 	message = "Enter nickname : ";
 	bytes_sent = send(client_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
 	if (bytes_sent == INVALID_NB)
-	{
 		throw std::runtime_error(ERROR_SEND);
-		return NULL;
-	}
 	bytes_read = read(client_fd, input, sizeof(input));
 	if (bytes_read == INVALID_NB)
-	{
 		throw std::runtime_error(ERROR_READ);
-		return NULL;
-	}
 	// if (isValidNickame(input) == false)
 	// {
 			//throw error
@@ -177,9 +158,6 @@ The new client_fd is added to epoll_ctl to be monitored
 by epoll (which allows to receive future packages). */
 void	Server::accept_connections(struct epoll_event * requests)
 {
-	// accept() avant de verifier le mot de passe car il
-	//faut pouvoir recevoir le mot de passe pour le test
-
 	struct sockaddr_in	clientAddress;
 	socklen_t			clientAddressLength = sizeof(clientAddress);
 	int client_fd = INVALID_FD;
@@ -269,18 +247,10 @@ struct epoll_event *	Server::poll_for_requests()
 
 void	Server::run()
 {
-	try
-	{
-		struct epoll_event * requests;
+	struct epoll_event * requests;
 
-		requests = poll_for_requests(); //requests = connection, msg, commands
-		manage_requests(requests); //creates chanels, etc
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	return ;
+	requests = poll_for_requests(); //requests = connection, msg, commands
+	manage_requests(requests); //creates chanels, etc
 }
 
 //--------------------------------------------------------------------
@@ -297,20 +267,14 @@ int	Server::launch_epoll(int server_fd)
 //epoll_fd est un fd de controle, il nous permet d'interragir avec epoll
 	epoll_fd = epoll_create1(0); //avec flag 0 c'est l'équivalent d'utiliser l'ancienne fx epoll_create() donc tester avec après
 	if (epoll_fd == INVALID_FD)
-	{
 		throw std::runtime_error(ERROR_EPOLL_CREATE + static_cast<std::string>(strerror(errno)));
-		return INVALID_FD;
-	}
 
 //ajout du server_fd à epoll
 	settings.events = EPOLLIN;
 	settings.data.fd = server_fd;
 	ret = epoll_ctl(epoll_fd, EPOLL_CTL_ADD, server_fd, &settings);
 	if (ret == INVALID_NB)
-	{
 		throw std::runtime_error(ERROR_EPOLL_CTL + static_cast<std::string>(strerror(errno)));
-		return INVALID_FD;
-	}
 
 	return epoll_fd;
 }
@@ -326,10 +290,7 @@ void	Server::listen_to_users_requests(int const & server_fd)
 
 	ret = listen(server_fd, MAX_PENDING_CONNECTIONS);
 	if ( ret == INVALID_LISTEN)
-	{
 		throw std::runtime_error(ERROR_LISTEN);
-		return ;
-	}
 
 /* 	ret = fcntl(server_fd, F_SETFL, O_NONBLOCK); /VAUT MIEUX JUSTE APRES CREATION SOCKET
 	if (ret == INVALID_FCNTL)
@@ -402,21 +363,14 @@ struct addrinfo	Server::set_settings()
 
 void	Server::launch()
 {
-	try
-	{
-		struct addrinfo server_settings = set_settings();
-		int server_fd = create_socket(server_settings);
-		bind_socket_to_port(server_settings, server_fd);
-		listen_to_users_requests(server_fd);
-		int epoll_fd = launch_epoll(server_fd);
+	struct addrinfo server_settings = set_settings();
+	int server_fd = create_socket(server_settings);
+	bind_socket_to_port(server_settings, server_fd);
+	listen_to_users_requests(server_fd);
+	int epoll_fd = launch_epoll(server_fd);
 
-		//free server_settings ici?
+	//free server_settings ici?
 
-		_epoll_fd = epoll_fd;
-		_server_fd = server_fd;
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	_epoll_fd = epoll_fd;
+	_server_fd = server_fd;
 }

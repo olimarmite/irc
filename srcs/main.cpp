@@ -12,12 +12,19 @@ int main(int argc, char **argv)
 	std::string	port = argv[1];
 	std::string	password = argv[2];
 
-	Server		server(port, password);
-
-	server.launch();
-	while (true)
+	try
 	{
-		server.run();
+		Server		server(port, password);
+
+		server.launch();
+		while (true)
+		{
+			server.run();
+		}
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
 	}
 
 	return EXIT_SUCCESS;
