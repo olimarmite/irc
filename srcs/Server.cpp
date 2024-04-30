@@ -18,6 +18,52 @@ Server::~Server()
 //--------------------------------------------------------------------
 //--------------------------------------------------------------------
 
+/* void	Server::send_data(struct epoll_event * requests)
+{
+	for (int i = 0; requests[i].data.fd; i++)
+	{
+		int bytes_read = 0;
+		char buffer[1024] = {0};
+		int flag = DEFAULT;
+		bytes_read = read(requests[i].data.fd, buffer, 1024);
+		if (bytes_read == INVALID_NB)
+			std::cerr << "Failed to read from client socket." << std::endl;
+		else if (bytes_read == 0) //read marche comme pour recv pour = 0 --> client a ferme sa connexion?
+			//TODO: sortir client_fd de la _client_list;
+		else
+		{
+			int len = strlen(buffer);
+			int bytes_sent = send(_server_fd, buffer, len, flag);
+			if (bytes_sent == INVALID_NB)
+				//throw error
+			else if (bytes_sent != len)
+			{
+				int total_bytes_sent = bytes_sent;
+				while (total_bytes_sent != len)
+				{
+					bytes_sent = send(requests[i].data.fd, buffer + total_bytes_sent, len - total_bytes_sent, flag);
+					total_bytes_sent += bytes_sent;
+				}
+			}
+			else
+				//error (should never arrive here)
+			//std::cout << "Message from client: " << buffer << std::endl;
+		}
+
+		
+	}
+} */
+
+void	Server::send_welcome_message(int client_fd)
+{
+	char message[] = "Welcome to the server"; //si je depasse char[1024] il me faut les protections et la while comme dans send_data()
+
+	// int bytes_sent = send(client_fd, message, strlen(message), DEFAULT_FLAG);
+	int bytes_sent = send(client_fd, message, strlen(message), MSG_NOSIGNAL);
+	if (bytes_sent == INVALID_NB)
+		throw std::runtime_error(ERROR_FAIL_MSG + static_cast<std::string>(gai_strerror(bytes_sent)));
+}
+
 /* Accepts new client connection and returns their fd.
 The new client_fd is added to epoll_ctl to be monitored
 by epoll (which allows to receive future packages). */
@@ -29,6 +75,8 @@ void	Server::accept_connections(struct epoll_event * requests)
 	struct sockaddr_in	clientAddress;
 	socklen_t			clientAddressLength = sizeof(clientAddress);
 	int client_fd = INVALID_FD;
+	struct epoll_event settings;
+	int ret;
 
 	for (int i = 0; requests[i].data.fd; i++)
 	{
@@ -41,10 +89,6 @@ void	Server::accept_connections(struct epoll_event * requests)
 				close(client_fd);
 			}
 
-			struct epoll_event settings;
-			int ret;
-
-
 			//ajout du new client_fd à epoll
 			settings.events = EPOLLIN;
 			settings.data.fd = client_fd;
@@ -54,8 +98,12 @@ void	Server::accept_connections(struct epoll_event * requests)
 
 			_clients_fd_list.push_back(client_fd);
 			std::cout << "Accepted client fd: " << client_fd << std::endl;
+
+			send_welcome_message(client_fd);
+
+			//TODO : delete les requests[i] qui ont ete acceptees
 		}
-		else //PRINT MESSAGE
+		/* else //PRINT MESSAGE
 		{
 			int bytes_read = 0;
 			char buffer[1024] = {0};
@@ -64,7 +112,7 @@ void	Server::accept_connections(struct epoll_event * requests)
 				std::cerr << "Failed to read from client socket." << std::endl;
 			else
 				std::cout << "Message from client: " << buffer << std::endl;
-		}
+		} */
 	}
 }
 
@@ -73,6 +121,8 @@ void	Server::manage_requests(struct epoll_event * requests)
 	if (requests == NULL)
 		return;
 	accept_connections(requests);
+	//send_data(requests);
+	// manage_commands()
 
 	//TODO : commands like create channels, send msg, etc
 

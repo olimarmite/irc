@@ -21,6 +21,10 @@ class Server
 		int						launch_epoll(int server_fd);
 		void					manage_requests(struct epoll_event * requests);
 		void					accept_connections(struct epoll_event * requests);
+		void					send_welcome_message(int client_fd);
+
+		void					send_data(struct epoll_event * requests);
+
 	
 	public :
 		Server(std::string port, std::string password);
