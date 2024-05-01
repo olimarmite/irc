@@ -25,6 +25,9 @@
 
 	irssi
 	/rawlog open fichier.log
+
+	!!Bien penser à fermer irssi et netcat avant de
+	ctrl + C le serveur.
 */
 
 int main(int argc, char **argv)

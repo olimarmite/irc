@@ -50,6 +50,9 @@
 #define SERVER_IP	ai_flags
 #define PROTOCOL	ai_protocol
 
+#define IRSSI 0
+#define NETCAT 1
+
 /****	Errors	****/
 #define ERROR			"Error\n"
 

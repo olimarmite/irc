@@ -37,32 +37,52 @@ size_t findEndOfWordInString(const std::string& str, const std::string& word)
 	}
 }
 
-std::string	Server::ask_for_username(int user_fd, std::string input)
+std::string	Server::ask_for_username(int user_fd, std::string input, int type)
 {
 	std::string message;
 	std::string entered_username;
-	// int bytes_sent = 0;
 	int i;
 	int word_length;
 
-(void)user_fd;
-	// message = "Enter username : \r\n";
-	// bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-	// if (bytes_sent == INVALID_NB)
-	// 	throw std::runtime_error(ERROR_SEND);
-	int pos = findEndOfWordInString(input, "USER ");
-	if (pos != -1)
+	if (type == NETCAT)
 	{
-		word_length = 0;
-		i = pos;
-		while (isalnum(input[i++]))
-			word_length++;
-		entered_username = input.substr(pos, word_length);
-		// std::cout <<"Entered username = " <<entered_username <<std::endl;
+		message = "Enter username : \r\n";
+		int bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+		if (bytes_sent == INVALID_NB)
+			throw std::runtime_error(ERROR_SEND);
+		char buffer[1024 + 1];
+		int bytes_read = read(user_fd, buffer, 1024);
+		if (bytes_read == INVALID_NB)
+			throw std::runtime_error(ERROR_READ);
+		std::cout <<"bytes_read : " <<bytes_read <<std::endl;
+		buffer[bytes_read] = '\0';
+		std::string str_buffer(buffer);
+		std::cout <<"buffer = " <<buffer <<std::endl;
+		if (str_buffer.substr(0, 5) == "USER ")
+		{
+			entered_username = str_buffer.substr(5);
+			std::cout <<"Entered username = " <<entered_username <<std::endl;
+		}
+		else
+			throw std::runtime_error(ERROR_USER);
 	}
-	else
-		throw std::runtime_error(ERROR_NICK);
-	// if (isValidNickame(entered_username) == false)
+	else if (type == IRSSI)
+	{
+		int pos = findEndOfWordInString(input, "USER ");
+		if (pos != -1)
+		{
+			word_length = 0;
+			i = pos;
+			while (isalnum(input[i++]))
+				word_length++;
+			entered_username = input.substr(pos, word_length);
+			std::cout <<"Entered username = " <<entered_username <<std::endl;
+		}
+		else
+			throw std::runtime_error(ERROR_USER);
+	}
+	
+	// if (isValidUsername(entered_username) == false)
 	// {
 			//throw error
 			// close(user_fd)?
@@ -72,31 +92,52 @@ std::string	Server::ask_for_username(int user_fd, std::string input)
 	return entered_username;
 }
 
-std::string	Server::ask_for_nickname(int user_fd, std::string input)
+std::string	Server::ask_for_nickname(int user_fd, std::string input, int type)
 {
 	std::string message;
 	std::string entered_nickname;
-	// int bytes_sent = 0;
 	int i;
 	int word_length;
 
-(void)user_fd;
-	// message = "Enter nickname : \r\n";
-	// bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-	// if (bytes_sent == INVALID_NB)
-	// 	throw std::runtime_error(ERROR_SEND);
-	int pos = findEndOfWordInString(input, "NICK ");
-	if (pos != -1)
+	if (type == NETCAT)
 	{
-		word_length = 0;
-		i = pos;
-		while (isalnum(input[i++]))
-			word_length++;
-		entered_nickname = input.substr(pos, word_length);
-		// std::cout <<"Entered nickname = " <<entered_nickname <<std::endl;
+		message = "Enter nickname : \r\n";
+		int bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+		if (bytes_sent == INVALID_NB)
+			throw std::runtime_error(ERROR_SEND);
+		char buffer[1024 + 1];
+		sleep(4); //FIX : read suivant ret chars chelou ou vide. N'attend pas que j'ecrive
+		int bytes_read = read(user_fd, buffer, 1024);
+		if (bytes_read == INVALID_NB)
+			throw std::runtime_error(ERROR_READ);
+		std::cout <<"bytes_read : " <<bytes_read <<std::endl;
+		buffer[bytes_read] = '\0';
+		std::string str_buffer(buffer);
+		std::cout <<"buffer = " <<buffer <<std::endl;
+		if (str_buffer.substr(0, 7) == "\r\nNICK ")
+		{
+			entered_nickname = str_buffer.substr(7);
+			std::cout <<"Entered nickname = " <<entered_nickname <<std::endl;
+		}
+		else
+			throw std::runtime_error(ERROR_NICK);
 	}
-	else
-		throw std::runtime_error(ERROR_NICK);
+	else if (type == IRSSI)
+	{
+		int pos = findEndOfWordInString(input, "NICK ");
+		if (pos != -1)
+		{
+			word_length = 0;
+			i = pos;
+			while (isalnum(input[i++]))
+				word_length++;
+			entered_nickname = input.substr(pos, word_length);
+			std::cout <<"Entered nickname = " <<entered_nickname <<std::endl;
+		}
+		else
+			throw std::runtime_error(ERROR_NICK);
+	}
+
 	// if (isValidNickame(entered_nickname) == false)
 	// {
 			//throw error
@@ -107,40 +148,58 @@ std::string	Server::ask_for_nickname(int user_fd, std::string input)
 	return entered_nickname;
 }
 
-void	Server::ask_for_password(int user_fd, std::string input)
+void	Server::ask_for_password(int user_fd, std::string input, int type)
 {
 	std::string message;
 	std::string entered_password;
-	// int bytes_sent = 0;
 	int i;
 	int word_length;
 
-(void)user_fd;
-	// message = "Enter password : \r\n";
-	// bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-	// if (bytes_sent == INVALID_NB)
-	// 	throw std::runtime_error(ERROR_SEND);
-	int pos = findEndOfWordInString(input, "PASS ");
-	if (pos != -1)
+	if (type == NETCAT)
 	{
-		word_length = 0;
-		i = pos;
-		while (isalnum(input[i++]))
-			word_length++;
-		entered_password = input.substr(pos, word_length); //FIX : prend TOUT le reste de la string
-		// std::cout <<"Entered password = " <<entered_password <<std::endl;
-		
-		if (entered_password != _password)
+		message = "Enter password : \r\n";
+		int bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+		if (bytes_sent == INVALID_NB)
+			throw std::runtime_error(ERROR_SEND);
+		char buffer[1024 + 1];
+		int bytes_read = read(user_fd, buffer, 1024);
+		if (bytes_read == INVALID_NB)
+			throw std::runtime_error(ERROR_READ);
+		buffer[bytes_read] = '\0';
+		std::string str_buffer(buffer);
+		if (str_buffer.substr(0, 5) == "PASS ")
 		{
-			message = "Invalid password : connection to server refused\r\n";
-			send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL); //le proteger
-			close (user_fd);
-			throw std::runtime_error(ERROR_PASSW);
+			entered_password = str_buffer.substr(5);
+			std::cout <<"Entered password = [" <<entered_password <<"]" <<std::endl;
 		}
+		else
+			throw std::runtime_error(ERROR_PSWD);
 	}
-	else
-		throw std::runtime_error(ERROR_PSWD);
-	
+	else if (type == IRSSI)
+	{
+		int pos = findEndOfWordInString(input, "PASS ");
+		if (pos != -1)
+		{
+			word_length = 0;
+			i = pos;
+			while (isalnum(input[i++]))
+				word_length++;
+			entered_password = input.substr(pos, word_length); //FIX : prend TOUT le reste de la string
+			std::cout <<"Entered password = " <<entered_password <<std::endl;
+		}
+		else
+			throw std::runtime_error(ERROR_PSWD);
+	}
+
+	if (entered_password != _password)
+	{
+		message = "Invalid password : connection to server refused\r\n";
+		int bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL); //le proteger
+		if (bytes_sent == INVALID_NB)
+			throw std::runtime_error(ERROR_SEND);
+		close (user_fd);
+		throw std::runtime_error(ERROR_PASSW);
+	}
 }
 
 User	Server::create_user(int user_fd)
@@ -151,10 +210,29 @@ User	Server::create_user(int user_fd)
 	char buffer[1024];
 	std::string input;
 	ssize_t bytes_read = 0;
+	bool type;
+
+
+	// // Set socket to non-blocking mode
+	// int flags = fcntl(user_fd, F_GETFL, 0);
+	// if (flags == -1)
+	// {
+	// 	// perror("fcntl");
+	// 	// return;
+	// 	std::cout <<"error" <<std::endl;
+	// }
+	// flags |= O_NONBLOCK;
+	// if (fcntl(user_fd, F_SETFL, flags) == -1)
+	// {
+	// 	// perror("fcntl");
+	// 	// return;
+	// 	std::cout <<"error" <<std::endl;
+	// }
 
 	bytes_read = read(user_fd, buffer, sizeof(buffer) - 1);
 	if (bytes_read > 0)
 	{
+		// type = IRSSI;
 		buffer[bytes_read] = '\0';
 		input = buffer; //tansform from char * to str
 		// std::cout <<"input = " <<input <<std::endl;
@@ -162,12 +240,22 @@ User	Server::create_user(int user_fd)
 		ce n'est pas à nous de les écrire car il les get
 		automatiquement. */
 	}
+	// else
+	// 	type = NETCAT;
 
-	ask_for_password(user_fd, input);
-	entered_nickname = ask_for_nickname(user_fd, input);
+	if (input.substr(0, 6) == "CAP LS") //on est dans irssi
+		type = IRSSI;
+	else
+		type = NETCAT;
+
+	ask_for_password(user_fd, input, type);
+	std::cout <<"Password accepted" <<std::endl;
+	entered_nickname = ask_for_nickname(user_fd, input, type);
+	std::cout <<"Nickname accepted" <<std::endl;
 	newUser.setNickname(entered_nickname);
-	entered_username = ask_for_username(user_fd, input);
+	entered_username = ask_for_username(user_fd, input, type);
 	newUser.setUsername(entered_username);
+	std::cout <<"Username accepted" <<std::endl;
 
 	_userList.push_back(newUser);
 	// std::cout <<"User added to _clientList" <<std::endl;
