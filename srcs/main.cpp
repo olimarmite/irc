@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 
 	try
 	{
-		Server		server(port, password);
+		Server	server(port, password);
 
 		server.launch();
 		while (true)

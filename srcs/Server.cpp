@@ -19,13 +19,7 @@ Server::~Server()
 
 void	Server::send_welcome_message(User user)
 {
-	std::string message = ":ircserv 001 " + user.getUsername() + \
-	" :Welcome to the ircserv IRC Network " + user.getUsername() + \
-	"!~" + user.getUsername() + "@127.0.0.1\n" + \
-	":ircserv 002 " + user.getUsername() + \
-	" :Your host is ircserv, running version bahamut-2.2.2\n" + \
-	":ircserv 003 " + user.getUsername() + \
-	"This server was created Tue Apr 30 2024 at 16:38:57 UTC"; //si je depasse char[1024] il me faut les protections et la while comme dans send_data()
+	std::string message = WELCOME_MESSAGE(user.getUsername());
 
 	int bytes_sent = send(user.getFd(), message.c_str(), message.length(), MSG_NOSIGNAL);
 	if (bytes_sent == INVALID_NB)

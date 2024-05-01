@@ -93,7 +93,13 @@
 #define	SERVER		"Server"
 
 /****	PROTOCOL MESSAGES	****/
-// #define WELCOME_MSG
+#define WELCOME_MESSAGE(username) ":ircserv 001 " + username + \
+	" :Welcome to the ircserv IRC Network " + username + \
+	"!~" + username + "@127.0.0.1\n" + \
+	":ircserv 002 " + username + \
+	" :Your host is ircserv, running version bahamut-2.2.2\n" + \
+	":ircserv 003 " + username + \
+	" :This server was created Tue Apr 30 2024 at 16:38:57 UTC"
 
 /****	Visuals	****/
 
