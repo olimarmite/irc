@@ -4,16 +4,27 @@
 
 /*
 	Pour tester si port est libre :
-		ss -tuln | grep 3845
+		ss -tuln | grep <port>
 	--> si ne renvoie rien c'est bon
 
-	./ircserv port password
-	nc -C localhost port
+	SERVER :
+	./ircserv <port> <password>
+
+	USER avec netcast :
+	nc -C localhost <port>
 	--> -C pour \r\n
+	Puis je tapes "PASS <password>" sans qu'on me le demande
+	(je ne recevrai pas de prompt type "Enter password :").
+
+	USER avec irssi :
+	/connect localhost <port> <password>
 
 	Il faut que ca marche avec irssi, pas juste netcat
 	(sytaxe particuliere type welcome_msg sans lequel
 	ca ne permet pas de se connecter).
+
+	irssi
+	/rawlog open fichier.log
 */
 
 int main(int argc, char **argv)

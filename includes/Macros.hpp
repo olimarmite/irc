@@ -73,6 +73,9 @@
 #define	ERROR_READ			 	DELIM BRED ERROR "Failed to read from client!\n" DELIM
 #define	ERROR_SEND			 	DELIM BRED ERROR "Failed to send msg to client!\n" DELIM
 #define	ERROR_PASSW				DELIM BRED ERROR "Invalid password : connection to server refused\n" DELIM
+#define	ERROR_PSWD				DELIM BRED ERROR "Invalid password command! Expected : PASS <password>\n" DELIM
+#define	ERROR_USER				DELIM BRED ERROR "Invalid username command! Expected : USER <username>\n" DELIM
+#define	ERROR_NICK				DELIM BRED ERROR "Invalid nickname command! Expected : NICK <nickname>\n" DELIM
 
 //est ce qu on peut ecrire ca comme ca? : (si oui faire pour tous les erno)
 // #define	ERROR_GETADDRINFO		DELIM BRED ERROR "Getaddrinfo failed: " + static_cast<std::string>(gai_strerror(ret)) PRINT_END
