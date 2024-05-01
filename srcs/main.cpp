@@ -28,6 +28,11 @@
 
 	!!Bien penser à fermer irssi et netcat avant de
 	ctrl + C le serveur.
+
+	Pou voir ce que IRSSI et netcat envoient au serveur :
+	Lancer le serveur sur le port 1510
+	Lancer sur un autre terminal : ./socat -v TCP-LISTEN:1237 TCP:localhost:1510
+	Connecter le User au port 1237
 */
 
 int main(int argc, char **argv)

@@ -106,7 +106,7 @@ std::string	Server::ask_for_nickname(int user_fd, std::string input, int type)
 		if (bytes_sent == INVALID_NB)
 			throw std::runtime_error(ERROR_SEND);
 		char buffer[1024 + 1];
-		sleep(4); //FIX : read suivant ret chars chelou ou vide. N'attend pas que j'ecrive
+		sleep(4); //FIX : read suivant return chars chelou ou vide. N'attend pas que j'ecrive
 		int bytes_read = read(user_fd, buffer, 1024);
 		if (bytes_read == INVALID_NB)
 			throw std::runtime_error(ERROR_READ);
@@ -184,7 +184,7 @@ void	Server::ask_for_password(int user_fd, std::string input, int type)
 			i = pos;
 			while (isalnum(input[i++]))
 				word_length++;
-			entered_password = input.substr(pos, word_length); //FIX : prend TOUT le reste de la string
+			entered_password = input.substr(pos, word_length);
 			std::cout <<"Entered password = " <<entered_password <<std::endl;
 		}
 		else
