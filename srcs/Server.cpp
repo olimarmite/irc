@@ -26,169 +26,75 @@ void	Server::send_welcome_message(User user)
 		throw std::runtime_error(ERROR_FAIL_MSG + static_cast<std::string>(gai_strerror(bytes_sent)));
 }
 
-// User	Server::create_user(int user_fd)
-// {
-// /* TODO : Tous les messages envoyes par le serveur et par le user doivent finir par \r\n
-// Du coup lancer : nc -C localhost 1500 */
-
-// 	User newUser(user_fd);
-// 	char input[1024];
-// 	std::string message;
-// 	int bytes_read = 0;
-// 	int bytes_sent = 0;
-// 	int i;
-
-// 	message = "Enter password : \r\n";
-// 	bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-// 	if (bytes_sent == INVALID_NB)
-// 		throw std::runtime_error(ERROR_SEND);
-// 	bytes_read = read(user_fd, input, sizeof(input));
-// 	if (bytes_read == INVALID_NB)
-// 		throw std::runtime_error(ERROR_READ);
-
-// 	i = 0;
-// 	while(input[i] != '\n')
-// 		i++;
-// 	input[i] = '\0';
-
-// 	// std::cout <<"input = [" <<input <<"]" <<std::endl;
-// 	// std::cout <<"password = [" <<_password <<"]" <<std::endl;
-
-// 	if (input != _password)
-// 	{
-// 		message = "Invalid password : connection to server refused";
-// 		send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL); //le proteger
-// 		close (user_fd);
-// 		throw std::runtime_error(ERROR_PASSW);
-// 	}
-
-// 	message = "Enter username : \r\n";
-// 	bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-// 	if (bytes_sent == INVALID_NB)
-// 		throw std::runtime_error(ERROR_SEND);
-// 	bytes_read = read(user_fd, input, sizeof(input));
-// 	if (bytes_read == INVALID_NB)
-// 		throw std::runtime_error(ERROR_READ);
-// 	// if (isValidUsername(input) == false) //mettre dans utils.cpp?
-// 	// {
-// 			//throw error
-// 			// close(user_fd)?
-// 			// 		return NULL;
-// 	// }
-
-// 	i = 0;
-// 	while(input[i] != '\n')
-// 		i++;
-// 	input[i] = '\0';
-
-// 	newUser.setUsername(input);
-
-// 	message = "Enter nickname : \r\n";
-// 	bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-// 	if (bytes_sent == INVALID_NB)
-// 		throw std::runtime_error(ERROR_SEND);
-// 	bytes_read = read(user_fd, input, sizeof(input));
-// 	if (bytes_read == INVALID_NB)
-// 		throw std::runtime_error(ERROR_READ);
-// 	// if (isValidNickame(input) == false)
-// 	// {
-// 			//throw error
-// 			// close(user_fd)?
-// 			// 		return NULL;
-// 	// }
-
-// 	i = 0;
-// 	while(input[i] != '\n')
-// 		i++;
-// 	input[i] = '\0';
-
-// 	newUser.setNickname(input);
-
-// 	_userList.push_back(newUser);
-
-// 	return newUser;
-// }
-
 size_t findEndOfWordInString(const std::string& str, const std::string& word)
 {
 	size_t start = str.find(word);
 	if (start != std::string::npos) {
-		return start + word.length() - 1;
+		return start + word.length();
 	} else {
 		// Word not found
 		return std::string::npos;
 	}
 }
 
-User	Server::create_user(int user_fd)
+std::string	Server::ask_for_username(int user_fd, std::string input)
 {
-	User newUser(user_fd);
 	std::string message;
-	std::string entered_password;
 	std::string entered_username;
-	std::string entered_nickname;
-	std::string str_input;
-	char input[1024];
-	ssize_t bytes_read = 0;
-	int bytes_sent = 0;
+	// int bytes_sent = 0;
 	int i;
+	int word_length;
 
-
-	message = "Enter password : \r\n";
-	bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-	if (bytes_sent == INVALID_NB)
-		throw std::runtime_error(ERROR_SEND);
-	bytes_read = read(user_fd, input, sizeof(input) - 1);
-	if (bytes_read > 0)
+(void)user_fd;
+	// message = "Enter username : \r\n";
+	// bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+	// if (bytes_sent == INVALID_NB)
+	// 	throw std::runtime_error(ERROR_SEND);
+	int pos = findEndOfWordInString(input, "USER ");
+	if (pos != -1)
 	{
-		// input[bytes_read] = '\0'; //non car bytes_read > longueur du password
-		i = 5;
-		while (isalpha(input[i]))
-			i++;
-		input[i] = '\0';
-		std::cout <<"Input = " <<input <<std::endl; //TEST
-		str_input = input; //converts char * to string, declaration has to be on the same line
-		if (str_input.substr(0, 5) == "PASS ")
-		// int pos = findEndOfWordInString(str_input, "PASS "); //TEST
-		// if (pos != -1) //TEST
-		{
-			// std::cout <<"Pos = " <<pos <<std::endl;
-			// std::cout <<"beginning of password = " <<str_input[pos] <<std::endl; //TEST
-			// std::cout <<"password = " <<str_input.substr(pos) <<std::endl; //TEST
-
-
-			entered_password = str_input.substr(5);
-			// entered_password = str_input.substr(pos); //TEST
-			std::cout <<"Password = " <<entered_password <<std::endl;
-
-			
-			if (entered_password != _password)
-			{
-				message = "Invalid password : connection to server refused\r\n";
-				send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL); //le proteger
-				close (user_fd);
-				throw std::runtime_error(ERROR_PASSW);
-			}
-		}
-		else
-			throw std::runtime_error(ERROR_PSWD);
+		word_length = 0;
+		i = pos;
+		while (isalnum(input[i++]))
+			word_length++;
+		entered_username = input.substr(pos, word_length);
+		// std::cout <<"Entered username = " <<entered_username <<std::endl;
 	}
+	else
+		throw std::runtime_error(ERROR_NICK);
+	// if (isValidNickame(entered_username) == false)
+	// {
+			//throw error
+			// close(user_fd)?
+			// 		return NULL;
+	// }
 
-	message = "Enter nickname : \r\n";
-	bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-	if (bytes_sent == INVALID_NB)
-		throw std::runtime_error(ERROR_SEND);
-	bytes_read = read(user_fd, input, sizeof(input));
-	if (bytes_read == INVALID_NB)
-		throw std::runtime_error(ERROR_READ);
-	// input[bytes_read] = '\0';
-	i = 5;
-	while (isalpha(input[i]))
-		i++;
-	input[i] = '\0';
-	str_input = input;
-	if (str_input.substr(0, 5) == "NICK ")
-		entered_nickname = str_input.substr(5);
+	return entered_username;
+}
+
+std::string	Server::ask_for_nickname(int user_fd, std::string input)
+{
+	std::string message;
+	std::string entered_nickname;
+	// int bytes_sent = 0;
+	int i;
+	int word_length;
+
+(void)user_fd;
+	// message = "Enter nickname : \r\n";
+	// bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+	// if (bytes_sent == INVALID_NB)
+	// 	throw std::runtime_error(ERROR_SEND);
+	int pos = findEndOfWordInString(input, "NICK ");
+	if (pos != -1)
+	{
+		word_length = 0;
+		i = pos;
+		while (isalnum(input[i++]))
+			word_length++;
+		entered_nickname = input.substr(pos, word_length);
+		// std::cout <<"Entered nickname = " <<entered_nickname <<std::endl;
+	}
 	else
 		throw std::runtime_error(ERROR_NICK);
 	// if (isValidNickame(entered_nickname) == false)
@@ -197,34 +103,74 @@ User	Server::create_user(int user_fd)
 			// close(user_fd)?
 			// 		return NULL;
 	// }
-	newUser.setNickname(entered_nickname);
 
-	message = "Enter username : \r\n";
-	bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
-	if (bytes_sent == INVALID_NB)
-		throw std::runtime_error(ERROR_SEND);
-	bytes_read = read(user_fd, input, sizeof(input));
-	if (bytes_read == INVALID_NB)
-		throw std::runtime_error(ERROR_READ);
-	// input[bytes_read] = '\0';
-	i = 5;
-	while (isalpha(input[i]))
-		i++;
-	input[i] = '\0';
-	str_input = input;
-	if (str_input.substr(0, 5) == "USER ")
-		entered_username = str_input.substr(5);
+	return entered_nickname;
+}
+
+void	Server::ask_for_password(int user_fd, std::string input)
+{
+	std::string message;
+	std::string entered_password;
+	// int bytes_sent = 0;
+	int i;
+	int word_length;
+
+(void)user_fd;
+	// message = "Enter password : \r\n";
+	// bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL);
+	// if (bytes_sent == INVALID_NB)
+	// 	throw std::runtime_error(ERROR_SEND);
+	int pos = findEndOfWordInString(input, "PASS ");
+	if (pos != -1)
+	{
+		word_length = 0;
+		i = pos;
+		while (isalnum(input[i++]))
+			word_length++;
+		entered_password = input.substr(pos, word_length); //FIX : prend TOUT le reste de la string
+		// std::cout <<"Entered password = " <<entered_password <<std::endl;
+		
+		if (entered_password != _password)
+		{
+			message = "Invalid password : connection to server refused\r\n";
+			send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL); //le proteger
+			close (user_fd);
+			throw std::runtime_error(ERROR_PASSW);
+		}
+	}
 	else
-		throw std::runtime_error(ERROR_USER);
-	// if (isValidUsername(entered_username) == false) //mettre dans utils.cpp?
-	// {
-			//throw error
-			// close(user_fd)?
-			// 		return NULL;
-	// }
+		throw std::runtime_error(ERROR_PSWD);
+	
+}
+
+User	Server::create_user(int user_fd)
+{
+	User newUser(user_fd);
+	std::string entered_username;
+	std::string entered_nickname;
+	char buffer[1024];
+	std::string input;
+	ssize_t bytes_read = 0;
+
+	bytes_read = read(user_fd, buffer, sizeof(buffer) - 1);
+	if (bytes_read > 0)
+	{
+		buffer[bytes_read] = '\0';
+		input = buffer; //tansform from char * to str
+		// std::cout <<"input = " <<input <<std::endl;
+		/*--> irssi envoie tout d'un coup le pass, nick et user,
+		ce n'est pas à nous de les écrire car il les get
+		automatiquement. */
+	}
+
+	ask_for_password(user_fd, input);
+	entered_nickname = ask_for_nickname(user_fd, input);
+	newUser.setNickname(entered_nickname);
+	entered_username = ask_for_username(user_fd, input);
 	newUser.setUsername(entered_username);
 
 	_userList.push_back(newUser);
+	// std::cout <<"User added to _clientList" <<std::endl;
 
 	return newUser;
 }

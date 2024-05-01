@@ -24,6 +24,10 @@ class Server
 		void					accept_connections(struct epoll_event * requests);
 		User					create_user(int user_fd);
 		void					send_welcome_message(User user);
+
+		void					ask_for_password(int user_fd, std::string input);
+		std::string				ask_for_nickname(int user_fd, std::string input);
+		std::string				ask_for_username(int user_fd, std::string input);
 	
 	public :
 		Server(std::string port, std::string password);
