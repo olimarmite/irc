@@ -32,12 +32,12 @@ COUNT		:=	0
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES) $(INC_FILES)
-	@$(CXX) $(OBJ_FILES) -o $(NAME)
+	@$(CXX) $(OBJ_FILES) -I $(INC_DIR) -o $(NAME)
 	@printf "\n\n$(GREEN)	- Executable ready.\n$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(INC_FILES)
 	@mkdir -p $(dir $@)
-	@$(CXX) $(CXX_FLAGS) -c $< -o $@
+	@$(CXX) $(CXX_FLAGS) -I $(INC_DIR) -c $< -o $@
 	@$(eval COUNT=$(shell expr $(COUNT) + 1))
 	@printf "$(GREEN)	- Compiling: [%-50s] %d%%$(RESET)\r" "$$(printf '▉%.0s' $$(seq 1 $$(expr $(COUNT) \* 50 / $(TOTAL))))" $$(expr $(COUNT) \* 100 / $(TOTAL))
 
