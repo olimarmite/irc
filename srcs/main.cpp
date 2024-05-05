@@ -1,6 +1,12 @@
 #include "../includes/Server.hpp"
 #include "../includes/Macros.hpp"
 #include "../includes/utils.hpp"
+#include <cstdlib>
+#include <iomanip>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <utility>
 
 /*
 	Pour tester si port est libre :
@@ -42,7 +48,7 @@ int main(int argc, char **argv)
 
 	//TODO: signals handler (check what signals)
 
-	std::string	port = argv[1];
+	int port = atoi(argv[1]); //TODO: use more safe function
 	std::string	password = argv[2];
 
 	try

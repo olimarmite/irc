@@ -98,6 +98,8 @@
 #define	CLIENT		"Client"
 #define	SERVER		"Server"
 
+#define COMMAND_END	"\r\n"
+
 /****	PROTOCOL MESSAGES	****/
 #define WELCOME_MESSAGE(username) ":ircserv 001 " + username + \
 	" :Welcome to the ircserv IRC Network " + username + \
@@ -157,7 +159,7 @@
 #define	CYNB	"\e[46m"
 #define	WHTB	"\e[47m"
 
-//High intensty background 
+//High intensty background
 #define	BLKHB	"\e[0;100m"
 #define	REDHB	"\e[0;101m"
 #define	GRNHB	"\e[0;102m"

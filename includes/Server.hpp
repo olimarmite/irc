@@ -1,38 +1,28 @@
 #pragma once
 
+#include "Client.hpp"
 #include "Macros.hpp"
 #include "User.hpp"
+#include <map>
 
 class Server
 {
 	private :
-		std::string _port;
+		int _port;
 		std::string _password;
-
 		int _server_fd;
 		int _epoll_fd;
-		std::vector<User>	_userList;
+		std::map<int, Client> _clients;
 
-		int						create_socket(struct addrinfo const & settings);
-		struct addrinfo			set_settings();
-		void					bind_socket_to_port(struct addrinfo server_settings, int const & server_fd);
-		void					listen_to_users_requests(int const & server_fd);
-		struct epoll_event *	poll_for_requests();
-		int						launch_epoll(int server_fd);
-		void					manage_requests(struct epoll_event * requests);
+		void	_add_client(int client_fd);
+		void	_check_epoll_events();
+		void	_setup_epoll();
+		void	_setup_socket();
 
-		void					accept_connections(struct epoll_event * requests);
-		User					create_user(int user_fd);
-		void					send_welcome_message(User user);
-
-		void					ask_for_password(int user_fd, std::string input, int type);
-		std::string				ask_for_nickname(int user_fd, std::string input, int type);
-		std::string				ask_for_username(int user_fd, std::string input, int type);
-	
 	public :
-		Server(std::string port, std::string password);
+		Server(int port, std::string password);
 		~Server();
- 
+
 		void 				launch();
 		void 				run();
 };
