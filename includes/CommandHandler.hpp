@@ -10,17 +10,21 @@
 
 typedef void (*command_function_t)(Server &server, Client &client, std::string const &command);
 
-typedef struct
+struct g_command_table_t
 {
 	const char *command;
 	command_function_t function;
-} g_command_table_t;
+};
 
 
 void command_ping(Server &server, Client &client, std::string const &command);
+void command_join(Server &server, Client &client, std::string const &command);
+void command_sendmsg(Server &server, Client &client, std::string const &command);
 
 const g_command_table_t g_command_table[] = {
 	{"PING", command_ping},
+	{"JOIN", command_join},
+	{"SENDMSG", command_sendmsg},
 	{NULL, NULL}};
 
 class CommandHandler
@@ -28,6 +32,6 @@ class CommandHandler
   private:
 	static void _execute_command(Server &server, Client &client, std::string const &command, std::string const &args);
   public:
-	static void handleCommand(Server &server, Client &client,
+	static void handle_command(Server &server, Client &client,
 		std::string const &msg);
 };

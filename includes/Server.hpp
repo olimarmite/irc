@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ChannelManager.hpp"
 #include "Client.hpp"
 #include "Macros.hpp"
 #include "User.hpp"
@@ -22,10 +23,17 @@ class Server
 		void	_setup_epoll();
 		void	_setup_socket();
 
+		//TODO move this to main
+		ChannelManager _channel_manager;
+
 	public :
 		Server(int port, std::string password);
 		~Server();
 
 		void 				launch();
 		void 				run();
+
+		ChannelManager &	get_channel_manager(); //TODO remove this
+		Client &			get_client(int fd);
+		void				remove_client(int fd);
 };

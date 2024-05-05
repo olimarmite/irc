@@ -1,6 +1,7 @@
 #include "Client.hpp"
 #include <cstddef>
 #include <cstring>
+#include <ostream>
 #include <sys/epoll.h>
 #include <sys/socket.h>
 #include <iostream>
@@ -22,7 +23,7 @@ Client::~Client()
 
 void Client::_on_command(std::string const & command)
 {
-	CommandHandler::handleCommand(*_server, *this, command);
+	CommandHandler::handle_command(*_server, *this, command);
 }
 
 void Client::_check_commands_in_buffer()
@@ -98,6 +99,8 @@ void Client::init(int fd, Server & server)
 	_read_buffer = "";
 	_write_buffer = std::queue<std::string>();
 	_server = &server;
+
+
 }
 
 void Client::disconnect()
@@ -106,4 +109,18 @@ void Client::disconnect()
 		return;
 	close(_fd);
 	_fd = INVALID_FD;
+}
+
+int Client::getFd() const
+{
+	return _fd;
+}
+
+Client & Client::operator=(Client const & other)
+{
+	_fd = other._fd;
+	_read_buffer = other._read_buffer;
+	_write_buffer = other._write_buffer;
+	_server = other._server;
+	return *this;
 }

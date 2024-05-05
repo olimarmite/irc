@@ -1,19 +1,14 @@
-#include "Server.hpp"
 #include "Macros.hpp"
+#include "Server.hpp"
 #include <netinet/in.h>
 #include <stdexcept>
 #include <string>
 #include <sys/socket.h>
 
-
-Server::Server(int port, std::string password) :
-	_port(port),
-	_password(password),
-	_server_fd(INVALID_FD),
-	_epoll_fd(INVALID_FD),
+Server::Server(int port, std::string password) : _port(port),
+	_password(password), _server_fd(INVALID_FD), _epoll_fd(INVALID_FD),
 	_clients(std::map<int, Client>())
 {
-
 }
 
 Server::~Server()
@@ -28,18 +23,16 @@ Server::~Server()
 	}
 }
 
-
-
-
 void Server::_setup_socket()
 {
-	//TODO use getaddrinfo
+	struct sockaddr_in	addr;
+
+	// TODO use getaddrinfo
 	_server_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (_server_fd == -1)
 	{
 		throw std::runtime_error(strerror(errno));
 	}
-	struct sockaddr_in addr;
 	addr.sin_family = PF_INET;
 	addr.sin_port = htons(_port);
 	addr.sin_addr.s_addr = INADDR_ANY;
@@ -57,12 +50,13 @@ void Server::_setup_socket()
 
 void Server::_setup_epoll()
 {
+	struct epoll_event	event;
+
 	_epoll_fd = epoll_create1(0);
 	if (_epoll_fd == -1)
 	{
 		throw std::runtime_error(strerror(errno));
 	}
-	struct epoll_event event;
 	event.events = EPOLLIN;
 	event.data.fd = _server_fd;
 	if (epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &event) == -1)
@@ -71,10 +65,10 @@ void Server::_setup_epoll()
 	}
 }
 
-
 void Server::_add_client(int client_fd)
 {
-	struct epoll_event event;
+	struct epoll_event	event;
+
 	event.events = EPOLLIN;
 	event.data.fd = client_fd;
 	if (epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, client_fd, &event) == -1)
@@ -88,6 +82,7 @@ void Server::_check_epoll_events()
 {
 	struct epoll_event	events[MAX_REQUESTS];
 	int					event_count;
+	int					client_fd;
 
 	event_count = epoll_wait(_epoll_fd, events, MAX_REQUESTS, -1);
 	if (event_count == -1)
@@ -98,7 +93,7 @@ void Server::_check_epoll_events()
 	{
 		if (events[i].data.fd == _server_fd)
 		{
-			int client_fd = accept(_server_fd, NULL, NULL);
+			client_fd = accept(_server_fd, NULL, NULL);
 			if (client_fd == -1)
 			{
 				throw std::runtime_error(strerror(errno));
@@ -118,6 +113,20 @@ void Server::_check_epoll_events()
 	}
 }
 
+ChannelManager &Server::get_channel_manager() // TODO remove this
+{
+	return (_channel_manager);
+}
+
+Client &Server::get_client(int fd)
+{
+	return (_clients[fd]);
+}
+
+void Server::remove_client(int fd)
+{
+	_clients.erase(fd);
+}
 
 void Server::launch()
 {
