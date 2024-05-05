@@ -5,6 +5,9 @@
 #include "User.hpp"
 #include <map>
 
+
+class Client;
+
 class Server
 {
 	private :

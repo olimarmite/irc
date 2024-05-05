@@ -1,15 +1,18 @@
 #include "Client.hpp"
+#include <cstddef>
 #include <cstring>
 #include <sys/epoll.h>
 #include <sys/socket.h>
 #include <iostream>
 #include <errno.h>
 #include "Macros.hpp"
+#include "CommandHandler.hpp"
 
 Client::Client() :
 	_fd(INVALID_FD),
 	_read_buffer(""),
-	_write_buffer(std::queue<std::string>())
+	_write_buffer(std::queue<std::string>()),
+	_server(NULL)
 {
 }
 
@@ -19,13 +22,12 @@ Client::~Client()
 
 void Client::_on_command(std::string const & command)
 {
-	std::cout << "Command: " << command << std::endl;
-	this->write("Received command: [" + command + "]\n");
+	CommandHandler::handleCommand(*_server, *this, command);
 }
 
 void Client::_check_commands_in_buffer()
 {
-	std::string::size_type pos = _read_buffer.find(COMMAND_END);
+	size_t pos = _read_buffer.find(COMMAND_END);
 
 	while (pos != std::string::npos)
 	{
@@ -90,11 +92,12 @@ void Client::write(std::string const & message)
 	flush_messages();
 }
 
-void Client::init(int fd)
+void Client::init(int fd, Server & server)
 {
 	_fd = fd;
 	_read_buffer = "";
 	_write_buffer = std::queue<std::string>();
+	_server = &server;
 }
 
 void Client::disconnect()

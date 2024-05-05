@@ -81,7 +81,7 @@ void Server::_add_client(int client_fd)
 	{
 		throw std::runtime_error(strerror(errno));
 	}
-	_clients[client_fd].init(client_fd);
+	_clients[client_fd].init(client_fd, *this);
 }
 
 void Server::_check_epoll_events()
