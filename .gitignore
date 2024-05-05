@@ -30,8 +30,11 @@
 *.exe
 *.out
 *.app
+ircserv
 
 # Clangd
 compile_commands.json
 .cache/
 .clangd
+
+
