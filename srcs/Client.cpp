@@ -1,4 +1,5 @@
 #include "Client.hpp"
+#include "Server.hpp"
 #include <cstddef>
 #include <cstring>
 #include <ostream>
@@ -23,7 +24,7 @@ Client::~Client()
 
 void Client::_on_command(std::string const & command)
 {
-	CommandHandler::handle_command(*_server, *this, command);
+	_server->get_command_handler().handle_command(*_server, *this, command);
 }
 
 void Client::_check_commands_in_buffer()
@@ -99,8 +100,6 @@ void Client::init(int fd, Server & server)
 	_read_buffer = "";
 	_write_buffer = std::queue<std::string>();
 	_server = &server;
-
-
 }
 
 void Client::disconnect()
@@ -123,4 +122,14 @@ Client & Client::operator=(Client const & other)
 	_write_buffer = other._write_buffer;
 	_server = other._server;
 	return *this;
+}
+
+bool Client::getIsAuthanticated() const
+{
+	return is_authanticated;
+}
+
+void Client::setIsAuthanticated(bool isAuthanticated)
+{
+	is_authanticated = isAuthanticated;
 }

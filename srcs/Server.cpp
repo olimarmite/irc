@@ -1,3 +1,4 @@
+#include "CommandHandler.hpp"
 #include "Macros.hpp"
 #include "Server.hpp"
 #include <netinet/in.h>
@@ -128,8 +129,10 @@ void Server::remove_client(int fd)
 	_clients.erase(fd);
 }
 
-void Server::launch()
+void Server::init()
 {
+	_command_handler.add_middleware(new DebugMiddleware());
+	_command_handler.add_middleware(new AuthMiddleware());
 	std::cout << "Server launching" << std::endl;
 	_setup_socket();
 	_setup_epoll();
@@ -139,4 +142,9 @@ void Server::launch()
 void Server::run()
 {
 	_check_epoll_events();
+}
+
+CommandHandler &Server::get_command_handler() // TODO remove this
+{
+	return (_command_handler);
 }

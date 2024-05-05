@@ -1,14 +1,19 @@
 #pragma once
 #include "Client.hpp"
-#include "Server.hpp"
 #include <fcntl.h>
 #include <string>
+#include <vector>
+#include "CommandMiddleware.hpp"
 
 // class Client;
 // class Server;
 
 
-typedef void (*command_function_t)(Server &server, Client &client, std::string const &command);
+typedef void (*command_function_t)(
+	Server &server,
+	Client &client,
+	std::string const &command
+	);
 
 struct g_command_table_t
 {
@@ -29,9 +34,27 @@ const g_command_table_t g_command_table[] = {
 
 class CommandHandler
 {
-  private:
-	static void _execute_command(Server &server, Client &client, std::string const &command, std::string const &args);
-  public:
-	static void handle_command(Server &server, Client &client,
+private:
+	MiddlewareContinuation _execute_middlewares(
+		Server &server,
+		Client &client,
+		std::string const &command
+		);
+	void _execute_command(
+		Server &server,
+		Client &client,
+		std::string const &command,
+		std::string const &args
+		);
+	std::vector<ICommandHandlerMiddleware *> _middlewares;
+
+public:
+	CommandHandler();
+	~CommandHandler();
+
+	void handle_command(Server &server, Client &client,
 		std::string const &msg);
+
+	void add_middleware(ICommandHandlerMiddleware *middleware);
+	void clear_middlewares();
 };

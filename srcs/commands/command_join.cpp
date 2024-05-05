@@ -1,4 +1,5 @@
 #include "CommandHandler.hpp"
+#include "Server.hpp"
 #include <iostream>
 #include <string>
 

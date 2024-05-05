@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 
 		Server	server(port, password);
 
-		server.launch();
+		server.init();
 		while (true)
 		{
 			server.run();

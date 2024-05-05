@@ -14,6 +14,8 @@ class Client
 	std::queue<std::string> _write_buffer;
 	Server *_server;
 
+	bool is_authanticated; //TODO move this in User class
+
 	void _check_commands_in_buffer();
 	void _on_command(std::string const &command);
 
@@ -27,6 +29,8 @@ class Client
 	void disconnect();
 	void init(int fd, Server &server);
 	int getFd() const;
+	bool getIsAuthanticated() const;
+	void setIsAuthanticated(bool isAuthanticated);
 
 	Client &operator=(Client const &rhs);
 };

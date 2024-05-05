@@ -1,6 +1,7 @@
 #include "CommandHandler.hpp"
 #include <iostream>
 #include <string>
+#include "Server.hpp"
 
 void	command_sendmsg(Server &server, Client &client, std::string const &args)
 {
