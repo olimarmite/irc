@@ -6,14 +6,6 @@
 #include <errno.h>
 #include "Macros.hpp"
 
-Client::Client(int fd) :
-	_fd(fd),
-	_read_buffer(""),
-	_write_buffer(std::queue<std::string>())
-{
-
-}
-
 Client::Client() :
 	_fd(INVALID_FD),
 	_read_buffer(""),

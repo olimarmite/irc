@@ -14,7 +14,6 @@ private:
 	void _on_command(std::string const & command);
 
 public:
-	Client(int fd);
 	Client();
 	~Client();
 
