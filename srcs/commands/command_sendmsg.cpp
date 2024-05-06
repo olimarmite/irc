@@ -1,11 +1,13 @@
-#include "CommandHandler.hpp"
-#include <iostream>
+#include "Client.hpp"
+#include "ChannelManager.hpp"
 #include <string>
-#include "Server.hpp"
 
-void	command_sendmsg(Server &server, Client &client, std::string const &args)
+void	command_sendmsg(
+	ChannelManager &_channel_manager,
+	Client &client,
+	std::string const &args
+	)
 {
-	(void)server;
-	(void)args;
-	server.get_channel_manager().send_message_to_channel(client, "default", args);
+	(void)client;
+	_channel_manager.send_message_to_channel("default", args);
 }

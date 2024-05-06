@@ -1,12 +1,11 @@
-#include "../includes/Server.hpp"
-#include "../includes/Macros.hpp"
-#include "../includes/utils.hpp"
+#include "Server.hpp"
+#include "utils.hpp"
+#include "ChannelManager.hpp"
+#include "ClientManager.hpp"
+#include "CommandHandler.hpp"
 #include <cstdlib>
-#include <iomanip>
 #include <iostream>
-#include <stdexcept>
 #include <string>
-#include <utility>
 
 /*
 	Pour tester si port est libre :
@@ -41,6 +40,7 @@
 	Connecter le User au port 1237
 */
 
+
 int main(int argc, char **argv)
 {
 	if (is_arg_valid(argc, argv) == false)
@@ -55,8 +55,16 @@ int main(int argc, char **argv)
 	{
 
 		Server	server(port, password);
+		ChannelManager channel_manager = ChannelManager();
+		ClientManager client_manager = ClientManager();
+		CommandHandler command_handler = CommandHandler();
 
-		server.init();
+		client_manager.init(channel_manager, command_handler);
+		channel_manager.init(client_manager);
+		command_handler.init(channel_manager);
+		server.init(client_manager);
+
+
 		while (true)
 		{
 			server.run();

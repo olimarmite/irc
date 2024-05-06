@@ -1,11 +1,15 @@
-#include "CommandHandler.hpp"
-#include <iostream>
+#include "Client.hpp"
+#include "ChannelManager.hpp"
 #include <string>
 
 
-void	command_ping(Server &server, Client &client, std::string const &args)
+void	command_ping(
+	ChannelManager &_channel_manager,
+	Client &client,
+	std::string const &args
+	)
 {
-	(void)server;
 	(void)args;
+	(void)_channel_manager;
 	client.write("PONG !\n");
 }

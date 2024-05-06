@@ -1,3 +1,4 @@
+#include "ClientManager.hpp"
 #include "CommandHandler.hpp"
 #include "Macros.hpp"
 #include "Server.hpp"
@@ -7,8 +8,7 @@
 #include <sys/socket.h>
 
 Server::Server(int port, std::string password) : _port(port),
-	_password(password), _server_fd(INVALID_FD), _epoll_fd(INVALID_FD),
-	_clients(std::map<int, Client>())
+	_password(password), _server_fd(INVALID_FD), _epoll_fd(INVALID_FD)
 {
 }
 
@@ -66,26 +66,13 @@ void Server::_setup_epoll()
 	}
 }
 
-void Server::_add_client(int client_fd)
-{
-	struct epoll_event	event;
-
-	event.events = EPOLLIN;
-	event.data.fd = client_fd;
-	if (epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, client_fd, &event) == -1)
-	{
-		throw std::runtime_error(strerror(errno));
-	}
-	_clients[client_fd].init(client_fd, *this);
-}
-
 void Server::_check_epoll_events()
 {
 	struct epoll_event	events[MAX_REQUESTS];
 	int					event_count;
-	int					client_fd;
 
 	event_count = epoll_wait(_epoll_fd, events, MAX_REQUESTS, -1);
+	std::cout << "Event count: " << event_count << std::endl;
 	if (event_count == -1)
 	{
 		throw std::runtime_error(strerror(errno));
@@ -94,45 +81,25 @@ void Server::_check_epoll_events()
 	{
 		if (events[i].data.fd == _server_fd)
 		{
-			client_fd = accept(_server_fd, NULL, NULL);
-			if (client_fd == -1)
-			{
-				throw std::runtime_error(strerror(errno));
-			}
-			std::cout << "New client connected" << std::endl;
-			_add_client(client_fd);
+			_accept_new_client();
 		}
 		else
 		{
 			std::cout << "Client event" << std::endl;
-			if (_clients[events[i].data.fd].read() == 0)
+			if (_client_manager->get_client(events[i].data.fd).read() == 0)
 			{
-				_clients[events[i].data.fd].disconnect();
-				_clients.erase(events[i].data.fd);
+				std::cout << "read() == 0" << std::endl;
+				_client_manager->get_client(events[i].data.fd).disconnect();
+				_client_manager->remove_client(events[i].data.fd);
 			}
 		}
 	}
 }
 
-ChannelManager &Server::get_channel_manager() // TODO remove this
+void Server::init(ClientManager &client_manager)
 {
-	return (_channel_manager);
-}
+	_client_manager = &client_manager;
 
-Client &Server::get_client(int fd)
-{
-	return (_clients[fd]);
-}
-
-void Server::remove_client(int fd)
-{
-	_clients.erase(fd);
-}
-
-void Server::init()
-{
-	_command_handler.add_middleware(new DebugMiddleware());
-	_command_handler.add_middleware(new AuthMiddleware());
 	std::cout << "Server launching" << std::endl;
 	_setup_socket();
 	_setup_epoll();
@@ -144,7 +111,24 @@ void Server::run()
 	_check_epoll_events();
 }
 
-CommandHandler &Server::get_command_handler() // TODO remove this
+void Server::_accept_new_client()
 {
-	return (_command_handler);
+	int client_fd;
+
+	client_fd = accept(_server_fd, NULL, NULL);
+	if (client_fd == -1)
+	{
+		throw std::runtime_error(strerror(errno));
+	}
+
+	struct epoll_event	event;
+	event.events = EPOLLIN;
+	event.data.fd = client_fd;
+	if (epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, client_fd, &event) == -1)
+	{
+		throw std::runtime_error(strerror(errno));
+	}
+
+	std::cout << "New client connected: " << client_fd << std::endl;
+	_client_manager->add_client(client_fd);
 }

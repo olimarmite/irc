@@ -14,7 +14,7 @@ Client::Client() :
 	_fd(INVALID_FD),
 	_read_buffer(""),
 	_write_buffer(std::queue<std::string>()),
-	_server(NULL)
+	_command_handler(NULL)
 {
 }
 
@@ -24,7 +24,7 @@ Client::~Client()
 
 void Client::_on_command(std::string const & command)
 {
-	_server->get_command_handler().handle_command(*_server, *this, command);
+	_command_handler->handle_command(*this, command);
 }
 
 void Client::_check_commands_in_buffer()
@@ -94,12 +94,12 @@ void Client::write(std::string const & message)
 	flush_messages();
 }
 
-void Client::init(int fd, Server & server)
+void Client::init(int fd, CommandHandler &command_handler)
 {
 	_fd = fd;
 	_read_buffer = "";
 	_write_buffer = std::queue<std::string>();
-	_server = &server;
+	_command_handler = &command_handler;
 }
 
 void Client::disconnect()
@@ -110,26 +110,29 @@ void Client::disconnect()
 	_fd = INVALID_FD;
 }
 
-int Client::getFd() const
+int Client::get_fd() const
 {
 	return _fd;
 }
 
 Client & Client::operator=(Client const & other)
 {
-	_fd = other._fd;
-	_read_buffer = other._read_buffer;
-	_write_buffer = other._write_buffer;
-	_server = other._server;
+	if (this != &other)
+	{
+		_fd = other._fd;
+		_read_buffer = other._read_buffer;
+		_write_buffer = other._write_buffer;
+		_command_handler = other._command_handler;
+	}
 	return *this;
 }
 
-bool Client::getIsAuthanticated() const
+bool Client::get_is_authanticated() const
 {
 	return is_authanticated;
 }
 
-void Client::setIsAuthanticated(bool isAuthanticated)
+void Client::set_is_authanticated(bool isAuthanticated)
 {
 	is_authanticated = isAuthanticated;
 }

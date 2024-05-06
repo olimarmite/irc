@@ -1,6 +1,8 @@
 #pragma once
+
 #include <queue>
 #include <string>
+#include "CommandHandler.hpp"
 
 #define BUFFER_SIZE 1024
 
@@ -12,7 +14,7 @@ class Client
 	int _fd;
 	std::string _read_buffer;
 	std::queue<std::string> _write_buffer;
-	Server *_server;
+	CommandHandler *_command_handler;
 
 	bool is_authanticated; //TODO move this in User class
 
@@ -27,10 +29,10 @@ class Client
 	void write(std::string const &message);
 	void flush_messages();
 	void disconnect();
-	void init(int fd, Server &server);
-	int getFd() const;
-	bool getIsAuthanticated() const;
-	void setIsAuthanticated(bool isAuthanticated);
+	void init(int fd, CommandHandler &command_handler);
+	int get_fd() const;
+	bool get_is_authanticated() const;
+	void set_is_authanticated(bool isAuthanticated);
 
 	Client &operator=(Client const &rhs);
 };

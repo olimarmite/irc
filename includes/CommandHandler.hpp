@@ -1,19 +1,18 @@
 #pragma once
-#include "Client.hpp"
+
 #include <fcntl.h>
 #include <string>
 #include <vector>
 #include "CommandMiddleware.hpp"
 
-// class Client;
-// class Server;
-
+class Client;
+class ChannelManager;
 
 typedef void (*command_function_t)(
-	Server &server,
+	ChannelManager &_channel_manager,
 	Client &client,
-	std::string const &command
-	);
+	std::string const &args
+);
 
 struct g_command_table_t
 {
@@ -22,9 +21,21 @@ struct g_command_table_t
 };
 
 
-void command_ping(Server &server, Client &client, std::string const &command);
-void command_join(Server &server, Client &client, std::string const &command);
-void command_sendmsg(Server &server, Client &client, std::string const &command);
+void command_ping(
+	ChannelManager &_channel_manager,
+	Client &client,
+	std::string const &args
+	);
+void command_join(
+	ChannelManager &_channel_manager,
+	Client &client,
+	std::string const &args
+	);
+void command_sendmsg(
+	ChannelManager &_channel_manager,
+	Client &client,
+	std::string const &args
+	);
 
 const g_command_table_t g_command_table[] = {
 	{"PING", command_ping},
@@ -35,26 +46,18 @@ const g_command_table_t g_command_table[] = {
 class CommandHandler
 {
 private:
-	MiddlewareContinuation _execute_middlewares(
-		Server &server,
-		Client &client,
-		std::string const &command
-		);
 	void _execute_command(
-		Server &server,
 		Client &client,
 		std::string const &command,
 		std::string const &args
 		);
-	std::vector<ICommandHandlerMiddleware *> _middlewares;
+	ChannelManager *_channel_manager;
 
 public:
 	CommandHandler();
 	~CommandHandler();
 
-	void handle_command(Server &server, Client &client,
+	void init(ChannelManager &channel_manager);
+	void handle_command(Client &client,
 		std::string const &msg);
-
-	void add_middleware(ICommandHandlerMiddleware *middleware);
-	void clear_middlewares();
 };
