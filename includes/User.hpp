@@ -15,11 +15,11 @@ class User
 		User(int client_fd);
 		~User();
 
-		void				setUsername(std::string username);
-		void				setNickname(std::string username);
-		void				setIsAuthenticated(int is_authenticated);
-		int					getIsAuthenticated() const;
-		std::string const &	getUsername() const;
-		std::string const &	getNickname() const;
-		int					getFd() const;
+		void				set_username(std::string username);
+		void				set_nickname(std::string username);
+		void				set_is_authenticated(int is_authenticated);
+		int					get_is_authenticated() const;
+		std::string const &	get_username() const;
+		std::string const &	get_nickname() const;
+		int					get_fd() const;
 };

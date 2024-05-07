@@ -13,37 +13,37 @@ User::User(int client_fd) :
 
 User::~User() {}
 
-void	User::setUsername(std::string username)
+void	User::set_username(std::string username)
 {
 	_username = username;
 }
 
-void	User::setNickname(std::string username)
+void	User::set_nickname(std::string username)
 {
 	_nickname = username;
 }
 
-std::string const &	User::getUsername() const
+std::string const &	User::get_username() const
 {
 	return _username;
 }
 
-std::string const &	User::getNickname() const
+std::string const &	User::get_nickname() const
 {
 	return _nickname;
 }
 
-int	User::getFd() const
+int	User::get_fd() const
 {
 	return _fd;
 }
 
-int	User::getIsAuthenticated() const
+int	User::get_is_authenticated() const
 {
 	return _is_authenticated;
 }
 
-void	User::setIsAuthenticated(int is_authenticated)
+void	User::set_is_authenticated(int is_authenticated)
 {
 	_is_authenticated = is_authenticated;
 }

@@ -25,8 +25,8 @@ void	command_info(
 
 	User& user = _user_manager.get_user(client.get_fd());
 	std::stringstream ss;
-	ss << "Nickname: " << user.getNickname() << "\n";
-	ss << "Username: " << user.getUsername() << "\n";
-	ss << "Authenticated: " << user.getIsAuthenticated() << "\n";
+	ss << "Nickname: " << user.get_nickname() << "\n";
+	ss << "Username: " << user.get_username() << "\n";
+	ss << "Authenticated: " << user.get_is_authenticated() << "\n";
 	client.write(ss.str());
 }

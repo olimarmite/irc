@@ -21,6 +21,6 @@ void	command_auth(
 	(void)_user_manager;
 
 	User& user = _user_manager.get_user(client.get_fd());
-	user.setIsAuthenticated(true);
+	user.set_is_authenticated(true);
 	client.write("Authenticated\n");
 }

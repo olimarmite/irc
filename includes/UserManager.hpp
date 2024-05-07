@@ -13,5 +13,4 @@ class UserManager
 		User &get_user(int fd);
 		void add_user(int fd);
 		void remove_user(int fd);
-		std::map<int, User> &getUsers();
 };

@@ -10,16 +10,20 @@ bool _is_authenticated(Client &client, UserManager &user_manager)
 {
 	User user =	user_manager.get_user(client.get_fd());
 
-	return (user.getIsAuthenticated() && user.getNickname().empty() == false);
+	return (user.get_is_authenticated() && user.get_nickname().empty() == false);
 }
 
 void CommandHandler::_execute_command(Client &client,
 	const std::string &command, const std::string &args)
 {
-	if (!_is_authenticated(client, *_user_manager))
+	//TODO: do a better auth command control (maybe a flag in the cammand table)
+	if (_is_authenticated(client, *_user_manager) == false)
 	{
-		client.write("ERROR: Not authenticated\n");
-		return ;
+		if (command != "AUTH" && command != "NICK")
+		{
+			client.write("ERROR: You must authenticate first\n");
+			return ;
+		}
 	}
 
 	std::cout << "Command: " << command << " Args: " << args << std::endl;

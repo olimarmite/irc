@@ -20,6 +20,6 @@ void	command_nick(
 	(void)_user_manager;
 
 	User& user = _user_manager.get_user(client.get_fd());
-	user.setNickname(args);
+	user.set_nickname(args);
 	client.write("Changed nickname to " + args + "\n");
 }
