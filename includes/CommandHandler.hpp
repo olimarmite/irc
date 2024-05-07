@@ -3,7 +3,6 @@
 #include <fcntl.h>
 #include <string>
 #include <vector>
-#include "CommandMiddleware.hpp"
 #include "UserManager.hpp"
 
 class Client;
