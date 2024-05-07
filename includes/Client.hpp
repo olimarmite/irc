@@ -3,6 +3,7 @@
 #include <queue>
 #include <string>
 #include "CommandHandler.hpp"
+#include "UserManager.hpp"
 
 #define BUFFER_SIZE 1024
 

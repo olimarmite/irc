@@ -1,12 +1,14 @@
+
 #include "ChannelManager.hpp"
 #include "ClientManager.hpp"
 #include "CommandHandler.hpp"
 #include "Server.hpp"
+#include "User.hpp"
 #include "UserManager.hpp"
 #include <iostream>
 #include <string>
 
-void	command_join(
+void	command_nick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
 	Client &client,
@@ -16,5 +18,8 @@ void	command_join(
 	(void)_channel_manager;
 	(void)args;
 	(void)_user_manager;
-	_channel_manager.join_channel(client.get_fd(), args);
+
+	User& user = _user_manager.get_user(client.get_fd());
+	user.setNickname(args);
+	client.write("Changed nickname to " + args + "\n");
 }

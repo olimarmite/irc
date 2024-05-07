@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include "UserManager.hpp"
 
 /*
 	Pour tester si port est libre :
@@ -58,10 +59,11 @@ int main(int argc, char **argv)
 		ChannelManager channel_manager = ChannelManager();
 		ClientManager client_manager = ClientManager();
 		CommandHandler command_handler = CommandHandler();
+		UserManager user_manager = UserManager();
 
-		client_manager.init(channel_manager, command_handler);
+		client_manager.init(command_handler);
 		channel_manager.init(client_manager);
-		command_handler.init(channel_manager);
+		command_handler.init(channel_manager, user_manager);
 		server.init(client_manager);
 
 

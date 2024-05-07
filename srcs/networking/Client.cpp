@@ -100,12 +100,14 @@ void Client::init(int fd, CommandHandler &command_handler)
 	_read_buffer = "";
 	_write_buffer = std::queue<std::string>();
 	_command_handler = &command_handler;
+	_command_handler->on_connection(*this);
 }
 
 void Client::disconnect()
 {
 	if (_fd == INVALID_FD)
 		return;
+	_command_handler->on_disconnection(*this);
 	close(_fd);
 	_fd = INVALID_FD;
 }

@@ -1,12 +1,14 @@
-#include "../includes/User.hpp"
+#include "User.hpp"
+#include "Macros.hpp"
 
-User::User() {}
+User::User() :
+	_fd(INVALID_FD), _username(""), _nickname(""), _is_authenticated(false)
+{}
 
 User::User(int client_fd) :
-_id(INVALID_NB), _fd(client_fd), _username(""), _nickname("")
+	_fd(client_fd), _username(""), _nickname(""), _is_authenticated(false)
 {
 	(void)_fd;
-	(void)_id;
 }
 
 User::~User() {}
@@ -34,4 +36,14 @@ std::string const &	User::getNickname() const
 int	User::getFd() const
 {
 	return _fd;
+}
+
+int	User::getIsAuthenticated() const
+{
+	return _is_authenticated;
+}
+
+void	User::setIsAuthenticated(int is_authenticated)
+{
+	_is_authenticated = is_authenticated;
 }

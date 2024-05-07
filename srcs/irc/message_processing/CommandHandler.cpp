@@ -1,19 +1,33 @@
 #include "CommandHandler.hpp"
 #include "ChannelManager.hpp"
 #include "ClientManager.hpp"
+#include "UserManager.hpp"
 #include <iostream>
 #include <string>
 
 
+bool _is_authenticated(Client &client, UserManager &user_manager)
+{
+	User user =	user_manager.get_user(client.get_fd());
+
+	return (user.getIsAuthenticated() && user.getNickname().empty() == false);
+}
+
 void CommandHandler::_execute_command(Client &client,
 	const std::string &command, const std::string &args)
 {
+	if (!_is_authenticated(client, *_user_manager))
+	{
+		client.write("ERROR: Not authenticated\n");
+		return ;
+	}
+
 	std::cout << "Command: " << command << " Args: " << args << std::endl;
 	for (int i = 0; g_command_table[i].command; i++)
 	{
 		if (g_command_table[i].command == command)
 		{
-			g_command_table[i].function(*_channel_manager, client, args);
+			g_command_table[i].function(*_channel_manager, *_user_manager, client, args);
 			std::cout << "Command " << command << " executed" << std::endl;
 			return ;
 		}
@@ -50,7 +64,20 @@ CommandHandler::~CommandHandler()
 }
 
 
-void CommandHandler::init(ChannelManager &channel_manager)
+void CommandHandler::init(ChannelManager &channel_manager, UserManager &user_manager)
 {
 	_channel_manager = &channel_manager;
+	_user_manager = &user_manager;
+}
+
+void CommandHandler::on_connection(Client &client)
+{
+	client.write("Welcome !\n");
+	_user_manager->add_user(client.get_fd());
+}
+
+void CommandHandler::on_disconnection(Client &client)
+{
+	_channel_manager->leave_all_channels(client.get_fd());
+	_user_manager->remove_user(client.get_fd());
 }

@@ -89,7 +89,6 @@ void Server::_check_epoll_events()
 			if (_client_manager->get_client(events[i].data.fd).read() == 0)
 			{
 				std::cout << "read() == 0" << std::endl;
-				_client_manager->get_client(events[i].data.fd).disconnect();
 				_client_manager->remove_client(events[i].data.fd);
 			}
 		}
