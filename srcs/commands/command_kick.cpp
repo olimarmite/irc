@@ -7,10 +7,9 @@
 #include "UserManager.hpp"
 #include <iostream>
 #include <string>
-#include <sstream>
 
 
-void	command_info(
+void	command_kick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
 	Client &client,
@@ -22,9 +21,9 @@ void	command_info(
 	(void)_user_manager;
 
 	User& user = _user_manager.get_user(client.get_fd());
-	std::stringstream ss;
-	ss << "Nickname: " << user.get_nickname() << "\n";
-	ss << "Username: " << user.get_username() << "\n";
-	ss << "Authenticated: " << user.get_is_authenticated() << "\n";
-	client.write(ss.str());
+	(void)user;
+
+	// TODO removeclient ?
+
+	return ;
 }

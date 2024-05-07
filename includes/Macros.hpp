@@ -3,18 +3,15 @@
 /*****	Libraries	****/
 
 #include <iostream>
-#include <cstdlib> //EXIT_FAILURE/SUCCESS
-// #include <cstdio> //stderr
-#include <cstring> //memset
-#include <unistd.h> //close()
-#include <cerrno> //for errno
-
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <unistd.h>
+#include <cerrno>
 #include <string>
-// #include <map>
 #include <vector>
-
-#include <sys/socket.h> //socket()
-#include <netdb.h> //struct addrinfo
+#include <sys/socket.h>
+#include <netdb.h>
 #include <fcntl.h>
 #include <sys/epoll.h>
 
@@ -25,15 +22,16 @@
 /****	Values	****/
 #define	EXPECTED_ARGC	3
 
+// Error system functions
 #define	INVALID_FD		-1
 #define	INVALID_PORT	-1
 #define	INVALID_LISTEN	-1
 #define	INVALID_FCNTL	-1
 #define	INVALID_ACCEPT	-1
-#define	INVALID_NB	-1
+#define	INVALID_NB		-1
 
 #define	MAX_PENDING_CONNECTIONS	5 //most servers accept 20
-#define	MAX_REQUESTS 50 //for epoll_wait (je me rends pas compte de combien on devrait mettre)
+#define	MAX_REQUESTS 			50 //for epoll_wait (je me rends pas compte de combien on devrait mettre)
 #define WAIT_UNTIL_SOMETHING_HAPPENS -1
 
 #define IPv4	AF_INET
@@ -57,9 +55,9 @@
 #define ERROR			"Error\n"
 
 // Errors main
-#define	ERROR_ARG		DELIM BRED ERROR "Expected: ./ircserv <port> <password>\n" DELIM PRINT_END
-#define	ERROR_PORT		DELIM BRED ERROR "Invalid port!\n" DELIM PRINT_END
-#define	ERROR_PASS		DELIM BRED ERROR "Invalid password!\n" DELIM PRINT_END
+#define	ERROR_ARG				DELIM BRED ERROR "Expected: ./ircserv <port> <password>\n" DELIM PRINT_END
+#define	ERROR_PORT				DELIM BRED ERROR "Invalid port!\n" DELIM PRINT_END
+#define	ERROR_PASS				DELIM BRED ERROR "Invalid password!\n" DELIM PRINT_END
 
 // Exceptions
 #define	ERROR_SOCKET			DELIM BRED ERROR "Failed to create socket!\n" DELIM

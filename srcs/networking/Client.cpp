@@ -129,12 +129,12 @@ Client & Client::operator=(Client const & other)
 	return *this;
 }
 
-bool Client::get_is_authanticated() const
+bool Client::get_is_authenticated() const
 {
-	return is_authanticated;
+	return is_authenticated;
 }
 
-void Client::set_is_authanticated(bool isAuthanticated)
+void Client::set_is_authenticated(bool isauthenticated)
 {
-	is_authanticated = isAuthanticated;
+	is_authenticated = isauthenticated;
 }

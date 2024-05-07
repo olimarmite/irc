@@ -17,18 +17,25 @@ void CommandHandler::_execute_command(Client &client,
 	const std::string &command, const std::string &args)
 {
 	//TODO: do a better auth command control (maybe a flag in the cammand table)
-	if (_is_authenticated(client, *_user_manager) == false)
-	{
-		if (command != "AUTH" && command != "NICK")
-		{
-			client.write("ERROR: You must authenticate first\n");
-			return ;
-		}
-	}
+
+	if (DEBUG)
+		std::cout << "check auth --> " << _is_authenticated(client, *_user_manager) << PRINT_END;
+
+	// if (_is_authenticated(client, *_user_manager) == false)
+	// {
+	// 	if (command != "AUTH" && command != "NICK")
+	// 	{
+	// 		client.write("ERROR: You must authenticate first\n");
+	// 		return ;
+	// 	}
+	// }
 
 	std::cout << "Command: " << command << " Args: " << args << std::endl;
 	for (int i = 0; g_command_table[i].command; i++)
 	{
+		//if (g_command_table[i].command == "PASS")
+			//check correct password ( _password)
+			//if not on close le client
 		if (g_command_table[i].command == command)
 		{
 			g_command_table[i].function(*_channel_manager, *_user_manager, client, args);

@@ -5,6 +5,7 @@
 #include "Server.hpp"
 #include "User.hpp"
 #include "UserManager.hpp"
+#include "utils.hpp"
 #include <iostream>
 #include <string>
 
@@ -20,6 +21,10 @@ void	command_nick(
 	(void)_user_manager;
 
 	User& user = _user_manager.get_user(client.get_fd());
+
+	if (is_nickname_valid(args) == false)
+		return ;
+
 	user.set_nickname(args);
 	client.write("Changed nickname to " + args + "\n");
 }

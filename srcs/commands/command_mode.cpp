@@ -7,10 +7,9 @@
 #include "UserManager.hpp"
 #include <iostream>
 #include <string>
-#include <sstream>
 
 
-void	command_info(
+void	command_mode(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
 	Client &client,
@@ -20,11 +19,11 @@ void	command_info(
 	(void)_channel_manager;
 	(void)args;
 	(void)_user_manager;
+	(void)client;
 
-	User& user = _user_manager.get_user(client.get_fd());
-	std::stringstream ss;
-	ss << "Nickname: " << user.get_nickname() << "\n";
-	ss << "Username: " << user.get_username() << "\n";
-	ss << "Authenticated: " << user.get_is_authenticated() << "\n";
-	client.write(ss.str());
+	std::cout << args << PRINT_END;
+
+	//HERE parsing peut etre different selon dans channels ou pas
+	//TODO /MODE #test42 i
+	return ;
 }

@@ -23,10 +23,11 @@ public:
 	ChannelManager();
 	~ChannelManager();
 
-	void init(ClientManager &client_manager);
-	void join_channel(int client_fd, std::string const &channel);
-	void leave_channel(int client_fd, std::string const &channel);
-	void leave_all_channels(int client_fd);
-	void send_message_to_channel(std::string const &channel, std::string const &message);
+	void	init(ClientManager &client_manager);
+	void	join_channel(int client_fd, std::string const &channel);
+	void	leave_channel(int client_fd, std::string const &channel);
+	void	leave_all_channels(int client_fd);
+	void	send_message_to_channel(std::string const &channel, std::string const &message);
+	bool	channel_exists(std::string const & channel_name);
 	Channel &get_channel(std::string const &channel);
 };

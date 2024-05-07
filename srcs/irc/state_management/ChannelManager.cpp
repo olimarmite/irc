@@ -64,3 +64,10 @@ void ChannelManager::leave_all_channels(int client_fd)
 		it++;
 	}
 }
+
+bool	ChannelManager::channel_exists(std::string const & channel_name)
+{
+	if (_channels.find(channel_name) != _channels.end())
+		return true;
+	return false;
+}
