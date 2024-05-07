@@ -17,20 +17,21 @@ void CommandHandler::_execute_command(Client &client,
 	const std::string &command, const std::string &args)
 {
 	//TODO: do a better auth command control (maybe a flag in the cammand table)
-	if (_is_authenticated(client, *_user_manager) == false)
+/* 	if (_is_authenticated(client, *_user_manager) == false)
 	{
 		if (command != "AUTH" && command != "NICK")
 		{
 			client.write("ERROR: You must authenticate first\n");
 			return ;
 		}
-	}
+	} */
 
 	std::cout << "Command: " << command << " Args: " << args << std::endl;
 	for (int i = 0; g_command_table[i].command; i++)
 	{
 		if (g_command_table[i].command == command)
 		{
+			std::cout << "in execute command. Command: " << command <<std::endl;
 			g_command_table[i].function(*_channel_manager, *_user_manager, client, args);
 			std::cout << "Command " << command << " executed" << std::endl;
 			return ;
@@ -46,6 +47,13 @@ void CommandHandler::handle_command(Client &client,
 	std::string args;
 	std::string command;
 
+
+	if (DEBUG)
+		std::cout << BYEL << msg << PRINT_END;
+
+	// if (msg == "CAP LS")
+	// 	return;
+
 	pos = msg.find(' ');
 	if (pos != std::string::npos)
 	{
@@ -56,6 +64,7 @@ void CommandHandler::handle_command(Client &client,
 	{
 		command = msg;
 	}
+
 	CommandHandler::_execute_command(client, command, args);
 }
 
@@ -76,7 +85,10 @@ void CommandHandler::init(ChannelManager &channel_manager, UserManager &user_man
 
 void CommandHandler::on_connection(Client &client)
 {
-	client.write("Welcome !\n");
+	// client.write("Welcome !\n");
+	User &user = _user_manager->get_user(client.get_fd());
+	client.write(WELCOME_MESSAGE(user.get_username()));
+
 	_user_manager->add_user(client.get_fd());
 }
 
