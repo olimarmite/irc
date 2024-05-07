@@ -13,7 +13,10 @@ OBJ_DIR		=	.objFiles
 SRC_DIR		=	srcs
 INC_DIR		=	includes
 
-SRC_FILES	:=	$(wildcard $(SRC_DIR)/*.cpp) #a verifier si on a le droit a wildcard
+
+SRC_FILES	:=	$(shell find $(SRC_DIR) -name "*.cpp") # TODO Changer ca a la fin mdr
+
+# SRC_FILES	:=	$(wildcard $(SRC_DIR)/*.cpp) #a verifier si on a le droit a wildcard
 OBJ_FILES	:=	$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES)) #a verifier si on a le droit a patsubst
 INC_FILES	:=	$(wildcard $(INC_DIR)/*.hpp)
 

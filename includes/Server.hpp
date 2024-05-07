@@ -1,9 +1,16 @@
 #pragma once
 
+#include "ChannelManager.hpp"
 #include "Client.hpp"
+#include "ClientManager.hpp"
+#include "CommandHandler.hpp"
 #include "Macros.hpp"
 #include "User.hpp"
 #include <map>
+
+
+class Client;
+class CommandHandler;
 
 class Server
 {
@@ -12,17 +19,23 @@ class Server
 		std::string _password;
 		int _server_fd;
 		int _epoll_fd;
-		std::map<int, Client> _clients;
 
-		void	_add_client(int client_fd);
 		void	_check_epoll_events();
 		void	_setup_epoll();
 		void	_setup_socket();
+		void 	_accept_new_client();
+
+		ClientManager *_client_manager;
+
 
 	public :
 		Server(int port, std::string password);
 		~Server();
 
-		void 				launch();
+		void 				init(ClientManager &client_manager);
 		void 				run();
+
+		ChannelManager &	get_channel_manager(); //TODO remove this
+		CommandHandler &	get_command_handler(); //TODO remove this
+
 };

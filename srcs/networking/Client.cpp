@@ -1,15 +1,20 @@
 #include "Client.hpp"
+#include "Server.hpp"
+#include <cstddef>
 #include <cstring>
+#include <ostream>
 #include <sys/epoll.h>
 #include <sys/socket.h>
 #include <iostream>
 #include <errno.h>
 #include "Macros.hpp"
+#include "CommandHandler.hpp"
 
 Client::Client() :
 	_fd(INVALID_FD),
 	_read_buffer(""),
-	_write_buffer(std::queue<std::string>())
+	_write_buffer(std::queue<std::string>()),
+	_command_handler(NULL)
 {
 }
 
@@ -19,13 +24,12 @@ Client::~Client()
 
 void Client::_on_command(std::string const & command)
 {
-	std::cout << "Command: " << command << std::endl;
-	this->write("Received command: [" + command + "]\n");
+	_command_handler->handle_command(*this, command);
 }
 
 void Client::_check_commands_in_buffer()
 {
-	std::string::size_type pos = _read_buffer.find(COMMAND_END);
+	size_t pos = _read_buffer.find(COMMAND_END);
 
 	while (pos != std::string::npos)
 	{
@@ -90,17 +94,47 @@ void Client::write(std::string const & message)
 	flush_messages();
 }
 
-void Client::init(int fd)
+void Client::init(int fd, CommandHandler &command_handler)
 {
 	_fd = fd;
 	_read_buffer = "";
 	_write_buffer = std::queue<std::string>();
+	_command_handler = &command_handler;
+	_command_handler->on_connection(*this);
 }
 
 void Client::disconnect()
 {
 	if (_fd == INVALID_FD)
 		return;
+	_command_handler->on_disconnection(*this);
 	close(_fd);
 	_fd = INVALID_FD;
+}
+
+int Client::get_fd() const
+{
+	return _fd;
+}
+
+Client & Client::operator=(Client const & other)
+{
+	if (this != &other)
+	{
+		_fd = other._fd;
+		_read_buffer = other._read_buffer;
+		_write_buffer = other._write_buffer;
+		_command_handler = other._command_handler;
+	}
+	return *this;
+}
+
+bool Client::get_is_authanticated() const
+{
+	return is_authanticated;
+}
+
+void Client::set_is_authanticated(bool isAuthanticated)
+{
+	is_authanticated = isAuthanticated;
 }
