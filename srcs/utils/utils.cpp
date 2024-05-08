@@ -1,5 +1,8 @@
 #include "../includes/Macros.hpp"
 #include "../includes/utils.hpp"
+#include "../includes/User.hpp"
+#include "../includes/UserManager.hpp"
+
 
 bool	is_valid_port(std::string const & port)
 {
@@ -60,7 +63,8 @@ bool	does_nickname_have_channel_prefix(std::string const & nickname)
 		nickname[0] == '&' ||
 		nickname[0] == '~' ||
 		nickname[0] == '@' ||
-		nickname[0] == '%'
+		nickname[0] == '%' ||
+		nickname[0] == ':'
 		)
 			return true;
 
@@ -79,17 +83,26 @@ bool	does_nickname_have_channel_prefix(std::string const & nickname)
 	return false;
 }
 
-bool	is_nickname_valid(std::string const & nickname)
+bool	does_nickname_already_exist(std::string const & nickname, UserManager & _user_manager)
+{
+	if (_user_manager.user_exists(nickname) == true)
+		return true;
+	return false;
+}
+
+bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user)
 {
 	if (nickname.empty())
 	{
-		std::cout << BRED "Empty nickname" PRINT_END;
+		std::string	error_msg = ":" + SERVER_NAME + " 431 " + user.get_nickname() + " :No Nickname given";
+		send(user.get_fd(), error_msg.c_str(), error_msg.length(), 0);
 		return false;
 	}
 
 	if (does_nickname_have_channel_prefix(nickname) == true)
 	{
 		std::cout << BRED "Nickname cannot have a channel prefix" PRINT_END;
+		//>> :punch.wa.us.dal.net 432 kquerel #salut :Erroneous Nickname
 		return false;
 	}
 
@@ -97,6 +110,13 @@ bool	is_nickname_valid(std::string const & nickname)
 	if (nickname.find_first_of(invalid) != std::string::npos)
 	{
 		std::cout << BRED "Invalid characters within nickname" PRINT_END;
+		//>> :punch.wa.us.dal.net 432 kquerel #salut :Erroneous Nickname
+		return false;
+	}
+
+	if (does_nickname_already_exist(nickname, _user_manager) == true)
+	{
+		//>> :punch.wa.us.dal.net 433 kquerel hi :Nickname is already in use.
 		return false;
 	}
 

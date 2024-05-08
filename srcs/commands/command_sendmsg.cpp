@@ -1,5 +1,6 @@
 #include "Client.hpp"
 #include "ChannelManager.hpp"
+#include "UserManager.hpp"
 #include <string>
 
 std::string parse_nickname(std::string args)

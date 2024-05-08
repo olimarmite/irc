@@ -31,7 +31,6 @@ bool UserManager::user_exists(std::string user_nickname)
 	return false;
 }
 
-
 User &UserManager::get_user_by_name(std::string user_nickname)
 {
 	std::map<int, User>::iterator it = _users.begin();
@@ -55,4 +54,5 @@ void	UserManager::print_all_users()
 		it++;
 	}
 }
+
 

@@ -48,17 +48,20 @@ int Client::read()
 	char buffer[BUFFER_SIZE];
 	int recv_size = 0;
 
-	std::cout << "Reading from fd: " << _fd << std::endl;
+	if (DEBUG)
+		std::cout << "Reading from fd: " << _fd << std::endl;
 	recv_size = recv(_fd, buffer, BUFFER_SIZE, 0);
 	if (recv_size == -1)
 	{
-		std::cerr << "Error: recv failed: " << strerror(errno) << std::endl;
+		if (DEBUG)
+			std::cerr << "Error: recv failed: " << strerror(errno) << std::endl;
 		return recv_size;
 	}
 	if (recv_size > 0)
 	{
 		_read_buffer.append(buffer, recv_size);
-		std::cout << "Read buffer: " << _read_buffer << std::endl;
+		if (DEBUG)
+			std::cout << "Read buffer: " << _read_buffer << std::endl;
 		_check_commands_in_buffer();
 	}
 	return recv_size;
@@ -75,7 +78,8 @@ void Client::flush_messages()
 		sended_size = send(_fd, _write_buffer.front().c_str(), message_size, 0);
 		if (sended_size == -1)
 		{
-			std::cerr << "Error: send failed: " << strerror(errno) << std::endl;
+			if (DEBUG)
+				std::cerr << "Error: send failed: " << strerror(errno) << std::endl;
 			return;
 		}
 		if (sended_size < message_size)
