@@ -180,7 +180,7 @@ void ChannelManager::print_all_channels()
 		it++;
 	}
 	return ;
-
+}
 
 ClientManager &ChannelManager::get_client_manager()
 {

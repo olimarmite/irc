@@ -75,7 +75,8 @@ void	command_sendmsg(
 		{
 			command_join(_channel_manager, _user_manager, client, args); //join le nouveau channel créé
 		}
-		_channel_manager.send_message_to_channel(channel.name, args); //on envoie le msg dans le channel
+		// KARL HERE -> IL MANQUE JUSTE LE FD EN PREMIER ARGUMENT
+		// _channel_manager.send_message_to_channel(channel.name, args); //on envoie le msg dans le channel
 	}
 
 
