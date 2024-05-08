@@ -43,7 +43,6 @@ Client origin_client, std::string const &message)
 {
 	std::cout <<BHMAG <<"DANS SEND MSG TO CLIENT FONCTION" <<PRINT_END;
 
-	//TODO: il faut envoyer message privé à IRSSI pour qu'il ouvre un chat privé
 	//:caro123!~casomarr@5cfe-3e61-45ea-bc48-51f0.210.62.ip PRIVMSG karl123 :salut toi
 	
 	//faire une macro
@@ -55,9 +54,10 @@ Client origin_client, std::string const &message)
 	//MARCHE PAS
 
 	(void)origin_client;
+	std::cout <<BHMAG <<"origin_client fd = " <<origin_client.get_fd() <<PRINT_END;
 	std::cout <<BHMAG <<"dest_client fd = " <<dest_client.get_fd() <<PRINT_END;
-	dest_client.write(to_send);
-	//send(dest_client.get_fd(),to_send.c_str(), to_send.length(), 0);
+	dest_client.write(message);
+	send(dest_client.get_fd(), to_send.c_str(), to_send.length(), 0);
 }
 
 void ChannelManager::init(ClientManager &client_manager)
