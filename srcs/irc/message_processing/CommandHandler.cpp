@@ -17,9 +17,6 @@ void CommandHandler::_execute_command(Client &client,
 {
 	//TODO: do a better auth command control (maybe a flag in the cammand table)
 
-	if (DEBUG)
-		std::cout << "check auth --> " << _is_authenticated(client, *_user_manager) << PRINT_END;
-
 	// if (_is_authenticated(client, *_user_manager) == false)
 	// {
 	// 	if (command != "AUTH" && command != "NICK")
@@ -29,7 +26,8 @@ void CommandHandler::_execute_command(Client &client,
 	// 	}
 	// }
 
-	std::cout << "Command: " << command << " Args: " << args << std::endl;
+	if (DEBUG)
+		std::cout << "Command: " << command << " Args: " << args << std::endl;
 	for (int i = 0; g_command_table[i].command; i++)
 	{
 		//if (g_command_table[i].command == "PASS")
@@ -37,9 +35,11 @@ void CommandHandler::_execute_command(Client &client,
 			//if not on close le client
 		if (g_command_table[i].command == command)
 		{
-			std::cout << "in execute command. Command: " << command <<std::endl;
+			if (DEBUG)
+				std::cout << "in execute command. Command: " << command << std::endl;
 			g_command_table[i].function(*_channel_manager, *_user_manager, client, args);
-			std::cout << "Command " << command << " executed" << std::endl;
+			if (DEBUG)
+				std::cout << "Command " << command << " executed" << std::endl;
 			return ;
 		}
 	}

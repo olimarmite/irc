@@ -7,6 +7,7 @@ extern bool g_signals;
 /*****	Libraries	****/
 
 #include <iostream>
+#include <sstream>
 #include <cstdlib> //EXIT_FAILURE/SUCCESS
 #include <stdlib.h> //pour itoa
 // #include <cstdio> //stderr
@@ -58,7 +59,7 @@ extern bool g_signals;
 // #define IRSSI 0
 // #define NETCAT 1
 
-#define SERVER_NAME "ircserv"
+#define SERVER_NAME	std::string("ircserv")
 
 /****	Errors	****/
 #define ERROR			"Error\n"
@@ -90,8 +91,9 @@ extern bool g_signals;
 // #define	ERROR_NICK				DELIM BRED ERROR "Invalid nickname command! Expected : NICK <nickname>\n" DELIM
 
 /****	Debug	****/
-//Constructors & Destructors
 #define	DEBUG		1
+
+//Constructors & Destructors
 #define	D_CONST		SEP "default constructor called" PRINT_END
 #define	C_CONST		SEP "copy constructor called" PRINT_END
 #define	P_CONST		SEP "parametric constructor called" PRINT_END

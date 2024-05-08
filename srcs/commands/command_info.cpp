@@ -27,4 +27,5 @@ void	command_info(
 	ss << "Username: " << user.get_username() << "\n";
 	ss << "Authenticated: " << user.get_is_authenticated() << "\n";
 	client.write(ss.str());
+	return ;
 }

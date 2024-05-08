@@ -1,5 +1,6 @@
 #include "Client.hpp"
 #include "ChannelManager.hpp"
+#include "UserManager.hpp"
 #include <string>
 
 void	command_sendmsg(
@@ -11,5 +12,8 @@ void	command_sendmsg(
 {
 	(void)client;
 	(void)_user_manager;
-	_channel_manager.send_message_to_channel("default", args);
+	(void)_channel_manager;
+	(void)args;
+	//TODO
+	// _channel_manager.send_message_to_channel(_channel_manager.get_channel(), args);
 }

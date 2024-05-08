@@ -90,12 +90,12 @@ void	command_mode(
 	std::string const &args
 	);
 
-// void	command_pass(
-// 	ChannelManager &_channel_manager,
-// 	UserManager &_user_manager,
-// 	Client &client,
-// 	std::string const &args
-// 	);
+void	command_pass(
+	ChannelManager &_channel_manager,
+	UserManager &_user_manager,
+	Client &client,
+	std::string const &args
+	);
 
 void	command_user(
 	ChannelManager &_channel_manager,
@@ -122,21 +122,19 @@ const g_command_table_t g_command_table[] = {
 class CommandHandler
 {
 private:
-	void _execute_command(
-		Client &client,
-		std::string const &command,
-		std::string const &args
-		);
-	ChannelManager *_channel_manager;
-	UserManager *_user_manager;
+	ChannelManager	*_channel_manager;
+	UserManager		*_user_manager;
+
+	void	_execute_command(Client &client, std::string const &command, std::string const &args);
 
 public:
+	// Const & Dest
 	CommandHandler();
 	~CommandHandler();
 
-	void init(ChannelManager &channel_manager, UserManager &user_manager);
-	void handle_command(Client &client,
-		std::string const &msg);
-	void on_connection(Client &client);
-	void on_disconnection(Client &client);
+	// Methods
+	void	init(ChannelManager &channel_manager, UserManager &user_manager);
+	void	handle_command(Client &client, std::string const &msg);
+	void	on_connection(Client &client);
+	void	on_disconnection(Client &client);
 };

@@ -20,9 +20,9 @@ void	command_nick(
 	(void)args;
 	(void)_user_manager;
 
-	User& user = _user_manager.get_user(client.get_fd());
-
-	if (is_nickname_valid(args) == false)
+	User	& user = _user_manager.get_user(client.get_fd());
+	
+	if (is_nickname_valid(args, _user_manager, user) == false)
 		return ;
 
 	user.set_nickname(args);
