@@ -2,11 +2,11 @@
 #include "Macros.hpp"
 
 User::User() :
-	_fd(INVALID_FD), _username(""), _nickname(""), _is_authenticated(false)
+	_fd(INVALID_FD), _username(""), _nickname(""), _is_authenticated(false), _is_operator(false)
 {}
 
 User::User(int client_fd) :
-	_fd(client_fd), _username(""), _nickname(""), _is_authenticated(false)
+	_fd(client_fd), _username(""), _nickname(""), _is_authenticated(false), _is_operator(false)
 {
 	(void)_fd;
 }
@@ -46,4 +46,14 @@ int	User::get_is_authenticated() const
 void	User::set_is_authenticated(int is_authenticated)
 {
 	_is_authenticated = is_authenticated;
+}
+
+int	User::get_is_operator() const
+{
+	return _is_operator;
+}
+
+void	User::set_is_operator(int is_operator)
+{
+	_is_operator = is_operator;
 }
