@@ -69,6 +69,16 @@ extern bool g_signals;
 #define	ERROR_PORT				DELIM BRED ERROR "Invalid port!\n" DELIM PRINT_END
 #define	ERROR_PASS				DELIM BRED ERROR "Invalid password!\n" DELIM PRINT_END
 
+
+//TODO KARL
+// Code Errors similar to DALnet
+#define	ERR_NOSUCHCHANNEL		"<client> <channel> :No such channel" //403
+#define	ERR_NONICKNAMEGIVEN		"<client> <channel> :No such channel" //431
+#define	ERR_ERRONEUSNICKNAME	"<client> <channel> :No such channel" //432
+#define	ERR_NICKNAMEINUSE		"<client> <channel> :No such channel" //433
+
+
+
 // Exceptions
 #define	ERROR_SOCKET(errno)			("Failed to create socket!\n" + std::string(strerror(errno)))
 #define	ERROR_BIND(errno)			("Failed to bind socket to port!\n" + std::string(strerror(errno)))

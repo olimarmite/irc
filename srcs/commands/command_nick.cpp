@@ -26,5 +26,9 @@ void	command_nick(
 		return ;
 
 	user.set_nickname(args);
+	//???
+	// >> :kquerel!~kquerel@7026-7ad1-fcef-778e-fe1c.210.62.ip NICK :new_nickname
+	// std::string	error_msg = ":" + SERVER_NAME + " 432 " + user.get_nickname() + " " + nickname + " :Erroneous Nickname";
+	// send(user.get_fd(), error_msg.c_str(), error_msg.length(), 0);
 	client.write("Changed nickname to " + args + "\n");
 }

@@ -94,29 +94,27 @@ bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager
 {
 	if (nickname.empty())
 	{
+		//>> :sakura.jp.as.dal.net 431 kquerel :No nickname given
 		std::string	error_msg = ":" + SERVER_NAME + " 431 " + user.get_nickname() + " :No Nickname given";
 		send(user.get_fd(), error_msg.c_str(), error_msg.length(), 0);
 		return false;
 	}
 
-	if (does_nickname_have_channel_prefix(nickname) == true)
+	std::string	const & invalid = " ,*?!@.$:";
+	
+	if (does_nickname_have_channel_prefix(nickname) == true || nickname.find_first_of(invalid) != std::string::npos)
 	{
-		std::cout << BRED "Nickname cannot have a channel prefix" PRINT_END;
 		//>> :punch.wa.us.dal.net 432 kquerel #salut :Erroneous Nickname
-		return false;
-	}
-
-	std::string	invalid = " ,*?!@.$:";
-	if (nickname.find_first_of(invalid) != std::string::npos)
-	{
-		std::cout << BRED "Invalid characters within nickname" PRINT_END;
-		//>> :punch.wa.us.dal.net 432 kquerel #salut :Erroneous Nickname
+		std::string	error_msg = ":" + SERVER_NAME + " 432 " + user.get_nickname() + " " + nickname + " :Erroneous Nickname";
+		send(user.get_fd(), error_msg.c_str(), error_msg.length(), 0);
 		return false;
 	}
 
 	if (does_nickname_already_exist(nickname, _user_manager) == true)
 	{
 		//>> :punch.wa.us.dal.net 433 kquerel hi :Nickname is already in use.
+		std::string	error_msg = ":" + SERVER_NAME + " 433 " + user.get_nickname() + " " + nickname + " :Nickname is already in use.";
+		send(user.get_fd(), error_msg.c_str(), error_msg.length(), 0);
 		return false;
 	}
 
