@@ -25,6 +25,8 @@ Channel &ChannelManager::get_channel(std::string const &channel)
 
 void ChannelManager::send_message_to_channel(std::string const &channel, std::string const &message)
 {
+	//TODO: il faut envoyer message privé à IRSSI pour qu'il ouvre un chat de channel
+
 	Channel &channel_obj = get_channel(channel);
 
 	std::set<int>::iterator it = channel_obj.clients_fd.begin();
@@ -33,6 +35,29 @@ void ChannelManager::send_message_to_channel(std::string const &channel, std::st
 		_client_manager->get_client(*it).write(message);
 		it++;
 	}
+}
+
+void ChannelManager::send_message_to_client(std::string origin_nickname, \
+std::string origin_username, std::string dest_nickname, Client dest_client, \
+Client origin_client, std::string const &message)
+{
+	std::cout <<BHMAG <<"DANS SEND MSG TO CLIENT FONCTION" <<PRINT_END;
+
+	//TODO: il faut envoyer message privé à IRSSI pour qu'il ouvre un chat privé
+	//:caro123!~casomarr@5cfe-3e61-45ea-bc48-51f0.210.62.ip PRIVMSG karl123 :salut toi
+	
+	//faire une macro
+	std::string to_send = ":" + origin_nickname + "!~" + \
+	origin_username + "@127.0.0.1 PRIVMSG " + dest_nickname + \
+	" :" + message;
+
+	//VU LE RAWLOG DE KARL.LOG ET LELA.LOG AUCUN NE RECOIT TO_SEND C EST POUR CA QUE CA
+	//MARCHE PAS
+
+	(void)origin_client;
+	std::cout <<BHMAG <<"dest_client fd = " <<dest_client.get_fd() <<PRINT_END;
+	dest_client.write(to_send);
+	//send(dest_client.get_fd(),to_send.c_str(), to_send.length(), 0);
 }
 
 void ChannelManager::init(ClientManager &client_manager)
@@ -70,4 +95,20 @@ bool	ChannelManager::channel_exists(std::string const & channel_name)
 	if (_channels.find(channel_name) != _channels.end())
 		return true;
 	return false;
+}
+
+//test function
+void	ChannelManager::print_all_channels()
+{
+	std::map<std::string, Channel>::iterator it = _channels.begin();
+	while (it != _channels.end())
+	{
+		std::cout << " - " <<it->second.name <<std::endl;
+		it++;
+	}
+}
+
+ClientManager &ChannelManager::get_client_manager()
+{
+	return *_client_manager;
 }

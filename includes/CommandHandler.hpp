@@ -107,7 +107,7 @@ void	command_user(
 const g_command_table_t g_command_table[] = {
 	{"PING", command_ping},
 	{"JOIN", command_join},
-	{"SENDMSG", command_sendmsg},
+	{"PRIVMSG", command_sendmsg},
 	{"AUTH", command_auth},
 	{"NICK", command_nick},
 	{"INFO", command_info},

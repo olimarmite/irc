@@ -13,4 +13,6 @@ class UserManager
 		User &get_user(int fd);
 		void add_user(int fd);
 		void remove_user(int fd);
+		bool user_exists(std::string user_nickname);
+		User &get_user_by_name(std::string user_nickname);
 };

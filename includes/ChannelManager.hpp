@@ -30,4 +30,10 @@ public:
 	void	send_message_to_channel(std::string const &channel, std::string const &message);
 	bool	channel_exists(std::string const & channel_name);
 	Channel &get_channel(std::string const &channel);
+	ClientManager &get_client_manager();
+	void	send_message_to_client(std::string origin_nickname, std::string origin_username, \
+	std::string dest_nickname, Client dest_client, Client origin_client, std::string const &message);
+
+	//test function
+	void	print_all_channels();
 };
