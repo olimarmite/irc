@@ -6,7 +6,7 @@
 #include "CommandHandler.hpp"
 #include "Macros.hpp"
 #include "User.hpp"
-#include <map>
+#include "utils.hpp"
 
 
 class Client;
@@ -15,7 +15,8 @@ class CommandHandler;
 class Server
 {
 	private :
-		int _port;
+  
+		std::string _port;
 		std::string _password; // passer ca dans une autre classe
 		int _server_fd;
 		int _epoll_fd;
@@ -28,8 +29,16 @@ class Server
 		ClientManager *_client_manager;
 
 
+		int				create_socket(struct addrinfo const & settings);
+		struct addrinfo	set_settings();
+		void			bind_socket_to_port(struct addrinfo server_settings);
+		void			listen_to_users_requests();
+
+		void			send_welcome_message(int user_fd); //la deplacer dans une autre classe?
+
+
 	public :
-		Server(int port, std::string password);
+		Server(std::string port, std::string password);
 		~Server();
 
 		void 				init(ClientManager &client_manager);

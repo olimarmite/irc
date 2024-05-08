@@ -3,6 +3,7 @@
 #include "ChannelManager.hpp"
 #include "ClientManager.hpp"
 #include "CommandHandler.hpp"
+#include "signals.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <string>
@@ -39,6 +40,10 @@
 	Lancer le serveur sur le port 1510
 	Lancer sur un autre terminal : ./socat -v TCP-LISTEN:1237 TCP:localhost:1510
 	Connecter le User au port 1237
+
+	Pour tests avec DALnet :
+	irssi
+	/connect DALnet
 */
 
 
@@ -47,14 +52,11 @@ int main(int argc, char **argv)
 	if (is_arg_valid(argc, argv) == false)
 		return EXIT_FAILURE;
 
-	//TODO: signals handler (check what signals)
-
-	int port = atoi(argv[1]); //TODO: use more safe function
+	std::string port = argv[1];
 	std::string	password = argv[2];
 
 	try
 	{
-
 		Server	server(port, password);
 		ChannelManager channel_manager = ChannelManager();
 		ClientManager client_manager = ClientManager();
@@ -66,8 +68,8 @@ int main(int argc, char **argv)
 		command_handler.init(channel_manager, user_manager);
 		server.init(client_manager);
 
-
-		while (true)
+		set_signals();
+		while (g_signals == true)
 		{
 			server.run();
 		}

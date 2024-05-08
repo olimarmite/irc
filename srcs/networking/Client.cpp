@@ -29,6 +29,9 @@ void Client::_on_command(std::string const & command)
 
 void Client::_check_commands_in_buffer()
 {
+	if (DEBUG)
+		std::cout << BGRN << _read_buffer << PRINT_END;
+	
 	size_t pos = _read_buffer.find(COMMAND_END);
 
 	while (pos != std::string::npos)
