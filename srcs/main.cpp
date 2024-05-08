@@ -71,8 +71,12 @@ int main(int argc, char **argv)
 		set_signals();
 		while (g_signals == true)
 		{
+			if (DEBUG) //to debug signals
+				std::cout <<BCYN <<"BACK TO MAIN" <<PRINT_END;
 			server.run();
 		}
+		if (DEBUG) //to debug signals
+			std::cout <<BCYN <<"AFTER MAIN" <<PRINT_END;
 	}
 	catch(const std::exception& e)
 	{

@@ -21,6 +21,8 @@ int	set_signals(void)
 siginfo_t *info, void *ucontext) */
 void	sigint_handler(int signal)
 {
+	if (DEBUG)
+		std::cout <<BCYN <<"in signal handler" <<PRINT_END;
 	(void)signal;
 	//sortir de la while et faire appel au deconstructeur
 	g_signals = false;

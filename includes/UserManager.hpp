@@ -20,4 +20,7 @@ class UserManager
 		void	add_user(int fd);
 		void	remove_user(int fd);
 		bool	user_exists(std::string user_nickname);
+
+  // Debug
+		void	print_all_users();
 };

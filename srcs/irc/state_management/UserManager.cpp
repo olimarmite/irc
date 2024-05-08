@@ -44,3 +44,15 @@ User &UserManager::get_user_by_name(std::string user_nickname)
 	}
 	return it->second;
 }
+
+void	UserManager::print_all_users()
+{
+	std::map<int, User>::iterator it = _users.begin();
+	while (it != _users.end())
+	{
+		std::cout << " - " <<it->second.get_nickname() <<std::endl;
+		it++;
+	}
+}
+
+
