@@ -70,12 +70,12 @@ extern bool g_signals;
 #define	ERROR_PASS				DELIM BRED ERROR "Invalid password!\n" DELIM PRINT_END
 
 
-//TODO KARL
-// Code Errors similar to DALnet
-#define	ERR_NOSUCHCHANNEL		"<client> <channel> :No such channel" //403
-#define	ERR_NONICKNAMEGIVEN		"<client> <channel> :No such channel" //431
-#define	ERR_ERRONEUSNICKNAME	"<client> <channel> :No such channel" //432
-#define	ERR_NICKNAMEINUSE		"<client> <channel> :No such channel" //433
+// //TODO KARL
+// // Code Errors similar to DALnet
+// #define	ERR_NOSUCHCHANNEL		"<client> <channel> :No such channel" //403
+// #define	ERR_NONICKNAMEGIVEN		"<client> <channel> :No such channel" //431
+// #define	ERR_ERRONEUSNICKNAME	"<client> <channel> :No such channel" //432
+// #define	ERR_NICKNAMEINUSE		"<client> <channel> :No such channel" //433
 
 
 
