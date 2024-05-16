@@ -87,11 +87,11 @@ extern bool g_signals;
 #define	ERROR_PSWD(errno)			("Invalid password command! Expected : PASS <password>\n" + std::string(strerror(errno)))
 #define	ERROR_USER(errno)			("Invalid username command! Expected : USER <username>\n" + std::string(strerror(errno)))
 #define	ERROR_NICK(errno)			("Invalid nickname command! Expected : NICK <nickname>\n" + std::string(strerror(errno)))
-#define	ERROR_PRIVMSG				("Failed to send private message!\n" + std::string(strerror(errno)))
+#define	ERROR_PRIVMSG(errno)		("Failed to send private message!\n" + std::string(strerror(errno)))
 // #define	ERROR_NICK				DELIM BRED ERROR "Invalid nickname command! Expected : NICK <nickname>\n" DELIM
 
 /****	Debug	****/
-#define	DEBUG		1
+#define	DEBUG		0
 
 //Constructors & Destructors
 #define	D_CONST		SEP "default constructor called" PRINT_END
@@ -115,7 +115,12 @@ extern bool g_signals;
 	std::string(":") + SERVER_NAME + " 002 " + username + \
 	" :Your host is ircserv, running version bahamut-2.2.2\n" + \
 	std::string(":") + SERVER_NAME + " 003 " + username + \
-	" :This server was created Tue Apr 30 2024 at 16:38:57 UTC"
+	" :This server was created Tue Apr 30 2024 at 16:38:57 UTC\n"
+
+# define NICK_CHANGED(old_nick, username, new_nick)	std::string(":") + \
+	old_nick + "!~" + username + "@127.0.0.1 NICK :" + new_nick + std::string("\n")
+
+#define UNKNOWN_NICK_CHAN(sender, receiver)	SERVER_NAME + std::string(" ") + sender + std::string(" ") + receiver + " :No such nick/channel\n"
 
 /****	Visuals	****/
 

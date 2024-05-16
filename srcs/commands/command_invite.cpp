@@ -9,9 +9,6 @@
 #include <sstream>
 #include <string>
 
-
-//HERE creer command_user.cpp, pass.cpp
-
 void	command_invite(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
@@ -58,46 +55,4 @@ void	command_invite(
 	return ;
 }
 
-// TODO trouver moyen de recuperer _password du serveur
-// void	command_pass(
-// 	ChannelManager &_channel_manager,
-// 	UserManager &_user_manager,
-// 	Client &client,
-// 	std::string const &args
-// 	)
-// {
-// 	(void)_channel_manager;
-// 	(void)args;
-// 	(void)_user_manager;
 
-// 	std::string	entered_password = args; // TODO parsing args mdp
-//     if (entered_password != _password)
-//     {
-//         message = "Invalid password : connection to server refused\r\n";
-//         int bytes_sent = send(user_fd, message.c_str(), message.length(), MSG_NOSIGNAL); //le proteger
-//         if (bytes_sent == INVALID_NB)
-//             throw std::runtime_error(ERROR_SEND);
-//         close (user_fd);
-//         throw std::runtime_error(ERROR_PASSW);
-//     }
-// 	return ;
-// }
-
-void	command_user(
-	ChannelManager &_channel_manager,
-	UserManager &_user_manager,
-	Client &client,
-	std::string const &args
-	)
-{
-	(void)_channel_manager;
-	(void)args;
-	(void)_user_manager;
-
-
-	User &user = _user_manager.get_user(client.get_fd());
-
-	user.set_username(args);
-	// client.write(nickname + " has been invited to channel " + channel_name + "\n"); // check dalnet
-	return ;
-}

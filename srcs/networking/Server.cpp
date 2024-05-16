@@ -163,6 +163,12 @@ void Server::_check_epoll_events()
 		if (events[i].data.fd == _server_fd)
 		{
 			_accept_new_client();
+			//HERE
+			// //find user with client_fd
+			// User user = _client_manager->_command_handler->_user_manager->get_user(events[i].data.fd);
+			// //read -> add username and nickname to user
+			// std::cout << "User connected: " << user.get_username() << std::endl;
+			// //send welcome message
 		}
 		else
 		{

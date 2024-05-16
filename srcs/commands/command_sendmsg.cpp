@@ -32,20 +32,22 @@ void	command_sendmsg(
 	{
 		std::cout <<BBLU <<"IN SENDMSG COMMAND" <<PRINT_END;
 		std::cout <<"args : " <<args <<std::endl;
+		std::cout <<"List of users" <<std::endl;
+		_user_manager.print_all_users();
 	}
 
 	if (args[0] != '#') //if private message
 	{
-		if (DEBUG)
-		{
-			std::cout <<"List of users" <<std::endl;
-			_user_manager.print_all_users();
-		}
+
+		std::cout <<"List of users" <<std::endl; //TEST
+		_user_manager.print_all_users(); //TEST
 
 		std::string nickname = parse_nickname(args);
 		std::cout <<BRED <<"nickname = //" <<nickname <<"//" <<PRINT_END;
 		if (_user_manager.user_exists(nickname) == true) //join aussi le user du meme nom que le channel dedans
 		{
+			std::cout <<BGRN <<"User exists" <<PRINT_END; //TEST
+
 			User dest_user = _user_manager.get_user_by_name(nickname);
 			Client dest_client = _channel_manager.get_client_manager().get_client(dest_user.get_fd());
 			
@@ -54,7 +56,11 @@ void	command_sendmsg(
 		}
 		else
 		{
+			std::cout <<BGRN <<"User does not exists" <<PRINT_END; //TEST
+
 			//ouvrir qd meme une fenetre
+			User origin_user = _user_manager.get_user(client.get_fd());
+			client.write(UNKNOWN_NICK_CHAN(origin_user.get_nickname(), nickname)); //FIX: should appear in the chat window!!
 			return ;
 		}
 	}

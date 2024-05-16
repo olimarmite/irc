@@ -1,0 +1,71 @@
+<< CAP LS
+<< NICK octonaute
+<< USER octonaute octonaute irc.dal.net :Octo
+>> :choopa.nj.us.dal.net NOTICE AUTH :*** Looking up your hostname...
+>> :choopa.nj.us.dal.net NOTICE AUTH :*** Checking Ident
+>> :choopa.nj.us.dal.net NOTICE AUTH :*** Found your hostname
+>> :choopa.nj.us.dal.net NOTICE AUTH :*** No Ident response
+>> :choopa.nj.us.dal.net 001 octonaute :Welcome to the DALnet IRC Network octonaute!~octonaute@246.155.67.37.rev.sfr.net
+<< MODE octonaute +i
+>> :choopa.nj.us.dal.net 002 octonaute :Your host is choopa.nj.us.dal.net, running version bahamut-2.2.2
+>> :choopa.nj.us.dal.net 003 octonaute :This server was created Tue Aug 23 2022 at 00:35:14 EDT
+>> :choopa.nj.us.dal.net 004 octonaute choopa.nj.us.dal.net bahamut-2.2.2 aAbcCdefFghHiIjkKmnoOPrRsSwxXy AbceiIjklLmMnoOpPrRsStv beIjklov
+>> :choopa.nj.us.dal.net 005 octonaute NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=20 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6 CHANTYPES=# CHANLIMIT=#:20 PREFIX=(ohv)@%+ STATUSMSG=@%+ :are available on this server
+>> :choopa.nj.us.dal.net 005 octonaute CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: :are available on this server
+>> :choopa.nj.us.dal.net 251 octonaute :There are 71 users and 7135 invisible on 36 servers
+>> :choopa.nj.us.dal.net 252 octonaute 73 :IRC Operators online
+>> :choopa.nj.us.dal.net 254 octonaute 3557 :channels formed
+>> :choopa.nj.us.dal.net 255 octonaute :I have 259 clients and 1 servers
+>> :choopa.nj.us.dal.net 265 octonaute :Current local users: 259 Max: 2193
+>> :choopa.nj.us.dal.net 266 octonaute :Current global users: 7206 Max: 12809
+>> :choopa.nj.us.dal.net NOTICE octonaute :*** Notice -- motd was last changed at 16/3/2021 11:13
+>> :choopa.nj.us.dal.net 375 octonaute :- choopa.nj.us.dal.net Message of the Day - 
+>> :choopa.nj.us.dal.net 372 octonaute :-16/3/2021 11:13
+>> :choopa.nj.us.dal.net 372 octonaute :- Welcome to choopa.nj.us.dal.net!
+>> :choopa.nj.us.dal.net 372 octonaute :- 
+>> :choopa.nj.us.dal.net 372 octonaute :-   .,-:::::   ::   .:      ...         ...   ::::::::::. :::.
+>> :choopa.nj.us.dal.net 372 octonaute :- ,;;;'````'  ,;;   ;;,  .;;;;;;;.   .;;;;;;;. `;;;```.;;;;;`;;
+>> :choopa.nj.us.dal.net 372 octonaute :- [[[        ,[[[,,,[[[ ,[[     \[[,,[[     \[[,`]]nnn]]',[[ '[[,
+>> :choopa.nj.us.dal.net 372 octonaute :- $$$        "$$$"""$$$ $$$,     $$$$$$,     $$$ $$$""  c$$$cc$$$c
+>> :choopa.nj.us.dal.net 372 octonaute :- `88bo,__,o, 888   "88o"888,_ _,88P"888,_ _,88P 888o    888   888,
+>> :choopa.nj.us.dal.net 372 octonaute :-   "YUMMMMMP"MMM    YMM  "YMMMMMP"   "YMMMMMP"  YMMMb   YMM   ""`
+>> :choopa.nj.us.dal.net 372 octonaute :- 
+>> :choopa.nj.us.dal.net 372 octonaute :- Server generously sponsored by http://www.choopa.com/
+>> :choopa.nj.us.dal.net 372 octonaute :- 
+>> :choopa.nj.us.dal.net 372 octonaute :- By connecting to this server you agree to be bound by the terms put forth
+>> :choopa.nj.us.dal.net 372 octonaute :- in DALnet's Acceptable Use Policy (http://www.dal.net/aup/)
+>> :choopa.nj.us.dal.net 372 octonaute :- 
+>> :choopa.nj.us.dal.net 372 octonaute :- For questions; please contact choopa-staff@dal.net
+>> :choopa.nj.us.dal.net 376 octonaute :End of /MOTD command.
+>> :choopa.nj.us.dal.net NOTICE octonaute :*** Notice -- This server runs an open proxy monitor to prevent abuse.
+>> :choopa.nj.us.dal.net NOTICE octonaute :*** Notice -- If you see connections on various ports from 108.61.240.240
+>> :choopa.nj.us.dal.net NOTICE octonaute :*** Notice -- please disregard them, as they are the monitor in action.
+>> :choopa.nj.us.dal.net NOTICE octonaute :*** Notice -- For more information please visit kline.dal.net/proxy/wingate.htm
+>> :octonaute MODE octonaute :+iH
+<< PING choopa.nj.us.dal.net
+>> :choopa.nj.us.dal.net PONG choopa.nj.us.dal.net :octonaute
+--> lag pong
+<< NICK lela
+>> :octonaute!~octonaute@4167-6dc4-364b-1637-4273.rev.sfr.net NICK :lela
+<< PRIVMSG tibo :hey
+>> :choopa.nj.us.dal.net 401 lela tibo :No such nick/channel
+<< PING choopa.nj.us.dal.net
+>> :choopa.nj.us.dal.net PONG choopa.nj.us.dal.net :lela
+--> lag pong
+<< PING choopa.nj.us.dal.net
+>> :choopa.nj.us.dal.net PONG choopa.nj.us.dal.net :lela
+--> lag pong
+<< PING choopa.nj.us.dal.net
+>> :choopa.nj.us.dal.net PONG choopa.nj.us.dal.net :lela
+--> lag pong
+<< PING choopa.nj.us.dal.net
+>> :choopa.nj.us.dal.net PONG choopa.nj.us.dal.net :lela
+--> lag pong
+<< PING choopa.nj.us.dal.net
+>> :choopa.nj.us.dal.net PONG choopa.nj.us.dal.net :lela
+--> lag pong
+<< PING choopa.nj.us.dal.net
+>> :choopa.nj.us.dal.net PONG choopa.nj.us.dal.net :lela
+--> lag pong
+<< PRIVMSG tibo :hey
+<< QUIT :leaving
