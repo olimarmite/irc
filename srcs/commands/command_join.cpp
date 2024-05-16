@@ -31,6 +31,7 @@ void	command_join(
 		_channel_manager.join_channel(client.get_fd(), channel_name);
 
 		std::string const & message = "User has joined " + channel_name;
+		
 		_channel_manager.send_message_to_channel(client.get_fd(), channel_name, message);
 	}
 	

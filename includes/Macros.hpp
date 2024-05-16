@@ -120,7 +120,12 @@ extern bool g_signals;
 # define NICK_CHANGED(old_nick, username, new_nick)	std::string(":") + \
 	old_nick + "!~" + username + "@127.0.0.1 NICK :" + new_nick + std::string("\n")
 
-#define UNKNOWN_NICK_CHAN(sender, receiver)	SERVER_NAME + std::string(" ") + sender + std::string(" ") + receiver + " :No such nick/channel\n"
+#define UNKNOWN_NICK_CHAN(sender, receiver)	std::string(":") + SERVER_NAME + \
+std::string(" 401 ") + sender + std::string(" ") + receiver + " :No such nick/channel\n"
+
+#define MSG_RECEIVED(sender_nick, receiver_username, receiver_nick, message)	std::string(":") + \
+sender_nick + "!~" + receiver_username + "@127.0.0.1 PRIVMSG " + receiver_nick + " :" + message + std::string("\n")
+
 
 /****	Visuals	****/
 

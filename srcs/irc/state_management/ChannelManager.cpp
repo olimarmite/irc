@@ -37,29 +37,6 @@ void	ChannelManager::init(ClientManager &client_manager)
 	return ;
 }
 
-void ChannelManager::send_message_to_client(std::string origin_nickname, \
-std::string origin_username, std::string dest_nickname, Client dest_client, \
-Client origin_client, std::string const &message)
-{
-	std::cout <<BHMAG <<"DANS SEND MSG TO CLIENT FONCTION" <<PRINT_END;
-
-	//:caro123!~casomarr@5cfe-3e61-45ea-bc48-51f0.210.62.ip PRIVMSG karl123 :salut toi
-	
-	//faire une macro
-	std::string to_send = ":" + origin_nickname + "!~" + \
-	origin_username + "@127.0.0.1 PRIVMSG " + dest_nickname + \
-	" :" + message;
-
-	//VU LE RAWLOG DE KARL.LOG ET LELA.LOG AUCUN NE RECOIT TO_SEND C EST POUR CA QUE CA
-	//MARCHE PAS
-
-	(void)origin_client;
-	std::cout <<BHMAG <<"origin_client fd = " <<origin_client.get_fd() <<PRINT_END;
-	std::cout <<BHMAG <<"dest_client fd = " <<dest_client.get_fd() <<PRINT_END;
-	dest_client.write(message);
-	send(dest_client.get_fd(), to_send.c_str(), to_send.length(), 0);
-}
-
 void	ChannelManager::leave_channel(int client_fd, std::string const &channel)
 {
 	Channel &channel_obj = get_channel(channel);
@@ -133,7 +110,6 @@ void	ChannelManager::join_channel(int client_fd, std::string const & channel_nam
 
 void	ChannelManager::send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message)
 {
-	
   
  //TODO: il faut envoyer message privé à IRSSI pour qu'il ouvre un chat de channel
 

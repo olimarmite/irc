@@ -1,0 +1,7 @@
+
+<< NICK maria
+>> :octonaute!~octonaute@127.0.0.1 NICK :maria
+<< PRIVMSG mario :bebo leche
+>> maria :me gusta la manzana:mario!~octonaute@127.0.0.1 PRIVMSG maria :maria :me gusta la manzana:mario!~octonaute@127.0.0.1 PRIVMSG maria :me gusta la manzana
+>> sender nickname : //mario// receiver username : //octonaute// receiver nickname : //maria// Message : //me gusta la manzana//
+

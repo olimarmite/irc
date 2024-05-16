@@ -45,8 +45,7 @@ public:
 	bool		channel_exists(std::string const & channel_name);
 
   ClientManager &get_client_manager();
-	void	send_message_to_client(std::string origin_nickname, std::string origin_username, \
-	std::string dest_nickname, Client dest_client, Client origin_client, std::string const &message);
+
 	//debug
 	void		print_all_channels();
 
