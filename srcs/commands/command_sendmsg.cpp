@@ -39,20 +39,20 @@ void	command_sendmsg(
 		chat privé avec un user test (qui n'existe pas).
 	 */
 
-	if (DEBUG)
-	{
-		std::cout <<BBLU <<"IN SENDMSG COMMAND" <<PRINT_END;
-		std::cout <<"args : " <<args <<std::endl;
-		std::cout <<"List of users" <<std::endl;
-		_user_manager.print_all_users();
-	}
-
 	if (args[0] != '#') //if private message
 	{
-		std::string nickname = parse_nickname(args);
-		// std::cout <<BRED <<"nickname = //" <<nickname <<"//" <<PRINT_END;
-		if (_user_manager.user_exists(nickname) == true) //join aussi le user du meme nom que le channel dedans
+		if (DEBUG)
 		{
+			std::cout <<"List of users" <<std::endl;
+			_user_manager.print_all_users();
+		}
+		
+		std::string nickname = parse_nickname(args);
+		if (_user_manager.user_exists(nickname) == true)
+		{
+			if (DEBUG)
+				std::cout <<BBLU <<"Nick/channel found" <<PRINT_END;
+
 			User dest_user = _user_manager.get_user_by_name(nickname);
 			Client dest_client = _channel_manager.get_client_manager().get_client(dest_user.get_fd());
 			
@@ -60,21 +60,15 @@ void	command_sendmsg(
 
 			std::string message = parse_message(args);
 
-			if (DEBUG)
-			{
-				std::cout <<BRED <<"origin_user.get_nickname() = " <<origin_user.get_nickname() <<PRINT_END;
-				std::cout <<BRED <<"origin_user.get_username() = " <<origin_user.get_username() <<PRINT_END;
-				std::cout <<BRED <<"dest_user.get_nickname() = " <<dest_user.get_nickname() <<PRINT_END;
-				std::cout <<BRED <<"MESSAGE : " <<message <<PRINT_END;
-			}
-
 			dest_client.write(MSG_RECEIVED(origin_user.get_nickname(), dest_user.get_username(), \
 			dest_user.get_nickname(), message));
 		}
 		else
 		{
+			if (DEBUG)
+				std::cout <<BRED <<"Nick/channel not found" <<PRINT_END;
 			User origin_user = _user_manager.get_user(client.get_fd());
-			client.write(UNKNOWN_NICK_CHAN(origin_user.get_nickname(), nickname)); //FIX: should appear in the chat window!!
+			client.write(UNKNOWN_NICK_CHAN(origin_user.get_nickname(), nickname));
 			return ;
 		}
 	}

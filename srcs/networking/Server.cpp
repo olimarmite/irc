@@ -161,25 +161,12 @@ void Server::_check_epoll_events()
 	for (int i = 0; i < event_count; i++)
 	{
 		if (events[i].data.fd == _server_fd)
-		{
 			_accept_new_client();
-			//HERE
-			// //find user with client_fd
-			// User user = _client_manager->_command_handler->_user_manager->get_user(events[i].data.fd);
-			// //read -> add username and nickname to user
-			// std::cout << "User connected: " << user.get_username() << std::endl;
-			// //send welcome message
-		}
 		else
 		{
-			if (DEBUG)
-				std::cout << "Client event" << std::endl;
 			if (_client_manager->get_client(events[i].data.fd).read() == 0)
-			{
-				if (DEBUG)
-					std::cout << "read() == 0" << std::endl;
 				_client_manager->remove_client(events[i].data.fd);
-			}
+			//else : there is an event
 		}
 	}
 }
@@ -193,7 +180,7 @@ void Server::init(ClientManager &client_manager)
 	_setup_socket();
 	_setup_epoll();
 	if (DEBUG)
-		std::cout << "Server launched on port " << _port << std::endl;
+		std::cout << "Server launched on port " << _port << std::endl <<std::endl;
 }
 
 void Server::run()

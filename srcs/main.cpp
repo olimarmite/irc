@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 		while (g_signals == true)
 		{
 			if (DEBUG) //to debug signals
-				std::cout <<BCYN <<"BACK TO MAIN" <<PRINT_END;
+				std::cout <<std::endl <<BCYN <<"BACK TO MAIN" <<PRINT_END <<std::endl;
 			server.run();
 		}
 		if (DEBUG) //to debug signals

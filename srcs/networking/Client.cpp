@@ -30,7 +30,7 @@ void Client::_on_command(std::string const & command)
 void Client::_check_commands_in_buffer()
 {
 	if (DEBUG)
-		std::cout << BGRN << _read_buffer << PRINT_END;
+		std::cout << BGRN <<"Buffer : -----\n" << _read_buffer <<"--------------" << PRINT_END;
 	
 	size_t pos = _read_buffer.find(COMMAND_END);
 
@@ -60,8 +60,6 @@ int Client::read()
 	if (recv_size > 0)
 	{
 		_read_buffer.append(buffer, recv_size);
-		if (DEBUG)
-			std::cout << "Read buffer: " << _read_buffer << std::endl;
 		_check_commands_in_buffer();
 	}
 	return recv_size;

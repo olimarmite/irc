@@ -27,7 +27,7 @@ void CommandHandler::_execute_command(Client &client,
 	// }
 
 	if (DEBUG)
-		std::cout << "Command: " << command << " Args: " << args << std::endl;
+		std::cout << "Command: " << command << " | Args: " << args << std::endl;
 	for (int i = 0; g_command_table[i].command; i++)
 	{
 		//if (g_command_table[i].command == "PASS")
@@ -35,8 +35,6 @@ void CommandHandler::_execute_command(Client &client,
 			//if not on close le client
 		if (g_command_table[i].command == command)
 		{
-			if (DEBUG)
-				std::cout << "in execute command. Command: " << command << std::endl;
 			g_command_table[i].function(*_channel_manager, *_user_manager, client, args);
 			if (DEBUG)
 				std::cout << "Command " << command << " executed" << std::endl;

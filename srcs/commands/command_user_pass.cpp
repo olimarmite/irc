@@ -40,21 +40,33 @@ void	command_user( //ne doit être accessible que à la connection
 	std::string const &args
 	)
 {
+
+/* 	IMPORTANT : j'ai mis les parties de code concernant authentification = true
+	en commentaire parce que quand on écrit /user ça interprète la commande
+	"userhost" et non "user" donc je crois que c'est de toutes façons pas
+	possible d'entrer dans cette fonction plus d'une fois (lors de la connection) */
+
+/* 	if (_user_manager.get_user(client.get_fd()).get_is_authenticated() == true)
+	{
+		if (DEBUG)
+			std::cout <<BRED <<"User cmd is invalid : user is already authentified" <<PRINT_END;
+		client.write(ALREADY_REGISTRED());
+	} */
+
 	(void)_channel_manager;
 	(void)args;
 	(void)_user_manager;
-
-	//TODO utiliser bool authentified pour ne pouvoir
-	//entrer dans cette fonction qu'une fois
-
 
 	User &user = _user_manager.get_user(client.get_fd());
 
 	std::string username = args.substr(0, args.find(' '));
 	user.set_username(username);
-	// client.write(nickname + " has been invited to channel " + channel_name + "\n"); // check dalnet
 
-	client.write(WELCOME_MESSAGE(user.get_username())); 
+/* 	user.set_is_authenticated(true);
+	if (DEBUG)
+		std::cout <<BHGRN <<"User authentification set to true" <<PRINT_END;
+ */
+	client.write(WELCOME_MESSAGE(user.get_username()));
 	
 	return ;
 }
