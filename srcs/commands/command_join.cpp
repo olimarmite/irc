@@ -30,9 +30,11 @@ void	command_join(
 	{
 		_channel_manager.join_channel(client.get_fd(), channel_name);
 
-		std::string const & message = "User has joined " + channel_name;
-		
-		_channel_manager.send_message_to_channel(client.get_fd(), channel_name, message);
+		// std::string const & message = "User has joined " + channel_name;
+		// _channel_manager.send_message_to_channel(client.get_fd(), channel_name, message);
+
+		//HERE : remplacer les deux lignes mises en commentaire au dessus par
+		//message tel que dans dalnetFirstToJoin.log et dalnetSecondToJoin.log
 	}
 	
 }

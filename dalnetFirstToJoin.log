@@ -1,0 +1,21 @@
+
+<< JOIN #channelTEST
+>> :octonaute!~octonaute@4167-6dc4-364b-1637-4273.rev.sfr.net JOIN :#channelTEST
+>> :atw.hu.eu.dal.net 353 octonaute = #channelTEST :@octonaute 
+>> :atw.hu.eu.dal.net 366 octonaute #channelTEST :End of /NAMES list.
+<< MODE #channelTEST
+>> :atw.hu.eu.dal.net 324 octonaute #channelTEST + 
+--> chanquery mode
+<< WHO #channelTEST
+>> :atw.hu.eu.dal.net 329 octonaute #channelTEST 1715881302
+--> event 329
+>> :atw.hu.eu.dal.net 352 octonaute #channelTEST ~octonaute 4167-6dc4-364b-1637-4273.rev.sfr.net atw.hu.eu.dal.net octonaute H@ :0 Octo
+--> silent event who
+>> :atw.hu.eu.dal.net 315 octonaute #channelTEST :End of /WHO list.
+--> chanquery who end
+<< MODE #channelTEST b
+>> :atw.hu.eu.dal.net 368 octonaute #channelTEST :End of Channel Ban List
+--> chanquery ban end
+>> :octonaut1!~octonaute@be2-9d81-913b-ca94-9430.67.37.ip JOIN :#channelTEST
+<< PRIVMSG #channelTEST :hi everyone
+>> :octonaut1!~octonaute@be2-9d81-913b-ca94-9430.67.37.ip PRIVMSG #channelTEST :thank you for letting me join!
