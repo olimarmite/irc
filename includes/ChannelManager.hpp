@@ -13,6 +13,7 @@ struct Channel
 	std::string		name;
 	std::string		password;
 	std::set<int>	clients_fd;
+	std::string		topic;
 };
 
 class ChannelManager
@@ -30,6 +31,8 @@ public:
 	// Get & Set
 	Channel&	get_channel(std::string const &channel);
 	void		set_channel_name(std::string const & channel_name);
+	void		set_channel_topic(std::string const & channel_name, std::string const & channel_topic);
+
 	
 	// Methods
 	void		create_channel(std::string const & channel_name, std::string const & password);

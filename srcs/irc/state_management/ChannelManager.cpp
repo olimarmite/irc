@@ -32,6 +32,12 @@ void	ChannelManager::set_channel_name(std::string const & channel_name)
 	return ;
 }
 
+void	ChannelManager::set_channel_topic(std::string const & channel_name, std::string const & channel_topic)
+{
+	_channels[channel_name].topic = channel_topic;
+	return ;
+}
+
 /*	-----		Methods					-----	*/
 
 void	ChannelManager::init(ClientManager &client_manager)

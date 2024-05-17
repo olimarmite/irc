@@ -126,11 +126,14 @@ sender_nick + "!~" + receiver_username + "@127.0.0.1 PRIVMSG " + receiver_nick +
 #define JOINED_CHANNEL(nickname, username, channel_name)	std::string(":") + nickname + "!~" + username + \
 "@127.0.0.1 JOIN :" + channel_name + std::string("\n")
 
-#define RPL_NAMREPLY(nickname, channel_name)	std::string(":") + SERVER_NAME + " 353 " + nickname + " = " + \
-channel_name + " :" + nickname + std::string("\n")
+// #define RPL_NAMREPLY(nickname, channel_name)	std::string(":") + SERVER_NAME + " 353 " + nickname + " = " + \
+// channel_name + " :" + nickname + std::string("\n")
 
-#define RPL_ENDOFNAMES(nickname, channel_name)	std::string(":") + SERVER_NAME + " 366 " + nickname + std::string(" ") + \
-channel_name + " :End of /NAMES list" + std::string("\n")
+// #define RPL_ENDOFNAMES(nickname, channel_name)	std::string(":") + SERVER_NAME + " 366 " + nickname + std::string(" ") + \
+// channel_name + " :End of /NAMES list" + std::string("\n")
+
+#define RPL_TOPIC2(nickname, username, channel_name, channel_topic)	std::string(":") + nickname + "!~" + username + \
+"@127.0.0.1 TOPIC " + channel_name + std::string(" :") + channel_topic + std::string("\n")
 
 /*
 >> :bifrost.ca.us.dal.net 353 user1 = #channeltest :@user1 
@@ -143,7 +146,7 @@ channel_name + " :End of /NAMES list" + std::string("\n")
 std::string(" 401 ") + sender + std::string(" ") + receiver + " :No such nick/channel\n"
 
 //erreur 462 : le rajouter? tester avec dalnet //HERE
-#define ALREADY_REGISTRED()	":Unauthorized command (already registered)"
+#define ALREADY_REGISTRED()	":Unauthorized command (already registered)\n"
 
 /****	Visuals	****/
 
