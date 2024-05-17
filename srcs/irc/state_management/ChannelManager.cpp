@@ -20,7 +20,10 @@ ChannelManager::~ChannelManager()
 
 Channel	&ChannelManager::get_channel(std::string const &channel)
 {
-	return _channels[channel];
+	int i = 0;
+	while (channel[i] != ' ')
+		i++;
+	return _channels[channel.substr(0, i)];
 }
 
 void	ChannelManager::set_channel_name(std::string const & channel_name)
@@ -108,27 +111,22 @@ void	ChannelManager::join_channel(int client_fd, std::string const & channel_nam
 	return ;
 }
 
-void	ChannelManager::send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message)
+void	ChannelManager::send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message, UserManager &_user_manager)
 {
-  
- //TODO: il faut envoyer message privé à IRSSI pour qu'il ouvre un chat de channel
-
-// 	Channel &channel_obj = get_channel(channel);
-
-// 	std::set<int>::iterator it = channel_obj.clients_fd.begin();
-// 	while (it != channel_obj.clients_fd.end())
-// 	{
-// 		_client_manager->get_client(*it).write(message);
-// 		it++;
-// 	}
-  
-  Channel	& channel = _channels[channel_name];
+	Channel	& channel = _channels[channel_name];
 	std::set<int>::iterator it = channel.clients_fd.begin();
 
 	for (; it != channel.clients_fd.end(); it++)
 	{
 		if (*it != client_fd)
-			_client_manager->get_client(*it).write(message);
+		{
+			Client dest_client = _client_manager->get_client(*it);
+			User dest_user = _user_manager.get_user(dest_client.get_fd());
+			User origin_user = _user_manager.get_user(client_fd);
+			
+			dest_client.write(MSG_RECEIVED(origin_user.get_nickname(), dest_user.get_username(), \
+			channel_name, message));
+		}
 	}
 	return ;
 }

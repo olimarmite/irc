@@ -121,7 +121,21 @@ extern bool g_signals;
 	old_nick + "!~" + username + "@127.0.0.1 NICK :" + new_nick + std::string("\n")
 
 #define MSG_RECEIVED(sender_nick, receiver_username, receiver_nick, message)	std::string(":") + \
-sender_nick + "!~" + receiver_username + "@127.0.0.1 PRIVMSG " + receiver_nick + " :" + message + std::string("\n")
+sender_nick + "!~" + receiver_username + "@127.0.0.1 PRIVMSG " + receiver_nick + " " + message + std::string("\n")
+
+#define JOINED_CHANNEL(nickname, username, channel_name)	std::string(":") + nickname + "!~" + username + \
+"@127.0.0.1 JOIN :" + channel_name + std::string("\n")
+
+#define RPL_NAMREPLY(nickname, channel_name)	std::string(":") + SERVER_NAME + " 353 " + nickname + " = " + \
+channel_name + " :" + nickname + std::string("\n")
+
+#define RPL_ENDOFNAMES(nickname, channel_name)	std::string(":") + SERVER_NAME + " 366 " + nickname + std::string(" ") + \
+channel_name + " :End of /NAMES list" + std::string("\n")
+
+/*
+>> :bifrost.ca.us.dal.net 353 user1 = #channeltest :@user1 
+>> :bifrost.ca.us.dal.net 366 user1 #channeltest :End of /NAMES list.
+*/
 
 //ERROR MSG
 

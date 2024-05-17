@@ -35,7 +35,7 @@ public:
 	void		create_channel(std::string const & channel_name, std::string const & password);
 	bool		is_user_in_channel(int client_fd, std::string const & channel_name);
 
-	void		send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message);
+	void	send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message, UserManager &_user_manager);
 
 	void		join_channel(int client_fd, std::string const &channel);
 

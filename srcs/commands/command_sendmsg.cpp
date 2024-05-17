@@ -39,6 +39,10 @@ void	command_sendmsg(
 		chat privé avec un user test (qui n'existe pas).
 	 */
 
+	User origin_user = _user_manager.get_user(client.get_fd());
+
+	std::string message = parse_message(args);
+
 	if (args[0] != '#') //if private message
 	{
 		if (DEBUG)
@@ -55,10 +59,6 @@ void	command_sendmsg(
 
 			User dest_user = _user_manager.get_user_by_name(nickname);
 			Client dest_client = _channel_manager.get_client_manager().get_client(dest_user.get_fd());
-			
-			User origin_user = _user_manager.get_user(client.get_fd());
-
-			std::string message = parse_message(args);
 
 			dest_client.write(MSG_RECEIVED(origin_user.get_nickname(), dest_user.get_username(), \
 			dest_user.get_nickname(), message));
@@ -87,35 +87,12 @@ void	command_sendmsg(
 
 		if (_channel_manager.channel_exists(channel.name) == false) //if channel n'existe pas alors le creer
 		{
+			if (DEBUG)
+				std::cout <<BBLU <<"Channel doesn't exist : creation of new channel" <<PRINT_END;
 			command_join(_channel_manager, _user_manager, client, args); //join le nouveau channel créé
 		}
-		// KARL HERE -> IL MANQUE JUSTE LE FD EN PREMIER ARGUMENT
-		// _channel_manager.send_message_to_channel(channel.name, args); //on envoie le msg dans le channel
+		if (DEBUG)
+			std::cout <<BBLU <<"Channel exists" <<PRINT_END;
+		_channel_manager.send_message_to_channel(client.get_fd(), channel.name, args, _user_manager); //on envoie le msg dans le channel
 	}
-
-
-
-//CODE CI-DESSOUS : QD ON CREAIT CHANNEL POUR MESSAGES PRIVÉS
-
-/* 	Channel channel = _channel_manager.get_channel(args);
-
-	if (_channel_manager.channel_exists(channel.name) == false) //if channel n'existe pas alors le creer
-	{
-		command_join(_channel_manager, _user_manager, client, args); //join le nouveau channel créé
-
-		if (args[0] != '#') //if private message
-		{
-			if (_user_manager.user_exists(args) == true) //join aussi le user du meme nom que le channel dedans
-			{
-				User user = _user_manager.get_user_by_name(args);
-				//get client thanks to user_fd
-				Client dest_client = _channel_manager.get_client_manager().get_client(user.get_fd());
-				command_join(_channel_manager, _user_manager, dest_client, args);
-			}
-		}
-	}
-
-	//IMPORTANT : puisque j'ai effacé la fonction send_message_to_user je ne pense pas avoir besoin
-	//de send_message_to_channel(), juste du bon message protocolaire
-	_channel_manager.send_message_to_channel(channel.name, args); //on envoie le msg dans le channel (privé ou pas) */
 }
