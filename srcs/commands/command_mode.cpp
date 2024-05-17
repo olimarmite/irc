@@ -21,9 +21,9 @@ void	command_mode(
 	(void)_user_manager;
 	(void)client;
 
-	std::cout << args << PRINT_END;
+	//std::cout << args << PRINT_END;
 
-	//HERE parsing peut etre different selon dans channels ou pas
+	//parsing peut etre different selon dans channels ou pas
 	//TODO /MODE #test42 i
 	return ;
 }

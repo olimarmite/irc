@@ -135,17 +135,17 @@ sender_nick + "!~" + receiver_username + "@127.0.0.1 PRIVMSG " + receiver_nick +
 #define RPL_TOPIC2(nickname, username, channel_name, channel_topic)	std::string(":") + nickname + "!~" + username + \
 "@127.0.0.1 TOPIC " + channel_name + std::string(" :") + channel_topic + std::string("\n")
 
-/*
->> :bifrost.ca.us.dal.net 353 user1 = #channeltest :@user1 
->> :bifrost.ca.us.dal.net 366 user1 #channeltest :End of /NAMES list.
-*/
+
+#define RPL_KICK(nickname, username, channel_name, kicked_nickname)	std::string(":") + nickname + "!~" + username + \
+"@127.0.0.1 KICK " + channel_name + std::string(" ") + kicked_nickname + std::string(" :") + nickname + std::string("\n")
+// :user1!~casomarr@1973-cabf-c594-efa1-695e.210.62.ip KICK #chan user2 :user1
 
 //ERROR MSG
 
 #define UNKNOWN_NICK_CHAN(sender, receiver)	std::string(":") + SERVER_NAME + \
 std::string(" 401 ") + sender + std::string(" ") + receiver + " :No such nick/channel\n"
 
-//erreur 462 : le rajouter? tester avec dalnet //HERE
+//TODO : erreur 462 : le rajouter? tester avec dalnet
 #define ALREADY_REGISTRED()	":Unauthorized command (already registered)\n"
 
 /****	Visuals	****/

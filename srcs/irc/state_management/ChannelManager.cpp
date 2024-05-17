@@ -48,12 +48,14 @@ void	ChannelManager::init(ClientManager &client_manager)
 
 void	ChannelManager::leave_channel(int client_fd, std::string const &channel)
 {
-	Channel &channel_obj = get_channel(channel);
+	//HERE: cette fonction ne semble pas bien effacer les clients des channels 
+	//cf. command send_msg qui check si le client est dans le channel
 
-	std::cout << "Leaving channel " << channel << std::endl;
+	Channel &channel_obj = get_channel(channel);
 	channel_obj.clients_fd.erase(client_fd);
 
 	_clientChannels[client_fd].erase(channel);
+
 	return ;
 }
 
@@ -157,6 +159,21 @@ void ChannelManager::print_all_channels()
 	while (it != _channels.end())
 	{
 		std::cout << " - " << it->second.name << PRINT_END;
+		it++;
+	}
+	return ;
+}
+
+void ChannelManager::print_all_clients(std::string channel_name)
+{
+	Channel &channel = _channels[channel_name];
+	std::set<int>::iterator it = channel.clients_fd.begin();
+
+	std::cout << "Number of clients in " << channel_name << ": " << channel.clients_fd.size() << PRINT_END;
+
+	while (it != channel.clients_fd.end())
+	{
+		std::cout << " - " << *it << PRINT_END;
 		it++;
 	}
 	return ;

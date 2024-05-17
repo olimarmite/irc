@@ -85,10 +85,7 @@ void CommandHandler::init(ChannelManager &channel_manager, UserManager &user_man
 
 void CommandHandler::on_connection(Client &client)
 {
-	// User &user = _user_manager->get_user(client.get_fd());
-
 	_user_manager->add_user(client.get_fd());
-	// client.write(WELCOME_MESSAGE(user.get_username())); //APRÈS SET USERNAME ET NICKNAME SINON PAS CORRECT! //HERE
 }
 
 void CommandHandler::on_disconnection(Client &client)

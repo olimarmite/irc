@@ -51,5 +51,6 @@ public:
 
 	//debug
 	void		print_all_channels();
+	void		print_all_clients(std::string channel_name);
 
 };
