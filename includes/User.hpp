@@ -28,4 +28,5 @@ class User
 		std::string const &	get_nickname() const;
 		int					get_fd() const;
 		int					get_is_operator() const;
+
 };

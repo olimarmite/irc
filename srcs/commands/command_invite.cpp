@@ -12,6 +12,8 @@
 void	command_invite(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	)
@@ -19,9 +21,12 @@ void	command_invite(
 	(void)_channel_manager;
 	(void)args;
 	(void)_user_manager;
+	(void)_client_manager;
+	(void)_settings;
+
 
 	std::string	channel_name, nickname;
-	
+
 	std::istringstream iss(args);
 
 	if (!(iss >> channel_name >> nickname) || channel_name.empty() || nickname.empty())
@@ -29,7 +34,7 @@ void	command_invite(
 		client.write("Invalid arguments\n");
 		return ;
 	}
-	
+
 	if (_channel_manager.channel_exists(channel_name) == false)
 	{
 		client.write("Channel " + channel_name + " does not exist.\n");
@@ -37,8 +42,8 @@ void	command_invite(
 	}
 
 
-	
-	
+
+
 	int	user_fd = 0;
 
 	Channel &channel = _channel_manager.get_channel(channel_name);
@@ -48,7 +53,7 @@ void	command_invite(
 
 	channel.clients_fd.insert(user_to_invite.get_fd());
 	client.write(nickname + " has been invited to channel " + channel_name + "\n"); // check dalnet
-	
+
 	//TODO ? or not ?
 	//RFC --> <client><nick><channel>
 

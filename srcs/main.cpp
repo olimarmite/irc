@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include "UserManager.hpp"
+#include "ServerSettings.hpp"
 
 /*
 	Pour tester si port est libre :
@@ -57,7 +58,8 @@ int main(int argc, char **argv)
 
 	try
 	{
-		Server	server(port, password);
+		const ServerSettings settings(port, password);
+		Server	server(settings.port);
 		ChannelManager channel_manager = ChannelManager();
 		ClientManager client_manager = ClientManager();
 		CommandHandler command_handler = CommandHandler();
@@ -65,8 +67,9 @@ int main(int argc, char **argv)
 
 		client_manager.init(command_handler);
 		channel_manager.init(client_manager);
-		command_handler.init(channel_manager, user_manager);
+		command_handler.init(channel_manager, user_manager, client_manager, settings);
 		server.init(client_manager);
+
 
 		set_signals();
 		while (g_signals == true)

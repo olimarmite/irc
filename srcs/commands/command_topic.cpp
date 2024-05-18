@@ -12,6 +12,8 @@
 void	command_topic(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	)
@@ -20,6 +22,9 @@ void	command_topic(
 	(void)args;
 	(void)_user_manager;
 	(void)client;
+	(void)_client_manager;
+	(void)_settings;
+
 
 	//TODO
 	return ;

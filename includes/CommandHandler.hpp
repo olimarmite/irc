@@ -4,13 +4,18 @@
 #include <string>
 #include <vector>
 #include "UserManager.hpp"
+#include "ServerSettings.hpp"
 
 class Client;
 class ChannelManager;
+class ClientManager;
+
 
 typedef void (*command_function_t)(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 );
@@ -25,18 +30,24 @@ struct g_command_table_t
 void command_ping(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
 void command_join(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
 void command_sendmsg(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -44,6 +55,8 @@ void command_sendmsg(
 void command_auth(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -51,6 +64,8 @@ void command_auth(
 void command_nick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -58,6 +73,8 @@ void command_nick(
 void command_info(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -65,6 +82,8 @@ void command_info(
 void	command_kick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -72,6 +91,8 @@ void	command_kick(
 void	command_invite(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -79,6 +100,8 @@ void	command_invite(
 void	command_topic(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -86,6 +109,8 @@ void	command_topic(
 void	command_mode(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -93,6 +118,8 @@ void	command_mode(
 void	command_pass(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -100,6 +127,8 @@ void	command_pass(
 void	command_user(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -115,15 +144,17 @@ const g_command_table_t g_command_table[] = {
 	{"INVITE", command_invite},
 	{"TOPIC", command_topic},
 	{"MODE", command_mode},
-	// {"PASS", command_pass},
+	{"PASS", command_pass},
 	{"USER", command_user},
 	{NULL, NULL}};
 
 class CommandHandler
 {
 private:
-	ChannelManager	*_channel_manager;
-	UserManager		*_user_manager;
+	ChannelManager			*_channel_manager;
+	UserManager				*_user_manager;
+	ClientManager			*_client_manager;
+	const ServerSettings	*_settings;
 
 	void	_execute_command(Client &client, std::string const &command, std::string const &args);
 
@@ -133,7 +164,7 @@ public:
 	~CommandHandler();
 
 	// Methods
-	void	init(ChannelManager &channel_manager, UserManager &user_manager);
+	void	init(ChannelManager &channel_manager, UserManager &user_manager, ClientManager &client_manager, const ServerSettings &settings);
 	void	handle_command(Client &client, std::string const &msg);
 	void	on_connection(Client &client);
 	void	on_disconnection(Client &client);

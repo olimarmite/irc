@@ -6,18 +6,23 @@
 #include <iostream>
 #include <string>
 
-
+#include "IrcReplies.hpp"
 
 
 void	command_join(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_settings,
 	Client &client,
 	std::string const &args
 	)
 {
 	(void)_user_manager;
-	
+	(void)_client_manager;
+	(void)_settings;
+
+
 	std::string const & channel_name = args;
 	std::string const & password = "";
 
@@ -36,5 +41,7 @@ void	command_join(
 		//HERE : remplacer les deux lignes mises en commentaire au dessus par
 		//message tel que dans dalnetFirstToJoin.log et dalnetSecondToJoin.log
 	}
-	
+
+
+
 }

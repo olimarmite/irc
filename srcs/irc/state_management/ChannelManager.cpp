@@ -93,7 +93,7 @@ void	ChannelManager::join_channel(int client_fd, std::string const & channel_nam
 {
 
 	std::cout << "channel name = " + channel_name << PRINT_END;
-	
+
 	set_channel_name(channel_name);
 	_channels[channel_name].clients_fd.insert(client_fd);
 	_clientChannels[client_fd].insert(channel_name);
@@ -110,7 +110,7 @@ void	ChannelManager::join_channel(int client_fd, std::string const & channel_nam
 
 void	ChannelManager::send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message)
 {
-  
+
  //TODO: il faut envoyer message privé à IRSSI pour qu'il ouvre un chat de channel
 
 // 	Channel &channel_obj = get_channel(channel);
@@ -121,7 +121,7 @@ void	ChannelManager::send_message_to_channel(int client_fd, std::string const & 
 // 		_client_manager->get_client(*it).write(message);
 // 		it++;
 // 	}
-  
+
   Channel	& channel = _channels[channel_name];
 	std::set<int>::iterator it = channel.clients_fd.begin();
 

@@ -1,9 +1,10 @@
 #include "ChannelManager.hpp"
 #include "ClientManager.hpp"
+#include "Macros.hpp"
 #include "UserManager.hpp"
 #include <iostream>
 #include <string>
-
+#include "IrcReplies.hpp"
 
 bool _is_authenticated(Client &client, UserManager &user_manager)
 {
@@ -19,9 +20,9 @@ void CommandHandler::_execute_command(Client &client,
 
 	// if (_is_authenticated(client, *_user_manager) == false)
 	// {
-	// 	if (command != "AUTH" && command != "NICK")
+	// 	if (command != "NICK" && command != "USER" && command != "PASS")
 	// 	{
-	// 		client.write("ERROR: You must authenticate first\n");
+	// 		client.write(ERR_NOTREGISTERED(SERVER_NAME));
 	// 		return ;
 	// 	}
 	// }
@@ -35,7 +36,7 @@ void CommandHandler::_execute_command(Client &client,
 			//if not on close le client
 		if (g_command_table[i].command == command)
 		{
-			g_command_table[i].function(*_channel_manager, *_user_manager, client, args);
+			g_command_table[i].function(*_channel_manager, *_user_manager, *_client_manager, *_settings, client, args);
 			if (DEBUG)
 				std::cout << "Command " << command << " executed" << std::endl;
 			return ;
@@ -77,10 +78,12 @@ CommandHandler::~CommandHandler()
 }
 
 
-void CommandHandler::init(ChannelManager &channel_manager, UserManager &user_manager)
+void CommandHandler::init(ChannelManager &channel_manager, UserManager &user_manager, ClientManager &client_manager, const ServerSettings &settings)
 {
 	_channel_manager = &channel_manager;
 	_user_manager = &user_manager;
+	_client_manager = &client_manager;
+	_settings = &settings;
 }
 
 void CommandHandler::on_connection(Client &client)
