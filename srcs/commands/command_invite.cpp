@@ -1,7 +1,7 @@
-
 #include "ChannelManager.hpp"
 #include "ClientManager.hpp"
 #include "CommandHandler.hpp"
+#include "IrcReplies.hpp"
 #include "Server.hpp"
 #include "User.hpp"
 #include "UserManager.hpp"
@@ -20,37 +20,26 @@ void	command_invite(
 	(void)args;
 	(void)_user_manager;
 
-	std::string	channel_name, nickname;
-	
 	std::istringstream iss(args);
+	std::string	nickname, channel_name;
 
-	if (!(iss >> channel_name >> nickname) || channel_name.empty() || nickname.empty())
+	if (!(iss >> nickname >> channel_name) || channel_name.empty() || nickname.empty())
 	{
-		client.write("Invalid arguments\n");
-		return ;
-	}
-	
-	if (_channel_manager.channel_exists(channel_name) == false)
-	{
-		client.write("Channel " + channel_name + " does not exist.\n");
+		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "invite"));
 		return ;
 	}
 
+	if (is_valid_invite(channel_name, nickname, _user_manager, _channel_manager, client) == false)
+		return ;
 
-	
-	
 	int	user_fd = 0;
 
 	Channel &channel = _channel_manager.get_channel(channel_name);
 	User &user_to_invite = _user_manager.get_user(user_fd);
 
 	nickname = user_to_invite.get_nickname();
-
 	channel.clients_fd.insert(user_to_invite.get_fd());
-	client.write(nickname + " has been invited to channel " + channel_name + "\n"); // check dalnet
-	
-	//TODO ? or not ?
-	//RFC --> <client><nick><channel>
+	client.write(RPL_INVITING(SERVER_NAME, channel_name, nickname));
 
 	return ;
 }

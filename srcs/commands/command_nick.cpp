@@ -22,7 +22,7 @@ void	command_nick(
 
 	User	& user = _user_manager.get_user(client.get_fd());
 	
-	if (is_nickname_valid(args, _user_manager, user) == false)
+	if (is_nickname_valid(args, _user_manager, user, client) == false)
 		return ;
 
 	if (DEBUG)
@@ -32,5 +32,5 @@ void	command_nick(
 	user.set_nickname(args);
 
 	if (DEBUG)
-		std::cout <<"new nickname = " <<user.get_nickname() <<std::endl;	// client.write("Changed nickname to " + args + "\n");
+		std::cout <<"new nickname = " <<user.get_nickname() <<std::endl;
 }

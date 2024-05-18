@@ -2,37 +2,9 @@
 #include "../includes/utils.hpp"
 #include "../includes/User.hpp"
 #include "../includes/UserManager.hpp"
-
-
-bool	is_valid_port(std::string const & port)
-{
-	if (port.empty())
-		return false;
-
-	for (std::string::const_iterator it = port.begin(); it != port.end(); it++)
-	{
-		char	to_check = *it;
-		if (std::isdigit(to_check) == false)
-			return false;
-	}
-
-	if (atoi(port.c_str()) < 1024 || atoi(port.c_str()) > 49151)
-		return false;
-	return true;
-}
-
-bool is_valid_password(std::string const & password)
-{
-	if (password.empty())
-		return false;
-
-	for (std::string::const_iterator it = password.begin(); it != password.end(); ++it) {
-		char to_check = *it;
-		if (std::isspace(to_check))
-			return false;
-	}
-	return true;
-}
+#include "../includes/Client.hpp"
+#include "../includes/ClientManager.hpp"
+#include "../includes/IrcReplies.hpp"
 
 bool	is_arg_valid(int argc, char **argv)
 {
@@ -56,85 +28,131 @@ bool	is_arg_valid(int argc, char **argv)
 	return true;
 }
 
-bool	does_nickname_have_channel_prefix(std::string const & nickname)
+// Ports
+bool	is_valid_port(std::string const & port)
 {
-	if (
-		nickname[0] == '#' ||
-		nickname[0] == '&' ||
-		nickname[0] == '~' ||
-		nickname[0] == '@' ||
-		nickname[0] == '%' ||
-		nickname[0] == ':'
-		)
-			return true;
+	if (port.empty())
+		return false;
 
-	if (nickname[0] == '+' && nickname[1])
+	for (std::string::const_iterator it = port.begin(); it != port.end(); it++)
 	{
-		if (
-			nickname[1] == 'q' ||
-			nickname[1] == 'a' ||
-			nickname[1] == 'o' ||
-			nickname[1] == 'h' ||
-			nickname[1] == 'v'
-			)
-			return true;
+		char	to_check = *it;
+		if (std::isdigit(to_check) == false)
+			return false;
 	}
 
-	return false;
+	if (atoi(port.c_str()) < 1024 || atoi(port.c_str()) > 49151)
+		return false;
+	return true;
 }
 
-bool	does_nickname_already_exist(std::string const & nickname, UserManager & _user_manager)
+// Passwords
+bool is_valid_password(std::string const & password)
 {
-	if (_user_manager.user_exists(nickname) == true)
+	if (password.empty())
+		return false;
+
+	for (std::string::const_iterator it = password.begin(); it != password.end(); ++it) {
+		char to_check = *it;
+		if (std::isspace(to_check))
+			return false;
+	}
+	return true;
+}
+
+// // Nicknames
+// bool	does_nickname_have_channel_prefix(std::string const & nickname)
+// {
+// 	if (
+// 		nickname[0] == '#' ||
+// 		nickname[0] == '&' ||
+// 		nickname[0] == '~' ||
+// 		nickname[0] == '@' ||
+// 		nickname[0] == '%' ||
+// 		nickname[0] == ':'
+// 		)
+// 			return true;
+
+// 	if (nickname[0] == '+' && nickname[1])
+// 	{
+// 		if (
+// 			nickname[1] == 'q' ||
+// 			nickname[1] == 'a' ||
+// 			nickname[1] == 'o' ||
+// 			nickname[1] == 'h' ||
+// 			nickname[1] == 'v'
+// 			)
+// 			return true;
+// 	}
+
+// 	return false;
+// }
+
+// bool	does_nickname_already_exist(std::string const & nickname, UserManager & _user_manager)
+// {
+// 	if (_user_manager.user_exists(nickname) == true)
+// 		return true;
+// 	return false;
+// }
+
+// bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user, Client &client)
+// {
+// 	(void)user;
+	
+// 	if (nickname.empty())
+// 	{
+// 		if (DEBUG)
+// 			std::cout << BRED << ERR_NONICKNAMEGIVEN(SERVER_NAME) << PRINT_END;
+// 		client.write(ERR_NONICKNAMEGIVEN(SERVER_NAME));
+// 		return false;
+// 	}
+
+// 	std::string	invalid = " ,*?!@.$:";
+// 	if (does_nickname_have_channel_prefix(nickname) == true || nickname.find_first_of(invalid) != std::string::npos)
+// 	{
+// 		if (DEBUG)
+// 			std::cout << BRED << ERR_ERRONEUSNICKNAME(SERVER_NAME, nickname) << PRINT_END;
+// 		client.write(ERR_ERRONEUSNICKNAME(SERVER_NAME, nickname));
+// 		return false;
+// 	}
+
+// 	if (does_nickname_already_exist(nickname, _user_manager) == true)
+// 	{
+// 		if (DEBUG)
+// 			std::cout << BRED << ERR_NICKNAMEINUSE(SERVER_NAME, nickname) << PRINT_END;
+// 		client.write(ERR_NICKNAMEINUSE(SERVER_NAME, nickname));
+// 		return false;
+// 	}
+
+// 	return true;
+// }
+
+// Channels
+bool	is_valid_channel_prefix(char c)
+{
+	if (c == '#' || c == '&' || c == '+' || c == '!')
 		return true;
 	return false;
-}
-
-bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user)
-{
-	if (nickname.empty())
-	{
-		std::string	error_msg = ":" + SERVER_NAME + " 431 " + user.get_nickname() + " :No Nickname given";
-		send(user.get_fd(), error_msg.c_str(), error_msg.length(), 0);
-		return false;
-	}
-
-	if (does_nickname_have_channel_prefix(nickname) == true)
-	{
-		std::cout << BRED "Nickname cannot have a channel prefix" PRINT_END;
-		//>> :punch.wa.us.dal.net 432 kquerel #salut :Erroneous Nickname
-		return false;
-	}
-
-	std::string	invalid = " ,*?!@.$:";
-	if (nickname.find_first_of(invalid) != std::string::npos)
-	{
-		std::cout << BRED "Invalid characters within nickname" PRINT_END;
-		//>> :punch.wa.us.dal.net 432 kquerel #salut :Erroneous Nickname
-		return false;
-	}
-
-	if (does_nickname_already_exist(nickname, _user_manager) == true)
-	{
-		//>> :punch.wa.us.dal.net 433 kquerel hi :Nickname is already in use.
-		return false;
-	}
-
-	return true;
 }
 
 bool	is_channel_valid(std::string const & channel)
 {
 	if (channel.empty())
 	{
-		std::cout << BRED "Empty channel name" PRINT_END;
+		if (DEBUG)
+			std::cout << BRED "Empty Channel Name" << PRINT_END;
 		return false;
 	}
-	
-	std::string	invalid = " ,\x07";
-	if ((channel[0] != '#' && channel[0] != '&') || (channel.find_first_of(invalid) != std::string::npos))
+
+	std::string	invalid = " \x07,";
+	if (
+		(is_valid_channel_prefix(channel[0]) == false) ||
+		(channel.length() > 50) ||
+		(channel.find_first_of(invalid) != std::string::npos)
+		)
 	{
-		std::cout << BRED "Invalid characters within channel name" PRINT_END;
+		if (DEBUG)
+			std::cout << BRED "Invalid channel name" PRINT_END;
 		return false;
 	}
 

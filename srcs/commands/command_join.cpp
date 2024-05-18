@@ -19,6 +19,9 @@ void	command_join(
 	std::string const & channel_name = args;
 	std::string const & password = "";
 
+	if (is_channel_valid(channel_name) == false)
+		return ;
+
 	User user = _user_manager.get_user(client.get_fd());
 
 	if (_channel_manager.channel_exists(channel_name) == false)
@@ -27,7 +30,8 @@ void	command_join(
 		user.set_is_operator(true);
 	}
 
-	_channel_manager.print_all_channels();
+	if (DEBUG)
+		_channel_manager.print_all_channels();
 
 	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == false)
 	{
@@ -38,4 +42,6 @@ void	command_join(
 		client.write(RPL_TOPIC2(user.get_nickname(), user.get_username(), channel_name, channel.topic));
 		client.write(JOINED_CHANNEL(user.get_nickname(), user.get_username(), channel_name));
 	}
+
+	return ;
 }
