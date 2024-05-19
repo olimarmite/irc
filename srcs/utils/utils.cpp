@@ -2,6 +2,7 @@
 #include "../includes/utils.hpp"
 #include "../includes/User.hpp"
 #include "../includes/UserManager.hpp"
+#include "../includes/ChannelManager.hpp"
 #include "../includes/Client.hpp"
 #include "../includes/ClientManager.hpp"
 #include "../includes/IrcReplies.hpp"
@@ -60,74 +61,25 @@ bool is_valid_password(std::string const & password)
 	return true;
 }
 
-// // Nicknames
-// bool	does_nickname_have_channel_prefix(std::string const & nickname)
-// {
-// 	if (
-// 		nickname[0] == '#' ||
-// 		nickname[0] == '&' ||
-// 		nickname[0] == '~' ||
-// 		nickname[0] == '@' ||
-// 		nickname[0] == '%' ||
-// 		nickname[0] == ':'
-// 		)
-// 			return true;
-
-// 	if (nickname[0] == '+' && nickname[1])
-// 	{
-// 		if (
-// 			nickname[1] == 'q' ||
-// 			nickname[1] == 'a' ||
-// 			nickname[1] == 'o' ||
-// 			nickname[1] == 'h' ||
-// 			nickname[1] == 'v'
-// 			)
-// 			return true;
-// 	}
-
-// 	return false;
-// }
-
-// bool	does_nickname_already_exist(std::string const & nickname, UserManager & _user_manager)
-// {
-// 	if (_user_manager.user_exists(nickname) == true)
-// 		return true;
-// 	return false;
-// }
-
-// bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user, Client &client)
-// {
-// 	(void)user;
-	
-// 	if (nickname.empty())
-// 	{
-// 		if (DEBUG)
-// 			std::cout << BRED << ERR_NONICKNAMEGIVEN(SERVER_NAME) << PRINT_END;
-// 		client.write(ERR_NONICKNAMEGIVEN(SERVER_NAME));
-// 		return false;
-// 	}
-
-// 	std::string	invalid = " ,*?!@.$:";
-// 	if (does_nickname_have_channel_prefix(nickname) == true || nickname.find_first_of(invalid) != std::string::npos)
-// 	{
-// 		if (DEBUG)
-// 			std::cout << BRED << ERR_ERRONEUSNICKNAME(SERVER_NAME, nickname) << PRINT_END;
-// 		client.write(ERR_ERRONEUSNICKNAME(SERVER_NAME, nickname));
-// 		return false;
-// 	}
-
-// 	if (does_nickname_already_exist(nickname, _user_manager) == true)
-// 	{
-// 		if (DEBUG)
-// 			std::cout << BRED << ERR_NICKNAMEINUSE(SERVER_NAME, nickname) << PRINT_END;
-// 		client.write(ERR_NICKNAMEINUSE(SERVER_NAME, nickname));
-// 		return false;
-// 	}
-
-// 	return true;
-// }
-
 // Channels
+bool	is_check_all_channel_valid(std::string const & channel_name, std::string const & password, Client &client, ChannelManager & _channel_manager)
+{
+	if (is_channel_valid(channel_name) == false)
+		return false;
+
+	if (_channel_manager.channel_exists(channel_name) == true)
+	{
+		Channel channel = _channel_manager.get_channel(channel_name);
+		if (is_channel_invite_only(channel, client, channel_name) == false)
+			return false;
+
+		if (is_channel_key_protected(channel, client, channel_name, password) == false)
+			return false;
+	}
+
+	return true;
+}
+
 bool	is_valid_channel_prefix(char c)
 {
 	if (c == '#' || c == '&' || c == '+' || c == '!')
@@ -156,5 +108,25 @@ bool	is_channel_valid(std::string const & channel)
 		return false;
 	}
 
+	return true;
+}
+
+bool is_channel_invite_only(Channel & channel, Client &client, std::string const & channel_name)
+{
+	if (channel.is_invite_only == true)
+	{
+		client.write(ERR_INVITEONLYCHAN(SERVER_NAME, channel_name));
+		return false;
+	}
+	return true;
+}
+
+bool	is_channel_key_protected(Channel & channel, Client &client, std::string const & channel_name, std::string const & password)
+{
+	if (channel.is_key_needed == true && channel.password != password)
+	{
+		client.write(ERR_BADCHANNELKEY(SERVER_NAME, channel_name));
+		return false;
+	}
 	return true;
 }

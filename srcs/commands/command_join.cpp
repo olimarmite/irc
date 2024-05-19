@@ -3,11 +3,10 @@
 #include "CommandHandler.hpp"
 #include "Server.hpp"
 #include "UserManager.hpp"
+#include "utils.hpp"
 #include <iostream>
 #include <string>
 #include "IrcReplies.hpp"
-
-
 
 void	command_join(
 	ChannelManager &_channel_manager,
@@ -17,31 +16,14 @@ void	command_join(
 	)
 {
 	std::string const & channel_name = args;
-	std::string const & password = "";
+	std::string const & password = ""; // si la channel est en mode +k, il faut ajouter le password ici
 
-	if (is_channel_valid(channel_name) == false)
+	if (is_check_all_channel_valid(channel_name, password, client, _channel_manager) == false)
 		return ;
-
+	
 	User user = _user_manager.get_user(client.get_fd());
 
-	if (_channel_manager.channel_exists(channel_name) == false)
-	{
-		_channel_manager.create_channel(channel_name, password);
-		user.set_is_operator(true);
-	}
-
-	if (DEBUG)
-		_channel_manager.print_all_channels();
-
-	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == false)
-	{
-		_channel_manager.join_channel(client.get_fd(), channel_name);
-		
-		Channel channel = _channel_manager.get_channel(channel_name);
-
-		client.write(RPL_TOPIC2(user.get_nickname(), user.get_username(), channel_name, channel.topic));
-		client.write(JOINED_CHANNEL(user.get_nickname(), user.get_username(), channel_name));
-	}
+	handle_join_command(_channel_manager, user, client, channel_name, password);
 
 	return ;
 }

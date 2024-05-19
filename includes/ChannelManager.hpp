@@ -14,6 +14,13 @@ struct Channel
 	std::string		password;
 	std::set<int>	clients_fd;
 	std::string		topic;
+
+	// -> pour mode
+	bool			is_invite_only;
+	bool			is_topic_restricted_to_operators;
+	bool			is_key_needed;
+	unsigned int	user_limit;
+
 };
 
 class ChannelManager
@@ -33,15 +40,11 @@ public:
 	void		set_channel_name(std::string const & channel_name);
 	void		set_channel_topic(std::string const & channel_name, std::string const & channel_topic);
 
-	
 	// Methods
 	void		create_channel(std::string const & channel_name, std::string const & password);
 	bool		is_user_in_channel(int client_fd, std::string const & channel_name);
-
-	void	send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message, UserManager &_user_manager);
-
+	void		send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message, UserManager &_user_manager);
 	void		join_channel(int client_fd, std::string const &channel);
-
 	void		init(ClientManager &client_manager);
 	void		leave_channel(int client_fd, std::string const &channel);
 	void		leave_all_channels(int client_fd);

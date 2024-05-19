@@ -26,11 +26,11 @@ void	command_nick(
 		return ;
 
 	if (DEBUG)
-		std::cout <<"old nickname = " <<user.get_nickname() <<std::endl;
+		std::cout << "old nickname = " <<user.get_nickname() <<std::endl;
 
 	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args));
 	user.set_nickname(args);
 
 	if (DEBUG)
-		std::cout <<"new nickname = " <<user.get_nickname() <<std::endl;
+		std::cout << "new nickname = " <<user.get_nickname() <<std::endl;
 }

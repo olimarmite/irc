@@ -1,20 +1,16 @@
 #pragma once
 
 /*****	Global function for signals	*****/
-
 extern bool g_signals;
 
 /*****	Libraries	****/
-
 #include <iostream>
 #include <sstream>
-#include <cstdlib> //EXIT_FAILURE/SUCCESS
-#include <stdlib.h> //pour itoa
-// #include <cstdio> //stderr
-#include <cstring> //memset
-#include <unistd.h> //close()
-#include <cerrno> //for errno
-
+#include <cstdlib>
+#include <stdlib.h>
+#include <cstring>
+#include <unistd.h>
+#include <cerrno>
 #include <string>
 #include <map>
 #include <vector>
@@ -31,30 +27,30 @@ extern bool g_signals;
 #define	EXPECTED_ARGC	3
 
 // Error system functions
-#define	INVALID_FD		-1
-#define	INVALID_PORT	-1
-#define	INVALID_LISTEN	-1
-#define	INVALID_FCNTL	-1
-#define	INVALID_ACCEPT	-1
-#define	INVALID_NB		-1
+#define	INVALID_FD						-1
+#define	INVALID_PORT					-1
+#define	INVALID_LISTEN					-1
+#define	INVALID_FCNTL					-1
+#define	INVALID_ACCEPT					-1
+#define	INVALID_NB						-1
 
-#define	MAX_PENDING_CONNECTIONS	5 //most servers accept 20
-#define	MAX_REQUESTS 			50 //for epoll_wait (je me rends pas compte de combien on devrait mettre)
-#define WAIT_UNTIL_SOMETHING_HAPPENS -1
+#define	MAX_PENDING_CONNECTIONS			5
+#define	MAX_REQUESTS 					50
+#define WAIT_UNTIL_SOMETHING_HAPPENS	-1
 
 #define IPv4	AF_INET
 #define IPv6	AF_INET6
 
 // #define ALL_IP_TYPES		AF_UNSPEC
-#define ALL_IP_TYPES		AF_INET
-#define TCP_STREAM_SOCKET	SOCK_STREAM
-#define LOCAL_IP			AI_PASSIVE
-#define CHOOSE_AUTOMATICALLY	0
+#define ALL_IP_TYPES					AF_INET
+#define TCP_STREAM_SOCKET				SOCK_STREAM
+#define LOCAL_IP						AI_PASSIVE
+#define CHOOSE_AUTOMATICALLY			0
 
-#define IP_TYPES	ai_family
-#define SOCKET_TYPE	ai_socktype
-#define SERVER_IP	ai_flags
-#define PROTOCOL	ai_protocol
+#define IP_TYPES						ai_family
+#define SOCKET_TYPE						ai_socktype
+#define SERVER_IP						ai_flags
+#define PROTOCOL						ai_protocol
 
 // #define IRSSI 0
 // #define NETCAT 1
