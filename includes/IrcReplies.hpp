@@ -26,16 +26,14 @@
 # define	JOINED_CHANNEL(nickname, username, chan_name, command)			DOTS + nickname + TILD + username + IP_ADD + SPACE + command + " :" + chan_name + NEW_LINE
 # define	RPL_TOPIC2(nickname, username, chan_name, chan_top, command)	DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + " :" + chan_top + NEW_LINE
 # define	RPL_KICK(nickname, username, chan_name, kcked_nick, command)	DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + SPACE + kcked_nick + " :" + nickname + NEW_LINE
-
-
-
+# define	PONG_MSG(server_name, nickname)									DOTS + server_name + SPACE + "PONG " + server_name + " :" + nickname + NEW_LINE
 
 // ERRORS
 # define	ERR_NOSUCHNICK(prefix, nickname)				DOTS + prefix + SPACE + "401 " + "" + nickname + " :No such nick/channel" + NEW_LINE
 # define	ERR_NOSUCHSERVER(prefix, server_name)			DOTS + prefix + SPACE + "402 " + "" + server_name + " :No such server" + NEW_LINE
-# define	ERR_NOSUCHCHANNEL(prefix, channel_name)			DOTS + prefix + SPACE + "403 " + "" + channel_name + " :No such channel" + NEW_LINE
+# define	ERR_NOSUCHCHANNEL(prefix, channel_name)			DOTS + prefix + SPACE + "403 " + "* " + channel_name + " :No such channel" + NEW_LINE
 # define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "" + nick + " :Erroneus nickname" + NEW_LINE
-# define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "" + nick + " :Nickname is already in use" + NEW_LINE
+# define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "* " + nick + " :Nickname is already in use" + NEW_LINE
 # define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "" + command + " :Not enough parameters" + NEW_LINE
 # define	ERR_NOTONCHANNEL(prefix, channel)				DOTS + prefix + SPACE + "442 " + "" + channel + " :You're not on that channel" + NEW_LINE
 # define	ERR_USERONCHANNEL(prefix, user, channel)		DOTS + prefix + SPACE + "443 " + "" + user + SPACE + channel + " :is already on channel" + NEW_LINE
