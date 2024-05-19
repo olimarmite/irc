@@ -21,6 +21,8 @@ struct Channel
 	bool			is_key_needed;
 	unsigned int	user_limit;
 
+	std::set<int>	operators;
+
 };
 
 class ChannelManager

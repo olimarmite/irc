@@ -102,48 +102,6 @@ extern bool g_signals;
 #define	CLIENT		"Client"
 #define	SERVER		"Server"
 
-#define COMMAND_END	"\r\n"
-
-/****	PROTOCOL MESSAGES	****/
-#define WELCOME_MESSAGE(username) std::string(":") + SERVER_NAME + " 001 " + username + \
-	" :Welcome to the " + SERVER_NAME + " IRC Network " + username + \
-	"!~" + username + "@127.0.0.1\n" + \
-	std::string(":") + SERVER_NAME + " 002 " + username + \
-	" :Your host is ircserv, running version bahamut-2.2.2\n" + \
-	std::string(":") + SERVER_NAME + " 003 " + username + \
-	" :This server was created Tue Apr 30 2024 at 16:38:57 UTC\n"
-
-# define NICK_CHANGED(old_nick, username, new_nick)	std::string(":") + \
-	old_nick + "!~" + username + "@127.0.0.1 NICK :" + new_nick + std::string("\n")
-
-#define MSG_RECEIVED(sender_nick, receiver_username, receiver_nick, message)	std::string(":") + \
-sender_nick + "!~" + receiver_username + "@127.0.0.1 PRIVMSG " + receiver_nick + " " + message + std::string("\n")
-
-#define JOINED_CHANNEL(nickname, username, channel_name)	std::string(":") + nickname + "!~" + username + \
-"@127.0.0.1 JOIN :" + channel_name + std::string("\n")
-
-// #define RPL_NAMREPLY(nickname, channel_name)	std::string(":") + SERVER_NAME + " 353 " + nickname + " = " + \
-// channel_name + " :" + nickname + std::string("\n")
-
-// #define RPL_ENDOFNAMES(nickname, channel_name)	std::string(":") + SERVER_NAME + " 366 " + nickname + std::string(" ") + \
-// channel_name + " :End of /NAMES list" + std::string("\n")
-
-#define RPL_TOPIC2(nickname, username, channel_name, channel_topic)	std::string(":") + nickname + "!~" + username + \
-"@127.0.0.1 TOPIC " + channel_name + std::string(" :") + channel_topic + std::string("\n")
-
-
-#define RPL_KICK(nickname, username, channel_name, kicked_nickname)	std::string(":") + nickname + "!~" + username + \
-"@127.0.0.1 KICK " + channel_name + std::string(" ") + kicked_nickname + std::string(" :") + nickname + std::string("\n")
-// :user1!~casomarr@1973-cabf-c594-efa1-695e.210.62.ip KICK #chan user2 :user1
-
-//ERROR MSG
-
-#define UNKNOWN_NICK_CHAN(sender, receiver)	std::string(":") + SERVER_NAME + \
-std::string(" 401 ") + sender + std::string(" ") + receiver + " :No such nick/channel\n"
-
-//TODO : erreur 462 : le rajouter? tester avec dalnet
-#define ALREADY_REGISTRED()	":Unauthorized command (already registered)\n"
-
 /****	Visuals	****/
 
 //Separators

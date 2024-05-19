@@ -64,7 +64,7 @@ bool is_valid_password(std::string const & password)
 // Channels
 bool	is_check_all_channel_valid(std::string const & channel_name, std::string const & password, Client &client, ChannelManager & _channel_manager)
 {
-	if (is_channel_valid(channel_name) == false)
+	if (is_channel_name_valid(channel_name) == false)
 		return false;
 
 	if (_channel_manager.channel_exists(channel_name) == true)
@@ -87,7 +87,7 @@ bool	is_valid_channel_prefix(char c)
 	return false;
 }
 
-bool	is_channel_valid(std::string const & channel)
+bool	is_channel_name_valid(std::string const & channel)
 {
 	if (channel.empty())
 	{

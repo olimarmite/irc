@@ -26,6 +26,8 @@ void	command_mode(
 	std::string channel_name;
 	std::string modestring;
 
+	//si pas channel, ignorer le message, return
+
 	if (!(ss >> channel_name >> modestring) || channel_name.empty() || modestring.empty())
 	{
 		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "mode"));

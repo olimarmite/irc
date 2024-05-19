@@ -1,5 +1,6 @@
 #include "ChannelManager.hpp"
 #include "Client.hpp"
+#include "IrcReplies.hpp"
 #include <iostream>
 #include <map>
 #include <string>
@@ -133,7 +134,7 @@ void	ChannelManager::send_message_to_channel(int client_fd, std::string const & 
 			User origin_user = _user_manager.get_user(client_fd);
 			
 			dest_client.write(MSG_RECEIVED(origin_user.get_nickname(), dest_user.get_username(), \
-			channel_name, message));
+			channel_name, message, "PRIVMSG"));
 		}
 	}
 	return ;

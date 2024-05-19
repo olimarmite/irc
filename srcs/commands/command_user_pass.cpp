@@ -3,6 +3,7 @@
 #include "CommandHandler.hpp"
 #include "Server.hpp"
 #include "User.hpp"
+#include "IrcReplies.hpp"
 #include "UserManager.hpp"
 #include <iostream>
 #include <sstream>

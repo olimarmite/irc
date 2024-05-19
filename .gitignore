@@ -37,4 +37,5 @@ compile_commands.json
 .cache/
 .clangd
 
-
+# Log files
+*.log

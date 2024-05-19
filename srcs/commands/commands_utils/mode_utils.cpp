@@ -7,7 +7,6 @@
 #include "../includes/ClientManager.hpp"
 #include "../includes/IrcReplies.hpp"
 
-
 // TODO --> voir avec caro les creations de channel
 
 // Checks

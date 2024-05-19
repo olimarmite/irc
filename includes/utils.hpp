@@ -19,7 +19,7 @@ bool	does_nickname_already_exist(std::string const & nickname);
 // Channel
 bool	is_check_all_channel_valid(std::string const & channel_name, std::string const & password, Client &client, ChannelManager & _channel_manager);
 bool	is_valid_channel_prefix(char c);
-bool	is_channel_valid(std::string const & channel);
+bool	is_channel_name_valid(std::string const & channel);
 bool	is_channel_key_protected(Channel & channel, Client &client, std::string const & channel_name, std::string const & password);
 bool	is_channel_invite_only(Channel & channel, Client &client, std::string const & channel_name);
 

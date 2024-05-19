@@ -12,7 +12,7 @@ void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &
 	if (_channel_manager.channel_exists(channel_name) == false)
 	{
 		_channel_manager.create_channel(channel_name, password);
-		user.set_is_operator(true);
+		user.set_is_operator(true); // peut etre a changer ici selon la logique
 	}
 
 	if (DEBUG)
@@ -24,8 +24,8 @@ void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &
 		
 		Channel channel = _channel_manager.get_channel(channel_name);
 
-		client.write(RPL_TOPIC2(user.get_nickname(), user.get_username(), channel_name, channel.topic));
-		client.write(JOINED_CHANNEL(user.get_nickname(), user.get_username(), channel_name));
+		client.write(RPL_TOPIC2(user.get_nickname(), user.get_username(), channel_name, channel.topic, "TOPIC"));
+		client.write(JOINED_CHANNEL(user.get_nickname(), user.get_username(), channel_name, "JOIN"));
 	}
 	return ;
 }

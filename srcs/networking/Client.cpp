@@ -1,5 +1,6 @@
 #include "Client.hpp"
 #include "Server.hpp"
+#include "IrcReplies.hpp"
 #include <cstddef>
 #include <cstring>
 #include <ostream>
@@ -32,14 +33,14 @@ void Client::_check_commands_in_buffer()
 	if (DEBUG)
 		std::cout << BGRN <<"Buffer : -----\n" << _read_buffer <<"--------------" << PRINT_END;
 	
-	size_t pos = _read_buffer.find(COMMAND_END);
+	size_t pos = _read_buffer.find(NEW_LINE);
 
 	while (pos != std::string::npos)
 	{
 		std::string command = _read_buffer.substr(0, pos);
-		_read_buffer.erase(0, pos + sizeof(COMMAND_END) / sizeof(char) - 1);
+		_read_buffer.erase(0, pos + NEW_LINE.length());
 		_on_command(command);
-		pos = _read_buffer.find(COMMAND_END);
+		pos = _read_buffer.find(NEW_LINE);
 	}
 }
 

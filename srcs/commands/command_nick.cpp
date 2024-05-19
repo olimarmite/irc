@@ -1,10 +1,10 @@
-
 #include "ChannelManager.hpp"
 #include "ClientManager.hpp"
 #include "CommandHandler.hpp"
 #include "Server.hpp"
 #include "User.hpp"
 #include "UserManager.hpp"
+#include "IrcReplies.hpp"
 #include "utils.hpp"
 #include <iostream>
 #include <string>
@@ -28,7 +28,7 @@ void	command_nick(
 	if (DEBUG)
 		std::cout << "old nickname = " <<user.get_nickname() <<std::endl;
 
-	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args));
+	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK"));
 	user.set_nickname(args);
 
 	if (DEBUG)

@@ -1,5 +1,6 @@
 #include "Client.hpp"
 #include "ChannelManager.hpp"
+#include "IrcReplies.hpp"
 #include "UserManager.hpp"
 #include <cstdlib>
 #include <string>

@@ -1,5 +1,6 @@
 #include "Client.hpp"
 #include "ChannelManager.hpp"
+#include "IrcReplies.hpp"
 #include "UserManager.hpp"
 #include <string>
 
@@ -61,14 +62,14 @@ void	command_sendmsg(
 			Client dest_client = _channel_manager.get_client_manager().get_client(dest_user.get_fd());
 
 			dest_client.write(MSG_RECEIVED(origin_user.get_nickname(), dest_user.get_username(), \
-			dest_user.get_nickname(), message));
+			dest_user.get_nickname(), message, "PRIVMSG"));
 		}
 		else
 		{
 			if (DEBUG)
 				std::cout <<BRED <<"Nick/channel not found" <<PRINT_END;
 			User origin_user = _user_manager.get_user(client.get_fd());
-			client.write(UNKNOWN_NICK_CHAN(origin_user.get_nickname(), nickname));
+			client.write(ERR_NOSUCHNICK(SERVER_NAME, nickname));
 			return ;
 		}
 	}

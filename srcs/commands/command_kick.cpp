@@ -5,6 +5,7 @@
 #include "Server.hpp"
 #include "User.hpp"
 #include "UserManager.hpp"
+#include "IrcReplies.hpp"
 #include <iostream>
 #include <string>
 
@@ -62,7 +63,7 @@ void	command_kick(
 			}
 
 			User user = _user_manager.get_user(client.get_fd());
-			client.write(RPL_KICK(user.get_nickname(), user.get_username(), channel_name, nickname)); //+ reason?
+			client.write(RPL_KICK(user.get_nickname(), user.get_username(), channel_name, nickname, "KICK")); //+ reason?
 		}
 		else
 		{
