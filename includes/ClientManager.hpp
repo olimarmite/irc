@@ -20,5 +20,4 @@ public:
 	void	add_client(int client_fd);
 	void	remove_client(int client_fd);
 	Client &get_client(int client_fd);
-
 };

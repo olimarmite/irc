@@ -1,298 +1,242 @@
 << CAP LS
-<< NICK casomarr
-<< USER casomarr casomarr irc.dal.net :Carolina SOMARRIBA
->> :halcyon.il.us.dal.net NOTICE AUTH :*** Looking up your hostname...
->> :halcyon.il.us.dal.net NOTICE AUTH :*** Found your hostname
->> :halcyon.il.us.dal.net 001 casomarr :Welcome to the DALnet IRC Network casomarr!~casomarr@62.210.33.4
-<< MODE casomarr +i
->> :halcyon.il.us.dal.net 002 casomarr :Your host is halcyon.il.us.dal.net, running version bahamut-2.2.2
->> :halcyon.il.us.dal.net 003 casomarr :This server was created Thu Aug 3 2023 at 16:38:57 UTC
->> :halcyon.il.us.dal.net 004 casomarr halcyon.il.us.dal.net bahamut-2.2.2 aAbcCdefFghHiIjkKmnoOPrRsSwxXy AbceiIjklLmMnoOpPrRsStv beIjklov
->> :halcyon.il.us.dal.net 005 casomarr NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=50 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6 CHANTYPES=# CHANLIMIT=#:50 PREFIX=(ohv)@%+ STATUSMSG=@%+ :are available on this server
->> :halcyon.il.us.dal.net 005 casomarr CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: :are available on this server
->> :halcyon.il.us.dal.net 251 casomarr :There are 71 users and 7413 invisible on 35 servers
->> :halcyon.il.us.dal.net 252 casomarr 78 :IRC Operators online
->> :halcyon.il.us.dal.net 254 casomarr 3706 :channels formed
->> :halcyon.il.us.dal.net 255 casomarr :I have 1566 clients and 1 servers
->> :halcyon.il.us.dal.net 265 casomarr :Current local users: 1566 Max: 1722
->> :halcyon.il.us.dal.net 266 casomarr :Current global users: 7484 Max: 8222
->> :halcyon.il.us.dal.net NOTICE casomarr :*** Notice -- motd was last changed at 9/4/2024 18:09
->> :halcyon.il.us.dal.net 375 casomarr :- halcyon.il.us.dal.net Message of the Day - 
->> :halcyon.il.us.dal.net 372 casomarr :-9/4/2024 18:09
->> :halcyon.il.us.dal.net 372 casomarr :-              _  _ ____ _    ____ _ _ ____ __ _
->> :halcyon.il.us.dal.net 372 casomarr :-              |--| |--| |___ |___  Y  [__] | \|
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :-                 [ halcyon.il.us.dal.net    ]
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :-                 [ Accessible via...        ]
->> :halcyon.il.us.dal.net 372 casomarr :-                 [ ipv4: halcyon.dal.net    ]
->> :halcyon.il.us.dal.net 372 casomarr :-                 [ ipv6: halcyon-v6.dal.net ]
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :- Welcome to DALnet!  By connecting to this network, you agree to abide
->> :halcyon.il.us.dal.net 372 casomarr :- by its acceptable use policy, available here: http://www.dal.net/aup
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :- Server Policies:
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :-    *   We reserve the right to deny access to this server without
->> :halcyon.il.us.dal.net 372 casomarr :-        warning or explanation
->> :halcyon.il.us.dal.net 372 casomarr :-    *   No malicious bots, including flood and nick/channel chasers
->> :halcyon.il.us.dal.net 372 casomarr :-    *   No channel filler bots/clients/psybncs
->> :halcyon.il.us.dal.net 372 casomarr :-          - A channel filler is a client, bnc, or bot which is
->> :halcyon.il.us.dal.net 372 casomarr :-            connected just to fill a channel and make it look
->> :halcyon.il.us.dal.net 372 casomarr :-            bigger
->> :halcyon.il.us.dal.net 372 casomarr :-    *   Operator impersonation, spamming, or any other abuse will
->> :halcyon.il.us.dal.net 372 casomarr :-        cause you to be banned from this server
->> :halcyon.il.us.dal.net 372 casomarr :-    *   Abide by DALnet's AUP (www.dal.net/aup)
->> :halcyon.il.us.dal.net 372 casomarr :-    *   Please have fun and enjoy DALnet!
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :-      ///admins////////////////////////////////////////
->> :halcyon.il.us.dal.net 372 casomarr :-      //                                             //
->> :halcyon.il.us.dal.net 372 casomarr :-      //  [ brandon - administrator             ]    //
->> :halcyon.il.us.dal.net 372 casomarr :-      //  [ klb     - assistant administrator   ]    //
->> :halcyon.il.us.dal.net 372 casomarr :-      //                                             //
->> :halcyon.il.us.dal.net 372 casomarr :-      ///operators/////////////////////////////////////
->> :halcyon.il.us.dal.net 372 casomarr :-      //                                             //
->> :halcyon.il.us.dal.net 372 casomarr :-      //  [ guppy  ] [ oldcrow  ] [ rasengan ]       //
->> :halcyon.il.us.dal.net 372 casomarr :-      //  [ s2pid  ] [ lilmiss  ] [ kiraela  ]       //
->> :halcyon.il.us.dal.net 372 casomarr :-      //  [ DTC    ]                                 //
->> :halcyon.il.us.dal.net 372 casomarr :-      //                                             //
->> :halcyon.il.us.dal.net 372 casomarr :-      /////////////////////////////////////////////////
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :- For IRCop assistance, please /join #operhelp or message one of our
->> :halcyon.il.us.dal.net 372 casomarr :- friendly server staff listed above.
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :- For multilingual information:  <http://docs.dal.net/>
->> :halcyon.il.us.dal.net 372 casomarr :- 
->> :halcyon.il.us.dal.net 372 casomarr :- Thank you for using DALnet!  We hope you have a pleasant day.
->> :halcyon.il.us.dal.net 376 casomarr :End of /MOTD command.
->> :casomarr MODE casomarr :+iH
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
---> lag pong
-<< PING halcyon.il.us.dal.net
->> :halcyon.il.us.dal.net PONG halcyon.il.us.dal.net :casomarr
+<< PASS hi
+<< NICK kquerel
+<< USER kquerel kquerel localhost :Karl QUEREL
+>> :!~@127.0.0.1 NICK :kquerel
+>> :ircserv 001 kquerel :Welcome to the ircserv IRC Network kquerel!~kquerel@127.0.0.1
+<< MODE kquerel +i
+>> :ircserv 002 kquerel :Your host is ircserv, running version bahamut-2.2.2
+>> :ircserv 003 kquerel :This server was created Tue Apr 30 2024 at 16:38:57 UTC
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< JOIN #test
+>> :kquerel!~kquerel@127.0.0.1 TOPIC #test :
+>> :kquerel!~kquerel@127.0.0.1 JOIN :#test
+<< INVITE karl test
+>> :ircserv 403 test :No such channel
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< INVITE 234234   welrkjlwre
+>> :ircserv 403 welrkjlwre :No such channel
+<< INVITE salut les
+>> :ircserv 403 les :No such channel
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< INVITE hi hi
+>> :ircserv 403 hi :No such channel
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< CAP LS
+<< NICK kquerel
+<< USER kquerel kquerel irc.dal.net :Karl QUEREL
+>> :nonstop.ix.me.dal.net NOTICE AUTH :*** Looking up your hostname...
+>> :nonstop.ix.me.dal.net NOTICE AUTH :*** Checking Ident
+>> :nonstop.ix.me.dal.net NOTICE AUTH :*** No Ident response
+>> :nonstop.ix.me.dal.net NOTICE AUTH :*** Found your hostname
+>> :nonstop.ix.me.dal.net 001 kquerel :Welcome to the DALnet IRC Network kquerel!~kquerel@62.210.33.26
+<< MODE kquerel +i
+>> :nonstop.ix.me.dal.net 002 kquerel :Your host is nonstop.ix.me.dal.net, running version bahamut-2.2.3
+>> :nonstop.ix.me.dal.net 003 kquerel :This server was created Thu Dec 7 2023 at 06:32:17 PM IST
+>> :nonstop.ix.me.dal.net 004 kquerel nonstop.ix.me.dal.net bahamut-2.2.3 aAbcCdefFghHiIjkKmnoOPrRsSwxXy AbceiIjklLmMnoOpPrRsStv beIjklov
+>> :nonstop.ix.me.dal.net 005 kquerel NETWORK=DALnet SAFELIST MAXBANS=200 MAXCHANNELS=20 CHANNELLEN=32 KICKLEN=307 NICKLEN=30 TOPICLEN=307 MODES=6 CHANTYPES=# CHANLIMIT=#:20 PREFIX=(ohv)@%+ STATUSMSG=@%+ :are available on this server
+>> :nonstop.ix.me.dal.net 005 kquerel CASEMAPPING=ascii WATCH=128 SILENCE=10 ELIST=cmntu EXCEPTS INVEX CHANMODES=beI,k,jl,ciPAmMnOprRsSt MAXLIST=b:200,e:100,I:100 TARGMAX=DCCALLOW:,JOIN:,KICK:4,KILL:20,NOTICE:20,PART:,PRIVMSG:20,WHOIS:,WHOWAS: :are available on this server
+>> :nonstop.ix.me.dal.net 251 kquerel :There are 72 users and 7255 invisible on 36 servers
+>> :nonstop.ix.me.dal.net 252 kquerel 72 :IRC Operators online
+>> :nonstop.ix.me.dal.net 254 kquerel 3623 :channels formed
+>> :nonstop.ix.me.dal.net 255 kquerel :I have 87 clients and 1 servers
+>> :nonstop.ix.me.dal.net 265 kquerel :Current local users: 87 Max: 404
+>> :nonstop.ix.me.dal.net 266 kquerel :Current global users: 7327 Max: 8405
+>> :nonstop.ix.me.dal.net NOTICE kquerel :*** Notice -- motd was last changed at 6/5/2023 1:47
+>> :nonstop.ix.me.dal.net 375 kquerel :- nonstop.ix.me.dal.net Message of the Day - 
+>> :nonstop.ix.me.dal.net 372 kquerel :-6/5/2023 1:47
+>> :nonstop.ix.me.dal.net 372 kquerel :- You are now connected to nonstop.ix.me.dal.net, a member of the DALnet IRC Network!
+>> :nonstop.ix.me.dal.net 372 kquerel :- 
+>> :nonstop.ix.me.dal.net 372 kquerel :-     _|      _|    _|_|    _|      _|    _|_|_|  _|_|_|_|_|    _|_|    _|_|_|
+>> :nonstop.ix.me.dal.net 372 kquerel :-     _|_|    _|  _|    _|  _|_|    _|  _|            _|      _|    _|  _|    _|
+>> :nonstop.ix.me.dal.net 372 kquerel :-     _|  _|  _|  _|    _|  _|  _|  _|    _|_|        _|      _|    _|  _|_|_|
+>> :nonstop.ix.me.dal.net 372 kquerel :-     _|    _|_|  _|    _|  _|    _|_|        _|      _|      _|    _|  _|
+>> :nonstop.ix.me.dal.net 372 kquerel :-     _|      _|    _|_|    _|      _|  _|_|_|        _|        _|_|    _|
+>> :nonstop.ix.me.dal.net 372 kquerel :- 
+>> :nonstop.ix.me.dal.net 372 kquerel :- By connecting to this network, you agree to abide by its acceptable use policy,
+>> :nonstop.ix.me.dal.net 372 kquerel :- available here: http://www.dal.net/aup
+>> :nonstop.ix.me.dal.net 372 kquerel :- 
+>> :nonstop.ix.me.dal.net 372 kquerel :- ********** Recommended help channels **********
+>> :nonstop.ix.me.dal.net 372 kquerel :- * #Help     - for help with DALnet's Services *
+>> :nonstop.ix.me.dal.net 372 kquerel :- * #OperHelp - for IRCop/CSop assistance       *
+>> :nonstop.ix.me.dal.net 372 kquerel :- ***********************************************
+>> :nonstop.ix.me.dal.net 372 kquerel :- 
+>> :nonstop.ix.me.dal.net 372 kquerel :- This server is running a testing version of the latest Bahamut.
+>> :nonstop.ix.me.dal.net 372 kquerel :- If you encourage any issues, please contact coders@dal.net
+>> :nonstop.ix.me.dal.net 372 kquerel :- 
+>> :nonstop.ix.me.dal.net 372 kquerel :- **************************** Note ****************************
+>> :nonstop.ix.me.dal.net 372 kquerel :- * The use of this server is a privilege.                     *
+>> :nonstop.ix.me.dal.net 372 kquerel :- * We reserve the right to deny access to this server without *
+>> :nonstop.ix.me.dal.net 372 kquerel :- * any warning or explanation.                                *
+>> :nonstop.ix.me.dal.net 372 kquerel :- **************************************************************
+>> :nonstop.ix.me.dal.net 372 kquerel :- 
+>> :nonstop.ix.me.dal.net 372 kquerel :- --- Thank you for choosing DALnet and have a nice chatting! ---
+>> :nonstop.ix.me.dal.net 376 kquerel :End of /MOTD command.
+>> :kquerel MODE kquerel :+iH
+<< PING nonstop.ix.me.dal.net
+>> :nonstop.ix.me.dal.net PONG nonstop.ix.me.dal.net :kquerel
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< NICK karl
+>> :nonstop.ix.me.dal.net 432 kquerel karl :The nick karl is currently being held by a Services Enforcer. If you are the nicks owner, use /msg NickServ@services.dal.net RELEASE karl password to release the nickname. If the nickname recently expired, please wait patiently and try again later.
+<< NICK test1
+>> :kquerel!~kquerel@8e1-8541-a04f-e585-da47.210.62.ip NICK :test1
+>> :NickServ!service@dal.net NOTICE test1 :This nick is owned by someone else. Please choose another.
+>> :NickServ!service@dal.net NOTICE test1 :If this is your nick, type: /msg NickServ@services.dal.net IDENTIFY <password>
+>> :NickServ!service@dal.net NOTICE test1 :Your nick will be changed in 60 seconds if you do not comply.
+<< NICK test123456
+>> :test1!~kquerel@8e1-8541-a04f-e585-da47.210.62.ip NICK :test123456
+<< INVITE test123456 mod
+>> :nonstop.ix.me.dal.net 403 test123456 mod :No such channel
+<< PING nonstop.ix.me.dal.net
+>> :nonstop.ix.me.dal.net PONG nonstop.ix.me.dal.net :test123456
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING nonstop.ix.me.dal.net
+>> :nonstop.ix.me.dal.net PONG nonstop.ix.me.dal.net :test123456
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING nonstop.ix.me.dal.net
+>> :nonstop.ix.me.dal.net PONG nonstop.ix.me.dal.net :test123456
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING nonstop.ix.me.dal.net
+>> :nonstop.ix.me.dal.net PONG nonstop.ix.me.dal.net :test123456
 --> lag pong
 << QUIT :leaving
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong
+<< PING ircserv
+>> PONG !
+--> lag pong

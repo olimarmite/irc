@@ -1,20 +1,21 @@
 #pragma once
 
+/*****	Global function for signals	*****/
+extern bool g_signals;
+
 /*****	Libraries	****/
-
 #include <iostream>
-#include <cstdlib> //EXIT_FAILURE/SUCCESS
-// #include <cstdio> //stderr
-#include <cstring> //memset
-#include <unistd.h> //close()
-#include <cerrno> //for errno
-
+#include <sstream>
+#include <cstdlib>
+#include <stdlib.h>
+#include <cstring>
+#include <unistd.h>
+#include <cerrno>
 #include <string>
-// #include <map>
+#include <map>
 #include <vector>
-
-#include <sys/socket.h> //socket()
-#include <netdb.h> //struct addrinfo
+#include <sys/socket.h>
+#include <netdb.h>
 #include <fcntl.h>
 #include <sys/epoll.h>
 
@@ -25,67 +26,70 @@
 /****	Values	****/
 #define	EXPECTED_ARGC	3
 
-#define	INVALID_FD		-1
-#define	INVALID_PORT	-1
-#define	INVALID_LISTEN	-1
-#define	INVALID_FCNTL	-1
-#define	INVALID_ACCEPT	-1
-#define	INVALID_NB	-1
+// Error system functions
+#define	INVALID_FD						-1
+#define	INVALID_PORT					-1
+#define	INVALID_LISTEN					-1
+#define	INVALID_FCNTL					-1
+#define	INVALID_ACCEPT					-1
+#define	INVALID_NB						-1
 
-#define	MAX_PENDING_CONNECTIONS	5 //most servers accept 20
-#define	MAX_REQUESTS 50 //for epoll_wait (je me rends pas compte de combien on devrait mettre)
-#define WAIT_UNTIL_SOMETHING_HAPPENS -1
+#define	MAX_PENDING_CONNECTIONS			5
+#define	MAX_REQUESTS 					50
+#define WAIT_UNTIL_SOMETHING_HAPPENS	-1
 
 #define IPv4	AF_INET
 #define IPv6	AF_INET6
 
 // #define ALL_IP_TYPES		AF_UNSPEC
-#define ALL_IP_TYPES		AF_INET
-#define TCP_STREAM_SOCKET	SOCK_STREAM
-#define LOCAL_IP			AI_PASSIVE
-#define CHOOSE_AUTOMATICALLY	0
+#define ALL_IP_TYPES					AF_INET
+#define TCP_STREAM_SOCKET				SOCK_STREAM
+#define LOCAL_IP						AI_PASSIVE
+#define CHOOSE_AUTOMATICALLY			0
 
-#define IP_TYPES	ai_family
-#define SOCKET_TYPE	ai_socktype
-#define SERVER_IP	ai_flags
-#define PROTOCOL	ai_protocol
+#define IP_TYPES						ai_family
+#define SOCKET_TYPE						ai_socktype
+#define SERVER_IP						ai_flags
+#define PROTOCOL						ai_protocol
 
-#define IRSSI 0
-#define NETCAT 1
+// #define IRSSI 0
+// #define NETCAT 1
+
+#define SERVER_NAME	std::string("ircserv")
 
 /****	Errors	****/
 #define ERROR			"Error\n"
 
 // Errors main
-#define	ERROR_ARG		DELIM BRED ERROR "Expected: ./ircserv <port> <password>\n" DELIM PRINT_END
-#define	ERROR_PORT		DELIM BRED ERROR "Invalid port!\n" DELIM PRINT_END
-#define	ERROR_PASS		DELIM BRED ERROR "Invalid password!\n" DELIM PRINT_END
+#define	ERROR_ARG				DELIM BRED ERROR "Expected: ./ircserv <port> <password>\n" DELIM PRINT_END
+#define	ERROR_PORT				DELIM BRED ERROR "Invalid port!\n" DELIM PRINT_END
+#define	ERROR_PASS				DELIM BRED ERROR "Invalid password!\n" DELIM PRINT_END
 
 // Exceptions
-#define	ERROR_SOCKET			DELIM BRED ERROR "Failed to create socket!\n" DELIM
-#define	ERROR_BIND				DELIM BRED ERROR "Failed to bind socket to port!\n" DELIM
-#define	ERROR_LISTEN			DELIM BRED ERROR "Listen failed!\n" DELIM
-#define	ERROR_ACCEPT			DELIM BRED ERROR "Accept failed!\n" DELIM
-#define	ERROR_FAIL_MSG			DELIM BRED ERROR "Failed to send welcome message to client!\n" DELIM
-#define	ERROR_DC				DELIM BRED ERROR "Client disconnected before welcome message was sent!\n" DELIM
-#define	ERROR_EPOLL_CREATE		DELIM BRED ERROR "Epoll creation failed!\n" DELIM
-#define	ERROR_EPOLL_CTL			DELIM BRED ERROR "Epoll failed to add client fd!\n" DELIM
-#define	ERROR_EPOLL_WAIT		DELIM BRED ERROR "Epoll failed to wait for events!\n" DELIM
-#define	ERROR_GETADDRINFO		DELIM BRED ERROR "Getaddrinfo failed!\n" DELIM
-#define	ERROR_FCNTL				DELIM BRED ERROR "Fcntl failed to set socket to non-blocking mode\n" DELIM
-#define	ERROR_READ			 	DELIM BRED ERROR "Failed to read from client!\n" DELIM
-#define	ERROR_SEND			 	DELIM BRED ERROR "Failed to send msg to client!\n" DELIM
-#define	ERROR_PASSW				DELIM BRED ERROR "Invalid password : connection to server refused\n" DELIM
-#define	ERROR_PSWD				DELIM BRED ERROR "Invalid password command! Expected : PASS <password>\n" DELIM
-#define	ERROR_USER				DELIM BRED ERROR "Invalid username command! Expected : USER <username>\n" DELIM
-#define	ERROR_NICK				DELIM BRED ERROR "Invalid nickname command! Expected : NICK <nickname>\n" DELIM
-
-//est ce qu on peut ecrire ca comme ca? : (si oui faire pour tous les erno)
-// #define	ERROR_GETADDRINFO		DELIM BRED ERROR "Getaddrinfo failed: " + static_cast<std::string>(gai_strerror(ret)) PRINT_END
+#define	ERROR_SOCKET(errno)			("Failed to create socket!\n" + std::string(strerror(errno)))
+#define	ERROR_BIND(errno)			("Failed to bind socket to port!\n" + std::string(strerror(errno)))
+#define	ERROR_LISTEN(errno)			("Listen failed!\n" + std::string(strerror(errno)))
+#define	ERROR_ACCEPT(errno)			("Accept failed!\n" + std::string(strerror(errno)))
+#define	ERROR_FAIL_MSG(errno)		("Failed to send welcome message to client!\n" + std::string(strerror(errno)))
+#define	ERROR_DC(errno)				("Client disconnected before welcome message was sent!\n" + std::string(strerror(errno)))
+#define	ERROR_EPOLL_CREATE(errno)	("Epoll creation failed!\n" + std::string(strerror(errno)))
+#define ERROR_EPOLL_CTL(errno) 		("Epoll failed to add client fd! " + std::string(strerror(errno)))
+#define	ERROR_EPOLL_WAIT(errno)		("Epoll failed to wait for events!\n" + std::string(strerror(errno)))
+#define	ERROR_GETADDRINFO(errno)	("Getaddrinfo failed!\n" + std::string(strerror(errno)))
+#define	ERROR_FCNTL(errno)			("Fcntl failed to set socket to non-blocking mode\n" + std::string(strerror(errno)))
+#define	ERROR_READ(errno)			("Failed to read from client!\n" + std::string(strerror(errno)))
+#define	ERROR_SEND(errno)			("Failed to send msg to client!\n" + std::string(strerror(errno)))
+#define	ERROR_PASSW(errno)			("Invalid password : connection to server refused\n" + std::string(strerror(errno)))
+#define	ERROR_PSWD(errno)			("Invalid password command! Expected : PASS <password>\n" + std::string(strerror(errno)))
+#define	ERROR_USER(errno)			("Invalid username command! Expected : USER <username>\n" + std::string(strerror(errno)))
+#define	ERROR_NICK(errno)			("Invalid nickname command! Expected : NICK <nickname>\n" + std::string(strerror(errno)))
+#define	ERROR_PRIVMSG(errno)		("Failed to send private message!\n" + std::string(strerror(errno)))
+// #define	ERROR_NICK				DELIM BRED ERROR "Invalid nickname command! Expected : NICK <nickname>\n" DELIM
 
 /****	Debug	****/
-//Constructors & Destructors
 #define	DEBUG		1
+
+//Constructors & Destructors
 #define	D_CONST		SEP "default constructor called" PRINT_END
 #define	C_CONST		SEP "copy constructor called" PRINT_END
 #define	P_CONST		SEP "parametric constructor called" PRINT_END
@@ -97,17 +101,6 @@
 //Classes
 #define	CLIENT		"Client"
 #define	SERVER		"Server"
-
-#define COMMAND_END	"\r\n"
-
-/****	PROTOCOL MESSAGES	****/
-#define WELCOME_MESSAGE(username) ":ircserv 001 " + username + \
-	" :Welcome to the ircserv IRC Network " + username + \
-	"!~" + username + "@127.0.0.1\n" + \
-	":ircserv 002 " + username + \
-	" :Your host is ircserv, running version bahamut-2.2.2\n" + \
-	":ircserv 003 " + username + \
-	" :This server was created Tue Apr 30 2024 at 16:38:57 UTC"
 
 /****	Visuals	****/
 

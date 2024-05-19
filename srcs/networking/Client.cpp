@@ -1,5 +1,6 @@
 #include "Client.hpp"
 #include "Server.hpp"
+#include "IrcReplies.hpp"
 #include <cstddef>
 #include <cstring>
 #include <ostream>
@@ -29,14 +30,17 @@ void Client::_on_command(std::string const & command)
 
 void Client::_check_commands_in_buffer()
 {
-	size_t pos = _read_buffer.find(COMMAND_END);
+	if (DEBUG)
+		std::cout << BGRN <<"Buffer : -----\n" << _read_buffer <<"--------------" << PRINT_END;
+	
+	size_t pos = _read_buffer.find(NEW_LINE);
 
 	while (pos != std::string::npos)
 	{
 		std::string command = _read_buffer.substr(0, pos);
-		_read_buffer.erase(0, pos + sizeof(COMMAND_END) / sizeof(char) - 1);
+		_read_buffer.erase(0, pos + NEW_LINE.length());
 		_on_command(command);
-		pos = _read_buffer.find(COMMAND_END);
+		pos = _read_buffer.find(NEW_LINE);
 	}
 }
 
@@ -45,17 +49,18 @@ int Client::read()
 	char buffer[BUFFER_SIZE];
 	int recv_size = 0;
 
-	std::cout << "Reading from fd: " << _fd << std::endl;
+	if (DEBUG)
+		std::cout << "Reading from fd: " << _fd << std::endl;
 	recv_size = recv(_fd, buffer, BUFFER_SIZE, 0);
 	if (recv_size == -1)
 	{
-		std::cerr << "Error: recv failed: " << strerror(errno) << std::endl;
+		if (DEBUG)
+			std::cerr << "Error: recv failed: " << strerror(errno) << std::endl;
 		return recv_size;
 	}
 	if (recv_size > 0)
 	{
 		_read_buffer.append(buffer, recv_size);
-		std::cout << "Read buffer: " << _read_buffer << std::endl;
 		_check_commands_in_buffer();
 	}
 	return recv_size;
@@ -72,7 +77,8 @@ void Client::flush_messages()
 		sended_size = send(_fd, _write_buffer.front().c_str(), message_size, 0);
 		if (sended_size == -1)
 		{
-			std::cerr << "Error: send failed: " << strerror(errno) << std::endl;
+			if (DEBUG)
+				std::cerr << "Error: send failed: " << strerror(errno) << std::endl;
 			return;
 		}
 		if (sended_size < message_size)
@@ -127,14 +133,4 @@ Client & Client::operator=(Client const & other)
 		_command_handler = other._command_handler;
 	}
 	return *this;
-}
-
-bool Client::get_is_authanticated() const
-{
-	return is_authanticated;
-}
-
-void Client::set_is_authanticated(bool isAuthanticated)
-{
-	is_authanticated = isAuthanticated;
 }

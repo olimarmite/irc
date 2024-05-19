@@ -11,10 +11,12 @@ void ClientManager::add_client(int client_fd)
 
 void ClientManager::remove_client(int client_fd)
 {
-	std::cout << "Client disconnected: " << client_fd << std::endl;
+	if (DEBUG)
+		std::cout << "Client disconnected: " << client_fd << std::endl;
 	_clients[client_fd].disconnect();
 	_clients.erase(client_fd);
-	std::cout << "Client removed: " << client_fd << std::endl;
+	if (DEBUG)
+		std::cout << "Client removed: " << client_fd << std::endl;
 }
 
 Client &ClientManager::get_client(int client_fd)
