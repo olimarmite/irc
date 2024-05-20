@@ -16,16 +16,18 @@ void	command_join(
 	)
 {
 
+	//TODO : KARL : verifier getteur password
+	
 	std::string const & channel_name = args;
 // 	std::string const & password = "";
-	std::string const & password = _channel_manager.get_channel(channel_name).password; // si la channel est en mode +k, il faut ajouter le password ici
+	// std::string const & password = _channel_manager.get_channel(channel_name).password; // si la channel est en mode +k, il faut ajouter le password ici
 
-	if (is_check_all_channel_valid(channel_name, password, client, _channel_manager) == false)
+	if (is_check_all_channel_valid(channel_name, /* password, */ client, _channel_manager) == false)
 		return ;
 	
 	User user = _user_manager.get_user(client.get_fd());
 
-	handle_join_command(_channel_manager, user, client, channel_name, password);
+	handle_join_command(_channel_manager, user, client, channel_name/* , password */);
 
 	return ;
 }

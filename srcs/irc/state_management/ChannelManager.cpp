@@ -26,8 +26,8 @@ Channel	&ChannelManager::get_channel(std::string const &channel)
 		i++;
 
 	std::string channel_name = channel.substr(0, i);
-	if (_channels.find(channel_name) == _channels.end())
-		throw std::runtime_error("Channel does not exist" + channel_name);
+	// if (_channels.find(channel_name) == _channels.end())
+	// 	throw std::runtime_error("Channel does not exist" + channel_name);
 
 	return _channels[channel_name];
 }

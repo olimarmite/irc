@@ -7,10 +7,10 @@
 #include "../includes/ClientManager.hpp"
 #include "../includes/IrcReplies.hpp"
 
-void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &client, std::string const & channel_name, std::string const & password)
+void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &client, std::string const & channel_name/* , std::string const & password */)
 {
 	if (_channel_manager.channel_exists(channel_name) == false)
-		_channel_manager.create_channel(channel_name, password, client.get_fd());
+		_channel_manager.create_channel(channel_name, "", client.get_fd());
 
 	if (DEBUG)
 		_channel_manager.print_all_channels();
