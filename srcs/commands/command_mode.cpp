@@ -11,6 +11,8 @@
 void	command_mode(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	)
@@ -18,11 +20,14 @@ void	command_mode(
 	(void)_channel_manager;
 	(void)args;
 	(void)_user_manager;
+	(void)_client_manager;
+	(void)_server_settings;
+
 	(void)client;
 
 
 	std::istringstream ss(args);
-	
+
 	std::string channel_name;
 	std::string modestring;
 

@@ -7,8 +7,8 @@
 #include <string>
 #include <sys/socket.h>
 
-Server::Server(std::string port, std::string password) : _port(port),
-	_password(password), _server_fd(INVALID_FD), _epoll_fd(INVALID_FD)
+Server::Server(std::string port) : _port(port),
+	_server_fd(INVALID_FD), _epoll_fd(INVALID_FD)
 {
 }
 
@@ -42,7 +42,7 @@ void	Server::listen_to_users_requests()
 }
 
 /* Binds the socket to the server's port/IP to allow
-to receive and send data on and from said socket. 
+to receive and send data on and from said socket.
 Getaddrinfo() fills server_info with all the info needed to
 bind the socket to the port such as IP, port, protocol, etc.
 server_info tells getaddrinfo what it should look for and
@@ -150,7 +150,7 @@ void Server::_check_epoll_events()
 	int					event_count;
 
 	event_count = epoll_wait(_epoll_fd, events, MAX_REQUESTS, -1); //-1 = timeout (wait until something happens)
-	
+
 	if (DEBUG)
 		std::cout << "Event count: " << event_count << std::endl;
 

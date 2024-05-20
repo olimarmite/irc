@@ -26,10 +26,19 @@ std::string parse_message(std::string args)
 void	command_sendmsg(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	)
 {
+
+	(void)_channel_manager;
+	(void)args;
+	(void)_user_manager;
+	(void)_client_manager;
+	(void)_server_settings;
+
 
 	/*
 		Par default /msg ecrit a un USER et non un channel
@@ -51,7 +60,7 @@ void	command_sendmsg(
 			std::cout <<"List of users" <<std::endl;
 			_user_manager.print_all_users();
 		}
-		
+
 		std::string nickname = parse_nickname(args);
 		if (_user_manager.user_exists(nickname) == true)
 		{
@@ -59,7 +68,7 @@ void	command_sendmsg(
 				std::cout <<BBLU <<"Nick/channel found" <<PRINT_END;
 
 			User dest_user = _user_manager.get_user_by_name(nickname);
-			Client dest_client = _channel_manager.get_client_manager().get_client(dest_user.get_fd());
+			Client dest_client = _client_manager.get_client(dest_user.get_fd());
 
 			dest_client.write(MSG_RECEIVED(origin_user.get_nickname(), dest_user.get_username(), \
 			dest_user.get_nickname(), message, "PRIVMSG"));
@@ -90,7 +99,7 @@ void	command_sendmsg(
 		{
 			if (DEBUG)
 				std::cout <<BBLU <<"Channel doesn't exist : creation of new channel" <<PRINT_END;
-			command_join(_channel_manager, _user_manager, client, args); //join le nouveau channel créé
+			command_join(_channel_manager, _user_manager, _client_manager, _server_settings, client, args); //join le nouveau channel créé
 		}
 		else
 		{
