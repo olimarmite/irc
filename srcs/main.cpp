@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include "UserManager.hpp"
+#include "ServerSettings.hpp"
 
 /*
 	Pour tester si port est libre :
@@ -52,15 +53,14 @@ int main(int argc, char **argv)
 	if (is_arg_valid(argc, argv) == false)
 		return EXIT_FAILURE;
 
-	std::string port = argv[1];
-	std::string	password = argv[2];
+	const ServerSettings server_settings(argv[2], argv[1]);
 
 	try
 	{
-		Server	server(port, password);
+		Server	server(server_settings.port);
 		ChannelManager channel_manager = ChannelManager();
 		ClientManager client_manager = ClientManager();
-		CommandHandler command_handler = CommandHandler();
+		CommandHandler command_handler = CommandHandler(server_settings);
 		UserManager user_manager = UserManager();
 
 		client_manager.init(command_handler);

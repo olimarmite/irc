@@ -1,8 +1,11 @@
 #include "ChannelManager.hpp"
 #include "ClientManager.hpp"
 #include "UserManager.hpp"
+#include "ServerSettings.hpp"
 #include <iostream>
 #include <string>
+
+
 
 
 bool _is_authenticated(Client &client, UserManager &user_manager)
@@ -35,7 +38,7 @@ void CommandHandler::_execute_command(Client &client,
 			//if not on close le client
 		if (g_command_table[i].command == command)
 		{
-			g_command_table[i].function(*_channel_manager, *_user_manager, client, args);
+			g_command_table[i].function(*_channel_manager, *_user_manager, *_client_manager, _server_settings, client, args);
 			if (DEBUG)
 				std::cout << "Command " << command << " executed" << std::endl;
 			return ;
@@ -68,7 +71,7 @@ void CommandHandler::handle_command(Client &client,
 	CommandHandler::_execute_command(client, command, args);
 }
 
-CommandHandler::CommandHandler()
+CommandHandler::CommandHandler(const ServerSettings &server_settings) : _server_settings(server_settings)
 {
 }
 

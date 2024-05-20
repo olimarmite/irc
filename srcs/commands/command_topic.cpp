@@ -13,10 +13,21 @@
 void	command_topic(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	)
 {
+
+	(void)_channel_manager;
+	(void)args;
+	(void)_user_manager;
+	(void)_client_manager;
+	(void)_server_settings;
+
+	(void)client;
+
 	std::string channel_name = args.substr(0, args.find(" "));
 	std::string topic = args.substr(args.find(":") + 1);
 

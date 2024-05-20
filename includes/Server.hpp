@@ -15,9 +15,8 @@ class CommandHandler;
 class Server
 {
 	private :
-  
+
 		std::string _port;
-		std::string _password; // passer ca dans une autre classe
 		int _server_fd;
 		int _epoll_fd;
 
@@ -38,7 +37,7 @@ class Server
 
 
 	public :
-		Server(std::string port, std::string password);
+		Server(std::string port);
 		~Server();
 
 		void 				init(ClientManager &client_manager);

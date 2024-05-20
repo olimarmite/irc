@@ -3,14 +3,18 @@
 #include <fcntl.h>
 #include <string>
 #include <vector>
+#include "ServerSettings.hpp"
 #include "UserManager.hpp"
 
 class Client;
 class ChannelManager;
+class ClientManager;
 
 typedef void (*command_function_t)(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 );
@@ -25,18 +29,24 @@ struct g_command_table_t
 void command_ping(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
 void command_join(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
 void command_sendmsg(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -44,6 +54,8 @@ void command_sendmsg(
 void command_auth(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -51,6 +63,8 @@ void command_auth(
 void command_nick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -58,6 +72,8 @@ void command_nick(
 void command_info(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -65,6 +81,8 @@ void command_info(
 void	command_kick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -72,6 +90,8 @@ void	command_kick(
 void	command_invite(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -79,6 +99,8 @@ void	command_invite(
 void	command_topic(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -86,6 +108,8 @@ void	command_topic(
 void	command_mode(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -93,6 +117,8 @@ void	command_mode(
 void	command_pass(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -100,6 +126,8 @@ void	command_pass(
 void	command_user(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	);
@@ -124,12 +152,14 @@ class CommandHandler
 private:
 	ChannelManager	*_channel_manager;
 	UserManager		*_user_manager;
+	ClientManager	*_client_manager;
+	const ServerSettings &_server_settings;
 
 	void	_execute_command(Client &client, std::string const &command, std::string const &args);
 
 public:
 	// Const & Dest
-	CommandHandler();
+	CommandHandler(const ServerSettings &_server_settings);
 	~CommandHandler();
 
 	// Methods

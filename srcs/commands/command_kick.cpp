@@ -28,10 +28,18 @@ static std::string get_nickname(std::string const &args)
 void	command_kick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
+	ClientManager &_client_manager,
+	const ServerSettings &_server_settings,
 	Client &client,
 	std::string const &args
 	)
 {
+	(void)_channel_manager;
+	(void)args;
+	(void)_user_manager;
+	(void)_client_manager;
+	(void)_server_settings;
+
 	std::string channel_name = args.substr(0, args.find(" "));
 	std::string nickname = get_nickname(args);
 	std::string reason = args.substr(args.find(":") + 1);
@@ -50,7 +58,7 @@ void	command_kick(
 			std::cout <<BBLU <<"User to be kicked is in channel" <<PRINT_END;
 
 		User kicked_user = _user_manager.get_user_by_name(nickname);
-		Client kicked_client = _channel_manager.get_client_manager().get_client(kicked_user.get_fd());
+		Client kicked_client = _client_manager.get_client(kicked_user.get_fd());
 		if (kicked_user.get_is_operator() == false) //check if user is channel perator
 		{
 			_channel_manager.leave_channel(kicked_client.get_fd(), channel_name);
@@ -78,6 +86,6 @@ void	command_kick(
 		if (DEBUG)
 			std::cout <<BRED <<"User to be kicked is not in channel" <<PRINT_END;
 	}
-	
+
 	return ;
 }
