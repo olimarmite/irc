@@ -21,6 +21,9 @@ void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &
 		
 		Channel channel = _channel_manager.get_channel(channel_name);
 
+		std::cout << RPL_TOPIC(user.get_nickname(), user.get_username(), channel_name, channel.topic, "TOPIC") << std::endl;
+		std::cout << JOINED_CHANNEL(user.get_nickname(), user.get_username(), channel_name, "JOIN") << std::endl;
+
 		client.write(RPL_TOPIC(user.get_nickname(), user.get_username(), channel_name, channel.topic, "TOPIC"));
 		client.write(JOINED_CHANNEL(user.get_nickname(), user.get_username(), channel_name, "JOIN"));
 	}

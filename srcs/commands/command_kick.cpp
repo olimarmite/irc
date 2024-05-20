@@ -9,23 +9,6 @@
 #include <iostream>
 #include <string>
 
-// a virer si ca marche
-// static std::string get_nickname(std::string const &args)
-// {
-// 	std::string nickname;
-// 	int i = 0;
-// 	while (args[i] != ' ')
-// 		i++;
-// 	i++;
-// 	while (args[i] != ' ')
-// 	{
-// 		nickname += args[i];
-// 		i++;
-// 	}
-// 	return nickname;
-// }
-
-
 void	command_kick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
@@ -33,7 +16,6 @@ void	command_kick(
 	std::string const &args
 	)
 {
-
 	std::istringstream ss(args);
 	std::string channel_name, nickname;
 
@@ -46,35 +28,16 @@ void	command_kick(
 	if (is_kick_valid(_channel_manager, _user_manager, client, channel_name, nickname) == false)
 		return ;
 
-	// si ca marche,  a virer
-	// std::string channel_name = args.substr(0, args.find(" "));
-	// std::string nickname = get_nickname(args);
-	// std::string reason = args.substr(args.find(":") + 1);
-
 	if (DEBUG)
 	{
 		std::cout <<BCYN <<"CHANNEL: //" << channel_name + "//" << PRINT_END;
 		std::cout <<BCYN <<"NICKNAME: //" << nickname + "//"<< PRINT_END;
 	}
-  
-  // handle_kick_command(_channel_manager, _user_manager, client, channel_name, nickname);
-  
-  // KARL TO DO IF
 
-	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == false) //if user is not in channel
-	{
-		//TODO error message : user not in channel
-		if (DEBUG)
-			std::cout <<BRED <<"User to be kicked is not in channel" <<PRINT_END;
-		return ;
-	}
+	handle_kick_command(_channel_manager, _user_manager, client, channel_name, nickname);
 
-	if (DEBUG)
-		std::cout <<BBLU <<"User to be kicked is in channel" <<PRINT_END;
-
-	User kicked_user = _user_manager.get_user_by_name(nickname);
-
-	if (DEBUG)
+	// TODO : CODE INITIAL CARO
+  /*if (DEBUG)
 	{
 		std::cout <<"----------------" <<std::endl;
 		std::cout <<BRED <<"List of operators in channel " <<channel_name <<PRINT_END;
@@ -104,6 +67,6 @@ void	command_kick(
 		if (DEBUG)
 			std::cout <<BRED <<"Cannot kick channel operator" <<PRINT_END;
 	}
-	
+	*/
 	return ;
 }

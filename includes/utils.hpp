@@ -13,8 +13,8 @@ bool	is_valid_password(std::string const & password);
 
 // Nickname
 bool	does_nickname_have_channel_prefix(std::string const & nickname);
-bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user, Client &client);
 bool	does_nickname_already_exist(std::string const & nickname);
+bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user, Client &client);
 
 // Channel
 bool	is_check_all_channel_valid(std::string const & channel_name, /* std::string const & password, */ Client &client, ChannelManager & _channel_manager);
@@ -42,3 +42,7 @@ void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &
 
 // Kick
 bool	is_kick_valid(ChannelManager & _channel_manager, UserManager &_user_manager, Client &client, std::string const & channel_name, std::string const & nickname);
+void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_manager, Client &client, std::string const & channel_name,  std::string const & nickname);
+
+// Topic
+bool	is_topic_valid(ChannelManager & _channel_manager, Client &client, std::string const & channel_name);

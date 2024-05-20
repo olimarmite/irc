@@ -29,23 +29,21 @@
 # define	PONG_MSG(server_name, nickname)									DOTS + server_name + SPACE + "PONG " + server_name + " :" + nickname + NEW_LINE
 
 // ERRORS
-# define	ERR_NOSUCHNICK(prefix, nickname)				DOTS + prefix + SPACE + "401 " + "" + nickname + " :No such nick/channel" + NEW_LINE
-# define	ERR_NOSUCHSERVER(prefix, server_name)			DOTS + prefix + SPACE + "402 " + "" + server_name + " :No such server" + NEW_LINE
+# define	ERR_NOSUCHNICK(prefix, nickname)				DOTS + prefix + SPACE + "401 " + "* " + nickname + " :No such nick/channel" + NEW_LINE
+# define	ERR_NOSUCHSERVER(prefix, server_name)			DOTS + prefix + SPACE + "402 " + "* " + server_name + " :No such server" + NEW_LINE
 # define	ERR_NOSUCHCHANNEL(prefix, channel_name)			DOTS + prefix + SPACE + "403 " + "* " + channel_name + " :No such channel" + NEW_LINE
-# define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "" + nick + " :Erroneus nickname" + NEW_LINE
+# define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "* " + nick + " :Erroneus nickname" + NEW_LINE
 # define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "* " + nick + " :Nickname is already in use" + NEW_LINE
-# define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "" + command + " :Not enough parameters" + NEW_LINE
-# define	ERR_NOTONCHANNEL(prefix, channel)				DOTS + prefix + SPACE + "442 " + "" + channel + " :You're not on that channel" + NEW_LINE
-# define	ERR_USERONCHANNEL(prefix, user, channel)		DOTS + prefix + SPACE + "443 " + "" + user + SPACE + channel + " :is already on channel" + NEW_LINE
-// to be used in invite_utils.cpp and others - avec map
-# define	ERR_CHANOPRIVSNEEDED(prefix, channel)			DOTS + prefix + SPACE + "482 " + "" + channel + " :You're not channel operator" + NEW_LINE
-
-# define	ERR_INVITEONLYCHAN(prefix, channel)				DOTS + prefix + SPACE + "473 " + "" + channel + " :Cannot join channel (+i)" + NEW_LINE
-# define	ERR_BADCHANNELKEY(prefix, channel)				DOTS + prefix + SPACE + "475 " + "" + channel + " :Cannot join channel (+k)" + NEW_LINE
+# define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "* " + command + " :Not enough parameters" + NEW_LINE
+# define	ERR_NOTONCHANNEL(prefix, channel)				DOTS + prefix + SPACE + "442 " + "* " + channel + " :You're not on that channel" + NEW_LINE
+# define	ERR_USERONCHANNEL(prefix, user, channel)		DOTS + prefix + SPACE + "443 " + "* " + user + SPACE + channel + " :is already on channel" + NEW_LINE
+# define	ERR_CHANOPRIVSNEEDED(prefix, channel)			DOTS + prefix + SPACE + "482 " + "* " + channel + " :You're not channel operator" + NEW_LINE
+# define	ERR_INVITEONLYCHAN(prefix, channel)				DOTS + prefix + SPACE + "473 " + "* " + channel + " :Cannot join channel (+i)" + NEW_LINE
+# define	ERR_BADCHANNELKEY(prefix, channel)				DOTS + prefix + SPACE + "475 " + "* " + channel + " :Cannot join channel (+k)" + NEW_LINE
 
 
 // NUMERIC REPLIES
-# define	RPL_INVITING(prefix, channel, nick)				DOTS + prefix + SPACE + "341 " + "" + channel + SPACE + nick + "" + NEW_LINE
+# define	RPL_INVITING(prefix, channel, nick)				DOTS + prefix + SPACE + "341 " + "* " + channel + SPACE + nick + "" + NEW_LINE
 
 
 /*****		NOT USED YET		*****/
