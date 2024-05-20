@@ -54,9 +54,6 @@ void	ChannelManager::init(ClientManager &client_manager)
 
 void	ChannelManager::leave_channel(int client_fd, std::string const &channel)
 {
-	//HERE: cette fonction ne semble pas bien effacer les clients des channels 
-	//cf. command send_msg qui check si le client est dans le channel
-
 	Channel &channel_obj = get_channel(channel);
 	channel_obj.clients_fd.erase(client_fd);
 
@@ -88,6 +85,7 @@ void	ChannelManager::create_channel(std::string const & channel_name, std::strin
 
 	new_channel.name = channel_name;
 	new_channel.password = password;
+	new_channel.topic = "";
 	new_channel.is_invite_only = false;
   new_channel.is_topic_restricted_to_operators = false;
 	new_channel.is_key_needed = false;
@@ -148,8 +146,6 @@ void	ChannelManager::send_message_to_channel(int client_fd, std::string const & 
 
 bool	ChannelManager::channel_exists(std::string const & channel_name)
 {
-	std::cout <<BGRN <<"In channel_exists" <<PRINT_END; //TEST
-
 	if (_channels.find(channel_name) != _channels.end())
 	{
 		if (DEBUG)
