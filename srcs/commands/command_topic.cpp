@@ -17,16 +17,27 @@ void	command_topic(
 	std::string const &args
 	)
 {
-	std::string channel_name = args.substr(0, args.find(" "));
-	std::string topic = args.substr(args.find(":") + 1);
 
-	std::cout <<BCYN <<"INSIDE COMMAND TOPIC" <<PRINT_END;
+	std::istringstream ss(args);
+
+	std::string channel_name, topic;
+
+	if (!(ss >> channel_name >> topic) || channel_name.empty() || topic.empty())
+	{
+		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "topic"));
+		return ;
+	}
+
+	if (is_topic_valid(_channel_manager, client, channel_name) == false)
+		return ;
 
 	if (DEBUG)
 	{
 		std::cout <<BCYN <<"channel name : //" + channel_name + "//" <<PRINT_END;
 		std::cout <<BCYN <<"topic : //" + topic + "//" <<PRINT_END;
 	}
+
+	// handle_topic_command(_channel_manager, _user_manager, client, channel_name, topic, args);
 
 	Channel channel = _channel_manager.get_channel(channel_name);
 
