@@ -24,15 +24,12 @@ bool	is_valid_mode(ChannelManager & _channel_manager, Client &client, std::strin
 		return false;
 	}
 
-	// TODO --> voir avec caro et olivier quel container pour les operators
-	/*
-	if (_channel_manager.is_user_operator(client.get_fd(), channel_name) == false)
+	if (_channel_manager.is_operator(client.get_fd(), channel_name) == false)
 	{
 		client.write(ERR_CHANOPRIVSNEEDED(SERVER_NAME, channel_name));
-		return ;
+		return false;
 	}
-	*/
-
+	
 	if (!is_valid_mode_syntax(modestring))
 	{
 		client.write(ERR_UNKNOWNMODE(SERVER_NAME, modestring));
@@ -62,7 +59,7 @@ bool	is_valid_mode_syntax(std::string const & modestring)
 }
 
 // Handlers
-void	update_mode(ChannelManager & _channel_manager, std::string const & channel_name, char sign, char mode)
+void	update_mode(ChannelManager & _channel_manager, std::string const & channel_name, char sign, char mode, int client_fd)
 {
 	//TO DO peut etre plus de parsing a faire selon les modes
 	
@@ -75,13 +72,12 @@ void	update_mode(ChannelManager & _channel_manager, std::string const & channel_
 	else if (mode == 'l') // mettre user limit apres mode
 		update_user_limit(_channel_manager, channel_name, sign);
 	else if (mode == 'o') // mettre nickname apres mode
-		update_channel_operator(_channel_manager, channel_name, sign);
+		update_channel_operator(_channel_manager, channel_name, sign, client_fd);
 
 	return ;
 }
 
-// TODO
-// // peut etre faire un boolean is_channel_invite_only pour pas l'update une deuxieme fois
+// peut etre faire un boolean is_channel_invite_only pour pas l'update une deuxieme fois --> CARO : moi je dis osef
 void	update_channel_invite_only(ChannelManager & _channel_manager, std::string const & channel_name, char sign)
 {
 	if (sign == '+')
@@ -136,18 +132,14 @@ void	update_user_limit(ChannelManager & _channel_manager, std::string const & ch
 	return ;
 }
 
-void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign)
+void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign, int client_fd)
 {
 	(void)_channel_manager;
 	(void)channel_name;
 
 	if (sign == '+')
-	{
-		//_user_manager.get_user(user_fd).is_operator = true;
-	}
+		_channel_manager.get_channel(channel_name).operators.insert(client_fd);
 	else if (sign == '-')
-	{
-		// TODO
-	}
+		_channel_manager.get_channel(channel_name).operators.erase(client_fd);
 	return ;
 }

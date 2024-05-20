@@ -45,7 +45,7 @@ void	command_mode(
 	if (is_valid_mode(_channel_manager, client, channel_name, modestring) == false)
 		return ;
 
-	update_mode(_channel_manager, channel_name, modestring[0], modestring[1]);
+	update_mode(_channel_manager, channel_name, modestring[0], modestring[1], client.get_fd());
 
 	return ;
 }
