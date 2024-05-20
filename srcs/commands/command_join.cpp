@@ -15,8 +15,6 @@ void	command_join(
 	std::string const &args
 	)
 {
-	//HERE
-	std::cout <<BGRN <<"In command_join" <<PRINT_END; //TEST
 
 	std::string const & channel_name = args;
 	std::string const & password = _channel_manager.get_channel(channel_name).password; // si la channel est en mode +k, il faut ajouter le password ici

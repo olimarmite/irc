@@ -39,3 +39,6 @@ void	update_channel_operator(ChannelManager & _channel_manager, std::string cons
 
 // Join
 void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &client, std::string const & channel_name, std::string const & password);
+
+// Kick
+bool	is_kick_valid(ChannelManager & _channel_manager, UserManager &_user_manager, Client &client, std::string const & channel_name, std::string const & nickname);

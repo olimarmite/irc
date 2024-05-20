@@ -9,20 +9,21 @@
 #include <iostream>
 #include <string>
 
-static std::string get_nickname(std::string const &args)
-{
-	std::string nickname;
-	int i = 0;
-	while (args[i] != ' ')
-		i++;
-	i++;
-	while (args[i] != ' ')
-	{
-		nickname += args[i];
-		i++;
-	}
-	return nickname;
-}
+// a virer si ca marche
+// static std::string get_nickname(std::string const &args)
+// {
+// 	std::string nickname;
+// 	int i = 0;
+// 	while (args[i] != ' ')
+// 		i++;
+// 	i++;
+// 	while (args[i] != ' ')
+// 	{
+// 		nickname += args[i];
+// 		i++;
+// 	}
+// 	return nickname;
+// }
 
 
 void	command_kick(
@@ -32,23 +33,39 @@ void	command_kick(
 	std::string const &args
 	)
 {
-	std::string channel_name = args.substr(0, args.find(" "));
-	std::string nickname = get_nickname(args);
-	std::string reason = args.substr(args.find(":") + 1);
+
+	std::istringstream ss(args);
+	std::string channel_name, nickname;
+
+	if (!(ss >> channel_name >> nickname) || channel_name.empty() || nickname.empty())
+	{
+		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "KICK"));
+		return ;
+	}
+
+	if (is_kick_valid(_channel_manager, _user_manager, client, channel_name, nickname) == false)
+		return ;
+
+	// si ca marche,  a virer
+	// std::string channel_name = args.substr(0, args.find(" "));
+	// std::string nickname = get_nickname(args);
+	// std::string reason = args.substr(args.find(":") + 1);
 
 	if (DEBUG)
 	{
 		std::cout <<BCYN <<"CHANNEL: //" << channel_name + "//" << PRINT_END;
 		std::cout <<BCYN <<"NICKNAME: //" << nickname + "//"<< PRINT_END;
-		std::cout <<BCYN <<"REASON: //" << reason + "//" << PRINT_END;
 	}
 
-	//CARO : lignes en dessous pas besoin : irssi a l'air de s'en charger seul
-	//if no channel name --> we cannot kick someone from a privmsg
-	// if (args[0] != '#')
-	// 	std::cout <<BRED <<"Cannot kick someone from private message" <<PRINT_END;
 
-	//check if user is in channel
+
+
+	// handle_kick_command(_channel_manager, _user_manager, client, channel_name, nickname);
+
+	//HERE
+	if (DEBUG)
+		std::cout <<BGRN <<"In command_kick" <<PRINT_END;
+
 	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == true) //if user is in channel
 	{
 		if (DEBUG)
