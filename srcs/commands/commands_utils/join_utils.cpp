@@ -9,15 +9,8 @@
 
 void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &client, std::string const & channel_name, std::string const & password)
 {
-	//HERE
-	std::cout <<BGRN <<"In handle_join_command" <<PRINT_END; //TEST
-
 	if (_channel_manager.channel_exists(channel_name) == false)
-	{
-		std::cout <<BRED <<"CHANNEL DOES NOT EXIST" <<PRINT_END; //TEST
-		_channel_manager.create_channel(channel_name, password);
-		user.set_is_operator(true); // peut etre a changer ici selon la logique
-	}
+		_channel_manager.create_channel(channel_name, password, client.get_fd());
 
 	if (DEBUG)
 		_channel_manager.print_all_channels();
