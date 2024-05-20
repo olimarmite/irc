@@ -24,7 +24,12 @@ Channel	&ChannelManager::get_channel(std::string const &channel)
 	int i = 0;
 	while (channel[i] != ' ' && channel[i]) //CARO : erreur valgrind réglée avec 2eme condition
 		i++;
-	return _channels[channel.substr(0, i)];
+
+	std::string channel_name = channel.substr(0, i);
+	if (_channels.find(channel_name) == _channels.end())
+		throw std::runtime_error("Channel does not exist" + channel_name);
+
+	return _channels[channel_name];
 }
 
 void	ChannelManager::set_channel_name(std::string const & channel_name)
@@ -84,8 +89,12 @@ void	ChannelManager::create_channel(std::string const & channel_name, std::strin
 	new_channel.name = channel_name;
 	new_channel.password = password;
 	new_channel.is_invite_only = false;
-	_channels[channel_name] = new_channel;
+  new_channel.is_topic_restricted_to_operators = false;
+	new_channel.is_key_needed = false;
+	new_channel.user_limit = 2000;
 	new_channel.operators.insert(client_fd);
+  
+  _channels[channel_name] = new_channel;
 
 	if (DEBUG)
 		std::cout << "Created channel: " + channel_name << PRINT_END;
@@ -139,8 +148,14 @@ void	ChannelManager::send_message_to_channel(int client_fd, std::string const & 
 
 bool	ChannelManager::channel_exists(std::string const & channel_name)
 {
+	std::cout <<BGRN <<"In channel_exists" <<PRINT_END; //TEST
+
 	if (_channels.find(channel_name) != _channels.end())
+	{
+		if (DEBUG)
+			std::cout << channel_name + " exists" << PRINT_END;
 		return true;
+	}
 
 	if (DEBUG)
 		std::cout << channel_name + " does not exist, it will be created" << PRINT_END;
