@@ -22,7 +22,7 @@ ChannelManager::~ChannelManager()
 Channel	&ChannelManager::get_channel(std::string const &channel)
 {
 	int i = 0;
-	while (channel[i] != ' ')
+	while (channel[i] != ' ' && channel[i]) //CARO : erreur valgrind réglée avec 2eme condition
 		i++;
 	return _channels[channel.substr(0, i)];
 }
@@ -77,10 +77,17 @@ void	ChannelManager::leave_all_channels(int client_fd)
 
 void	ChannelManager::create_channel(std::string const & channel_name, std::string const & password)
 {
+
+	//HERE : ne semble pas entrer ici qd join 
+	std::cout <<BGRN <<"In create_channel" <<PRINT_END; //TEST
+
 	Channel	new_channel;
+
+	std::cout << BCYN "pass = " << password << PRINT_END;
 
 	new_channel.name = channel_name;
 	new_channel.password = password;
+	new_channel.is_invite_only = false; //CARO : pour regler erreur valgrind mais je ne sais pas si je dois mettre true or false par default
 	_channels[channel_name] = new_channel;
 
 	if (DEBUG)
@@ -103,7 +110,7 @@ bool	ChannelManager::is_user_in_channel(int client_fd, std::string const & chann
 
 void	ChannelManager::join_channel(int client_fd, std::string const & channel_name)
 {
-
+	//HERE
 	std::cout << "channel name = " + channel_name << PRINT_END;
 	
 	set_channel_name(channel_name);

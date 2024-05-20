@@ -21,7 +21,8 @@ struct Channel
 	bool			is_key_needed;
 	unsigned int	user_limit;
 
-	std::set<int>	operators;
+	std::set<int>	operators; // int fd du user, nom du channel et bool qui dit si true ou false
+	std::map<int, std::string>	map_operators;
 
 };
 

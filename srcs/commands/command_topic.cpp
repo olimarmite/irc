@@ -42,7 +42,7 @@ void	command_topic(
 		else
 		{
 			std::cout <<BBLU <<"topic : //" + topic + "//" <<PRINT_END;
-			client.write(RPL_TOPIC2(user.get_nickname(), user.get_username(), channel_name, channel.topic, "TOPIC"));
+			client.write(RPL_TOPIC(user.get_nickname(), user.get_username(), channel_name, channel.topic, "TOPIC"));
 		}
 	}
 	else
@@ -50,8 +50,7 @@ void	command_topic(
 		std::cout <<BRED <<"Args : //" + args + "//" <<PRINT_END;
 		std::cout <<BBLU <<"topic changed to : //" + topic + "//" <<PRINT_END;
 		_channel_manager.set_channel_topic(channel_name, topic);
-		// client.write(RPL_TOPIC(user.get_nickname(), channel_name, channel.topic));
-		client.write(RPL_TOPIC2(user.get_nickname(), user.get_username(), channel_name, channel.topic, "TOPIC"));
+		client.write(RPL_TOPIC(user.get_nickname(), user.get_username(), channel_name, channel.topic, "TOPIC"));
 	}
 
 	return ;

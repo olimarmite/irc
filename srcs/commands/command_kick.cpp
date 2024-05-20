@@ -43,6 +43,11 @@ void	command_kick(
 		std::cout <<BCYN <<"REASON: //" << reason + "//" << PRINT_END;
 	}
 
+	//CARO : lignes en dessous pas besoin : irssi a l'air de s'en charger seul
+	//if no channel name --> we cannot kick someone from a privmsg
+	// if (args[0] != '#')
+	// 	std::cout <<BRED <<"Cannot kick someone from private message" <<PRINT_END;
+
 	//check if user is in channel
 	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == true) //if user is in channel
 	{

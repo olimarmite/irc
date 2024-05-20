@@ -17,8 +17,8 @@ void	command_mode(
 {
 	(void)_channel_manager;
 	(void)args;
-	(void)_user_manager;
-	(void)client;
+	// (void)_user_manager;
+	// (void)client;
 
 
 	std::istringstream ss(args);
@@ -27,6 +27,11 @@ void	command_mode(
 	std::string modestring;
 
 	//si pas channel, ignorer le message, return
+	//CARO : rajouté la if ci-dessous pour éviter err_msg "no such channel" à la connexion
+	//+ erreur valgrind reglee
+	User& user = _user_manager.get_user(client.get_fd());
+	if (user.get_is_authenticated() == false)
+		return ;
 
 	if (!(ss >> channel_name >> modestring) || channel_name.empty() || modestring.empty())
 	{

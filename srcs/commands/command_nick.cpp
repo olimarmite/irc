@@ -17,8 +17,6 @@ void	command_nick(
 	)
 {
 	(void)_channel_manager;
-	(void)args;
-	(void)_user_manager;
 
 	User	& user = _user_manager.get_user(client.get_fd());
 	
@@ -33,4 +31,10 @@ void	command_nick(
 
 	if (DEBUG)
 		std::cout << "new nickname = " <<user.get_nickname() <<std::endl;
+
+	if (DEBUG)
+	{
+		std::cout <<"ALL USERS : " <<std::endl;
+		_user_manager.print_all_users();
+	}
 }

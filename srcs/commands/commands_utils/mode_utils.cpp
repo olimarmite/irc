@@ -70,11 +70,11 @@ void	update_mode(ChannelManager & _channel_manager, std::string const & channel_
 		update_channel_invite_only(_channel_manager, channel_name, sign);
 	else if (mode == 't')
 		update_topic_restricted_to_operators(_channel_manager, channel_name, sign);
-	else if (mode == 'k')
+	else if (mode == 'k') // mettre mdp apres mode
 		update_channel_key(_channel_manager, channel_name, sign);
-	else if (mode == 'l')
+	else if (mode == 'l') // mettre user limit apres mode
 		update_user_limit(_channel_manager, channel_name, sign);
-	else if (mode == 'o')
+	else if (mode == 'o') // mettre nickname apres mode
 		update_channel_operator(_channel_manager, channel_name, sign);
 
 	return ;
