@@ -179,7 +179,7 @@ void ChannelManager::print_all_channels()
 void ChannelManager::print_all_clients(std::string channel_name)
 {
 	Channel &channel = _channels[channel_name];
-	std::set<int>::iterator it = channel.clients_fd.begin();
+	// std::set<int>::iterator it = channel.clients_fd.begin();
 
 	std::cout << "Number of clients in " << channel_name << ": " << channel.clients_fd.size() << PRINT_END;
 
