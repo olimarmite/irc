@@ -3,6 +3,7 @@
 #include "ChannelManager.hpp"
 #include "ClientManager.hpp"
 #include "CommandHandler.hpp"
+#include "IrcReplies.hpp"
 #include "signals.hpp"
 #include <cstdlib>
 #include <iostream>
@@ -67,7 +68,7 @@ int main(int argc, char **argv)
 		channel_manager.init(client_manager);
 		command_handler.init(channel_manager, user_manager);
 		server.init(client_manager);
-
+	
 		set_signals();
 		while (g_signals == true)
 		{

@@ -20,6 +20,9 @@
 // 	(void)_channel_manager;
 // 	(void)args;
 // 	(void)_user_manager;
+	// (void)_client_manager;
+	// (void)_server_settings;
+
 
 // 	std::string	entered_password = args; // TODO parsing args mdp
 //     if (entered_password != _password)
@@ -58,6 +61,7 @@ void	command_user( //ne doit être accessible que à la connection
 	(void)args;
 	(void)_user_manager;
 
+
 	User &user = _user_manager.get_user(client.get_fd());
 
 	std::string username = args.substr(0, args.find(' '));
@@ -68,6 +72,6 @@ void	command_user( //ne doit être accessible que à la connection
 		std::cout <<BHGRN <<"User authentification set to true" <<PRINT_END;
  */
 	client.write(WELCOME_MESSAGE(user.get_username()));
-	
+
 	return ;
 }

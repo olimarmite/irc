@@ -16,7 +16,6 @@ void	command_ping(
 	(void)args;
 	(void)_channel_manager;
 	(void)_user_manager;
-	// >> :serenity.fl.us.dal.net PONG serenity.fl.us.dal.net :kquerel
 
 	User	& user = _user_manager.get_user(client.get_fd());
 	client.write(PONG_MSG(SERVER_NAME, user.get_nickname()));

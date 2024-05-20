@@ -29,6 +29,25 @@ Channel	&ChannelManager::get_channel(std::string const &channel)
 	return _channels[channel_name];
 }
 
+std::set<int>	ChannelManager::get_operators(std::string const & channel_name)
+{
+	Channel channel = get_channel(channel_name);
+	return channel.operators;
+}
+
+std::set<std::string>	ChannelManager::get_channels_for_users(int client_fd)
+{
+	std::map<int, std::set<std::string> >::iterator it = _clientChannels.find(client_fd);
+	if(it != _clientChannels.end())
+		return it->second;
+	return std::set<std::string>();
+}
+
+ClientManager	&ChannelManager::get_client_manager()
+{
+	return *_client_manager;
+}
+
 void	ChannelManager::set_channel_name(std::string const & channel_name)
 {
 	_channels[channel_name].name = channel_name;
@@ -155,8 +174,18 @@ bool	ChannelManager::channel_exists(std::string const & channel_name)
 	return false;
 }
 
+bool	ChannelManager::is_operator(int client_fd, std::string channel_name)
+{
+	Channel channel = get_channel(channel_name);
+	for (std::set<int>::iterator it = channel.operators.begin(); it != channel.operators.end(); it++)
+	{
+		if (*it == client_fd)
+			return true;
+	}
+	return false;
+}
 
-////////debug
+/*	-----		Debug					-----	*/
 void ChannelManager::print_all_channels()
 {
 	std::cout <<"List of channels" <<std::endl;
@@ -182,28 +211,6 @@ void ChannelManager::print_all_clients(std::string channel_name)
 	// 	it++;
 	// }
 	return ;
-}
-
-ClientManager &ChannelManager::get_client_manager()
-{
-	return *_client_manager;
-}
-
-std::set<int>	ChannelManager::get_operators(std::string const & channel_name)
-{
-	Channel channel = get_channel(channel_name);
-	return channel.operators;
-}
-
-bool	ChannelManager::is_operator(int client_fd, std::string channel_name)
-{
-	Channel channel = get_channel(channel_name);
-	for (std::set<int>::iterator it = channel.operators.begin(); it != channel.operators.end(); it++)
-	{
-		if (*it == client_fd)
-			return true;
-	}
-	return false;
 }
 
 void	ChannelManager::print_operators(std::string channel_name, UserManager user_manager)

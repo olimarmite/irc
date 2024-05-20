@@ -87,7 +87,7 @@ extern bool g_signals;
 // #define	ERROR_NICK				DELIM BRED ERROR "Invalid nickname command! Expected : NICK <nickname>\n" DELIM
 
 /****	Debug	****/
-#define	DEBUG		0
+#define	DEBUG		1
 
 //Constructors & Destructors
 #define	D_CONST		SEP "default constructor called" PRINT_END

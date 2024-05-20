@@ -7,10 +7,14 @@
 #include "../includes/ClientManager.hpp"
 #include "../includes/IrcReplies.hpp"
 
-// TODO --> voir avec caro les creations de channel
-
 // Checks
-bool	is_valid_mode(ChannelManager & _channel_manager, Client &client, std::string const & channel_name, std::string const & modestring)
+bool	is_valid_mode(
+	ChannelManager & _channel_manager,
+	Client &client,
+	std::string const & channel_name,
+	std::string const & modestring,
+	std::string const & mode_arg
+	)
 {
 	if (_channel_manager.channel_exists(channel_name) == false)
 	{
@@ -30,7 +34,7 @@ bool	is_valid_mode(ChannelManager & _channel_manager, Client &client, std::strin
 		return false;
 	}
 	
-	if (!is_valid_mode_syntax(modestring))
+	if (!is_valid_mode_syntax(modestring, mode_arg))
 	{
 		client.write(ERR_UNKNOWNMODE(SERVER_NAME, modestring));
 		return false;
@@ -39,7 +43,31 @@ bool	is_valid_mode(ChannelManager & _channel_manager, Client &client, std::strin
 	return true;
 }
 
-bool	is_valid_mode_syntax(std::string const & modestring)
+bool	is_an_integer(std::string const & str)
+{
+	if(str.empty())
+		return false;
+	
+	for(std::string::const_iterator it = str.begin(); it != str.end(); ++it)
+	{
+		if(!std::isdigit(*it))
+			return false;
+	}
+	return true;
+}
+
+bool	are_mode_arg_valid(std::string const & modestring, std::string const & mode_arg)
+{
+	if (modestring[1] == 'k' && mode_arg.empty())
+		return false;
+	if (modestring[1] == 'l' && (mode_arg.empty() || !is_an_integer(mode_arg)))
+		return false;
+	if (modestring[1] == 'o' && mode_arg.empty())
+		return false;
+	return true;
+}
+
+bool	is_valid_mode_syntax(std::string const & modestring, std::string const & mode_arg)
 {
 	if (modestring.length() != 2)
 		return false;
@@ -55,29 +83,33 @@ bool	is_valid_mode_syntax(std::string const & modestring)
 		modestring[1] != 'o'
 		)
 		return false;
+
+	if (are_mode_arg_valid(modestring, mode_arg) == false)
+		return false;
+	
 	return true;
 }
 
+
 // Handlers
-void	update_mode(ChannelManager & _channel_manager, std::string const & channel_name, char sign, char mode, int client_fd)
+void	update_mode(ChannelManager & _channel_manager, std::string const & channel_name, char sign, char mode, std::string const & mode_arg, int client_fd)
 {
 	//TO DO peut etre plus de parsing a faire selon les modes
-	
+
 	if (mode == 'i')
 		update_channel_invite_only(_channel_manager, channel_name, sign);
 	else if (mode == 't')
 		update_topic_restricted_to_operators(_channel_manager, channel_name, sign);
-	else if (mode == 'k') // mettre mdp apres mode
-		update_channel_key(_channel_manager, channel_name, sign);
-	else if (mode == 'l') // mettre user limit apres mode
-		update_user_limit(_channel_manager, channel_name, sign);
+	else if (mode == 'k')
+		update_channel_key(_channel_manager, channel_name, sign, mode_arg);
+	else if (mode == 'l')
+		update_user_limit(_channel_manager, channel_name, sign, mode_arg);
 	else if (mode == 'o') // mettre nickname apres mode
-		update_channel_operator(_channel_manager, channel_name, sign, client_fd);
+		update_channel_operator(_channel_manager, channel_name, sign, mode_arg, client_fd);
 
 	return ;
 }
 
-// peut etre faire un boolean is_channel_invite_only pour pas l'update une deuxieme fois --> CARO : moi je dis osef
 void	update_channel_invite_only(ChannelManager & _channel_manager, std::string const & channel_name, char sign)
 {
 	if (sign == '+')
@@ -108,35 +140,46 @@ void	update_topic_restricted_to_operators(ChannelManager & _channel_manager, std
 	return ;
 }
 
-void	update_channel_key(ChannelManager & _channel_manager, std::string const & channel_name, char sign)
+void	update_channel_key(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg)
 {
 	if (sign == '+')
 	{
 		_channel_manager.get_channel(channel_name).is_key_needed = true;
+		_channel_manager.get_channel(channel_name).password = mode_arg;
 		std::cout << BGRN "key needed mode activated" << std::endl;
 	}
 	else if (sign == '-')
 	{
 		_channel_manager.get_channel(channel_name).is_key_needed = false;
+		_channel_manager.get_channel(channel_name).password = "";
 		std::cout << BYEL "key needed mode deactivated" << std::endl;
 	}
 	return ;
 }
 
-void	update_user_limit(ChannelManager & _channel_manager, std::string const & channel_name, char sign)
+void	update_user_limit(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg)
 {
+	int user_limit = 0;
+	std::istringstream iss(mode_arg);
+	if (!iss >> user_limit)
+		return ;
+	
 	if (sign == '+')
-		_channel_manager.get_channel(channel_name).user_limit = 0;
+		_channel_manager.get_channel(channel_name).user_limit = user_limit;
 	else if (sign == '-')
-		_channel_manager.get_channel(channel_name).user_limit = 2000;
+		_channel_manager.get_channel(channel_name).user_limit = -1;
 	return ;
 }
 
-void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign, int client_fd)
+void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg, int client_fd)
 {
 	(void)_channel_manager;
 	(void)channel_name;
 
+	//check if mode_arg matches nickname
+	(void)mode_arg;
+
+	
 	if (sign == '+')
 		_channel_manager.get_channel(channel_name).operators.insert(client_fd);
 	else if (sign == '-')

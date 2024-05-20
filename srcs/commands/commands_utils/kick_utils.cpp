@@ -52,6 +52,7 @@ void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_ma
 
 	if (_channel_manager.is_operator(kicked_user.get_fd(), channel_name) == false)
 	{
+		std::cout << "I am here" << std::endl;
 		_channel_manager.leave_channel(kicked_user.get_fd(), channel_name);
 
 		//---
@@ -66,12 +67,14 @@ void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_ma
 
 		User user = _user_manager.get_user(client.get_fd());
 		client.write(RPL_KICK(user.get_nickname(), user.get_username(), channel_name, nickname, "KICK"));
-		return ;
+		
 	}
-
 	//---
-	if (DEBUG)
+	else
+	{
 		std::cout <<BRED <<"User to be kicked is the channel operator" <<PRINT_END;
+		client.write("KICK " + channel_name + " " + nickname + " :Cannot kick channel operator");
+	}
 	//---
 
 	return ;

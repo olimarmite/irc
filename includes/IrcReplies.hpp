@@ -24,7 +24,7 @@
 # define	NICK_CHANGED(old_nick, username, new_nick, command)				DOTS + old_nick + TILD + username + IP_ADD + SPACE + command + " :" + new_nick + NEW_LINE
 # define	MSG_RECEIVED(sdr_nick, rcv_usrnm, rcv_nick, msg, command)		DOTS + sdr_nick + TILD + rcv_usrnm + IP_ADD + SPACE + command + SPACE + rcv_nick + " :" + msg + NEW_LINE
 # define	JOINED_CHANNEL(nickname, username, chan_name, command)			DOTS + nickname + TILD + username + IP_ADD + SPACE + command + " :" + chan_name + NEW_LINE
-# define	RPL_TOPIC(nickname, username, chan_name, chan_top, command)		DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + " :" + chan_top + NEW_LINE
+# define	RPL_TOPIC(nickname, username, chan_name, chan_top, command)		DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + " :" + chan_top + NEW_LINE																			
 # define	RPL_KICK(nickname, username, chan_name, kcked_nick, command)	DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + SPACE + kcked_nick + " :" + nickname + NEW_LINE
 # define	PONG_MSG(server_name, nickname)									DOTS + server_name + SPACE + "PONG " + server_name + " :" + nickname + NEW_LINE
 

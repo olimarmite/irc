@@ -30,7 +30,6 @@ void	command_sendmsg(
 	std::string const &args
 	)
 {
-
 	/*
 		Par default /msg ecrit a un USER et non un channel
 		ex: /msg test salut --> message privé pour le user test
@@ -39,6 +38,7 @@ void	command_sendmsg(
 		user, si on écrit à test sans # alors irssi va ouvrir un
 		chat privé avec un user test (qui n'existe pas).
 	 */
+
 
 	User origin_user = _user_manager.get_user(client.get_fd());
 
