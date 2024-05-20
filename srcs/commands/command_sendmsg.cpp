@@ -76,22 +76,12 @@ void	command_sendmsg(
 	else //message for channel
 	{
 		if (DEBUG)
-		{
-			std::cout <<"List of channels" <<std::endl;
 			_channel_manager.print_all_channels();
-		}
 
 		Channel channel = _channel_manager.get_channel(args);
 
-		if (DEBUG)
-			std::cout <<BCYN <<"channel name returned: " <<channel.name <<PRINT_END;
-
 		if (_channel_manager.channel_exists(channel.name) == false) //if channel n'existe pas alors le creer
-		{
-			if (DEBUG)
-				std::cout <<BBLU <<"Channel doesn't exist : creation of new channel" <<PRINT_END;
 			command_join(_channel_manager, _user_manager, client, args); //join le nouveau channel créé
-		}
 		else
 		{
 			if (DEBUG)
@@ -100,13 +90,13 @@ void	command_sendmsg(
 			if (_channel_manager.is_user_in_channel(client.get_fd(), channel.name) == false) //if user n'est pas dans le channel
 			{
 				if (DEBUG)
-					std::cout <<BRED <<"User not in channel (was kicked out?)" <<PRINT_END;
+					std::cout <<BCYN <<"User not in channel (was kicked out?)" <<PRINT_END;
 				//TODO : RPL client not in channel
 				return ;
 			}
 			if (DEBUG)
 			{
-				std::cout <<BRED <<"User found in channel " <<channel.name <<PRINT_END;
+				std::cout <<BCYN <<"User found in channel " <<channel.name <<PRINT_END;
 				_channel_manager.print_all_clients(channel.name);
 			}
 			_channel_manager.send_message_to_channel(client.get_fd(), channel.name, args, _user_manager); //on envoie le msg dans le channel

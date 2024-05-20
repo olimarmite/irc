@@ -43,45 +43,46 @@ void	command_kick(
 		std::cout <<BCYN <<"REASON: //" << reason + "//" << PRINT_END;
 	}
 
-	//CARO : lignes en dessous pas besoin : irssi a l'air de s'en charger seul
-	//if no channel name --> we cannot kick someone from a privmsg
-	// if (args[0] != '#')
-	// 	std::cout <<BRED <<"Cannot kick someone from private message" <<PRINT_END;
-
-	//check if user is in channel
-	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == true) //if user is in channel
+	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == false) //if user is not in channel
 	{
+		//TODO error message : user not in channel
 		if (DEBUG)
-			std::cout <<BBLU <<"User to be kicked is in channel" <<PRINT_END;
+			std::cout <<BRED <<"User to be kicked is not in channel" <<PRINT_END;
+		return ;
+	}
 
-		User kicked_user = _user_manager.get_user_by_name(nickname);
-		Client kicked_client = _channel_manager.get_client_manager().get_client(kicked_user.get_fd());
-		if (kicked_user.get_is_operator() == false) //check if user is channel perator
-		{
-			_channel_manager.leave_channel(kicked_client.get_fd(), channel_name);
-			if (DEBUG)
-			{
-				std::cout <<BBLU <<"User to be kicked is not the channel operator" <<PRINT_END;
-				std::cout <<BBLU <<"User has been kicked" <<PRINT_END;
-				std::cout <<BBLU <<"List of clients in channel " <<channel_name <<PRINT_END;
-				_channel_manager.print_all_clients(channel_name);
-			}
+	if (DEBUG)
+		std::cout <<BBLU <<"User to be kicked is in channel" <<PRINT_END;
 
-			User user = _user_manager.get_user(client.get_fd());
-			client.write(RPL_KICK(user.get_nickname(), user.get_username(), channel_name, nickname, "KICK")); //+ reason?
-		}
-		else
+	User kicked_user = _user_manager.get_user_by_name(nickname);
+
+	if (DEBUG)
+	{
+		std::cout <<"----------------" <<std::endl;
+		std::cout <<BRED <<"List of operators in channel " <<channel_name <<PRINT_END;
+		_channel_manager.print_operators(channel_name, _user_manager);
+		std::cout <<"----------------" <<std::endl;
+	}
+
+	if (_channel_manager.is_operator(kicked_user.get_fd(), channel_name) == false)
+	{
+		_channel_manager.leave_channel(kicked_user.get_fd(), channel_name);
+		if (DEBUG)
 		{
-			//TODO : RPL error message : cannot kick channel operator
-			if (DEBUG)
-				std::cout <<BRED <<"Cannot kick channel operator" <<PRINT_END;
+			std::cout <<BBLU <<"User to be kicked is not the channel operator" <<PRINT_END;
+			std::cout <<BBLU <<"User has been kicked" <<PRINT_END;
+			std::cout <<BBLU <<"List of clients in channel " <<channel_name <<PRINT_END;
+			_channel_manager.print_all_clients(channel_name);
 		}
+
+		User user = _user_manager.get_user(client.get_fd());
+		client.write(RPL_KICK(user.get_nickname(), user.get_username(), channel_name, nickname, "KICK")); //+ reason?
 	}
 	else
 	{
-		//error message : user not in channel
+		//TODO : RPL error message : cannot kick channel operator
 		if (DEBUG)
-			std::cout <<BRED <<"User to be kicked is not in channel" <<PRINT_END;
+			std::cout <<BRED <<"Cannot kick channel operator" <<PRINT_END;
 	}
 	
 	return ;
