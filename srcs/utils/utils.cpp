@@ -62,7 +62,7 @@ bool is_valid_password(std::string const & password)
 }
 
 // Channels
-bool	is_check_all_channel_valid(std::string const & channel_name, std::string const & password, Client &client, ChannelManager & _channel_manager)
+bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager)
 {
 	if (is_channel_name_valid(channel_name) == false)
 		return false;
@@ -73,6 +73,7 @@ bool	is_check_all_channel_valid(std::string const & channel_name, std::string co
 		if (is_channel_invite_only(channel, client, channel_name) == false)
 			return false;
 
+		std::string const & password = _channel_manager.get_channel(channel_name).password;
 		if (is_channel_key_protected(channel, client, channel_name, password) == false)
 			return false;
 	}

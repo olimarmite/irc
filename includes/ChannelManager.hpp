@@ -22,7 +22,6 @@ struct Channel
 	unsigned int	user_limit;
 
 	std::set<int>	operators;
-
 };
 
 class ChannelManager
@@ -38,12 +37,15 @@ public:
 	~ChannelManager();
 
 	// Get & Set
-	Channel&	get_channel(std::string const &channel);
-	void		set_channel_name(std::string const & channel_name);
-	void		set_channel_topic(std::string const & channel_name, std::string const & channel_topic);
+	Channel&				get_channel(std::string const &channel);
+	std::set<int>			get_operators(std::string const & channel_name);
+	std::set<std::string>	get_channels_for_users(int client_fd);
+	ClientManager&			get_client_manager();
+	void					set_channel_name(std::string const & channel_name);
+	void					set_channel_topic(std::string const & channel_name, std::string const & channel_topic);
 
 	// Methods
-	void		create_channel(std::string const & channel_name, std::string const & password);
+	void		create_channel(std::string const & channel_name, std::string const & password, int const & client_fd);
 	bool		is_user_in_channel(int client_fd, std::string const & channel_name);
 	void		send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message, UserManager &_user_manager);
 	void		join_channel(int client_fd, std::string const &channel);
@@ -51,11 +53,12 @@ public:
 	void		leave_channel(int client_fd, std::string const &channel);
 	void		leave_all_channels(int client_fd);
 	bool		channel_exists(std::string const & channel_name);
+	bool		is_operator(int client_fd, std::string channel_name);
 
-  ClientManager &get_client_manager();
 
-	//debug
+	// Debug
 	void		print_all_channels();
 	void		print_all_clients(std::string channel_name);
+	void		print_operators(std::string channel_name, UserManager user_manager);
 
 };

@@ -17,9 +17,10 @@ void	command_ping(
 {
 	(void)args;
 	(void)_channel_manager;
-	(void)_user_manager;
 	(void)_client_manager;
 	(void)_server_settings;
 
-	client.write(std::string("") + "PONG !\n");
+	User	& user = _user_manager.get_user(client.get_fd());
+	client.write(PONG_MSG(SERVER_NAME, user.get_nickname()));
+	return ;
 }

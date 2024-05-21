@@ -19,11 +19,6 @@ void	command_nick(
 	)
 {
 	(void)_channel_manager;
-	(void)args;
-	(void)_user_manager;
-	(void)_client_manager;
-	(void)_server_settings;
-
 
 	User	& user = _user_manager.get_user(client.get_fd());
 
@@ -33,9 +28,16 @@ void	command_nick(
 	if (DEBUG)
 		std::cout << "old nickname = " <<user.get_nickname() <<std::endl;
 
+	// TODO handle_nick_command
 	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK"));
 	user.set_nickname(args);
 
 	if (DEBUG)
 		std::cout << "new nickname = " <<user.get_nickname() <<std::endl;
+
+	if (DEBUG)
+	{
+		std::cout <<"ALL USERS : " <<std::endl;
+		_user_manager.print_all_users();
+	}
 }

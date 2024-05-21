@@ -21,6 +21,12 @@ bool	is_valid_invite(std::string const & channel_name, std::string const & nickn
 		return false;
 	}
 
+	if (_channel_manager.get_channel(channel_name).is_invite_only == true)
+	{
+		client.write(ERR_INVITEONLYCHAN(SERVER_NAME, channel_name));
+		return false;
+	}
+
 	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == false)
 	{
 		client.write(ERR_NOTONCHANNEL(SERVER_NAME, channel_name));
@@ -32,17 +38,6 @@ bool	is_valid_invite(std::string const & channel_name, std::string const & nickn
 		client.write(ERR_USERONCHANNEL(SERVER_NAME, nickname, channel_name));
 		return false;
 	}
-	
-	// TODO --> voir avec caro et olivier quel container pour les operators
-	// check if user is operator 
-	// otherwise ERR 482
-	/*
-	if (_channel_manager.is_user_operator(client.get_fd(), channel_name) == false)
-	{
-		client.write(ERR_CHANOPRIVSNEEDED(SERVER_NAME, channel_name));
-		return false;
-	}
-	*/
 
 	return true;
 }

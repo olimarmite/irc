@@ -50,7 +50,7 @@ void	UserManager::print_all_users()
 	std::map<int, User>::iterator it = _users.begin();
 	while (it != _users.end())
 	{
-		std::cout << " - " <<it->second.get_nickname() <<std::endl;
+		std::cout << " - nick : " <<it->second.get_nickname() <<" | user : " <<it->second.get_username() <<std::endl;
 		it++;
 	}
 }

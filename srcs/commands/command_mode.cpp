@@ -17,23 +17,17 @@ void	command_mode(
 	std::string const &args
 	)
 {
-	(void)_channel_manager;
-	(void)args;
-	(void)_user_manager;
-	(void)_client_manager;
-	(void)_server_settings;
-
-	(void)client;
-
+	//si pas channel, ignorer le message, return
+		
+	User& user = _user_manager.get_user(client.get_fd());
+	if (user.get_is_authenticated() == false)
+		return ;
 
 	std::istringstream ss(args);
+	
+	std::string channel_name, modestring, mode_arg;
 
-	std::string channel_name;
-	std::string modestring;
-
-	//si pas channel, ignorer le message, return
-
-	if (!(ss >> channel_name >> modestring) || channel_name.empty() || modestring.empty())
+	if (!(ss >> channel_name >> modestring >> mode_arg) || channel_name.empty() || modestring.empty())
 	{
 		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "mode"));
 		return ;
@@ -45,10 +39,9 @@ void	command_mode(
 		std::cout << "modestring: " << modestring << std::endl;
 	}
 
-	if (is_valid_mode(_channel_manager, client, channel_name, modestring) == false)
+	if (is_valid_mode(_channel_manager, client, channel_name, modestring, mode_arg) == false)
 		return ;
-
-	update_mode(_channel_manager, channel_name, modestring[0], modestring[1]);
+	update_mode(_channel_manager, channel_name, modestring[0], modestring[1], mode_arg, client.get_fd(), _user_manager);
 
 	return ;
 }

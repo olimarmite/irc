@@ -34,6 +34,7 @@ void command_ping(
 	Client &client,
 	std::string const &args
 	);
+
 void command_join(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
@@ -42,6 +43,7 @@ void command_join(
 	Client &client,
 	std::string const &args
 	);
+
 void command_sendmsg(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
@@ -61,15 +63,6 @@ void command_auth(
 	);
 
 void command_nick(
-	ChannelManager &_channel_manager,
-	UserManager &_user_manager,
-	ClientManager &_client_manager,
-	const ServerSettings &_server_settings,
-	Client &client,
-	std::string const &args
-	);
-
-void command_info(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
 	ClientManager &_client_manager,
@@ -132,13 +125,13 @@ void	command_user(
 	std::string const &args
 	);
 
+
 const g_command_table_t g_command_table[] = {
 	{"PING", command_ping},
 	{"JOIN", command_join},
 	{"PRIVMSG", command_sendmsg},
 	{"AUTH", command_auth},
 	{"NICK", command_nick},
-	{"INFO", command_info},
 	{"KICK", command_kick},
 	{"INVITE", command_invite},
 	{"TOPIC", command_topic},

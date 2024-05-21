@@ -24,30 +24,27 @@
 # define	NICK_CHANGED(old_nick, username, new_nick, command)				DOTS + old_nick + TILD + username + IP_ADD + SPACE + command + " :" + new_nick + NEW_LINE
 # define	MSG_RECEIVED(sdr_nick, rcv_usrnm, rcv_nick, msg, command)		DOTS + sdr_nick + TILD + rcv_usrnm + IP_ADD + SPACE + command + SPACE + rcv_nick + " :" + msg + NEW_LINE
 # define	JOINED_CHANNEL(nickname, username, chan_name, command)			DOTS + nickname + TILD + username + IP_ADD + SPACE + command + " :" + chan_name + NEW_LINE
-# define	RPL_TOPIC2(nickname, username, chan_name, chan_top, command)	DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + " :" + chan_top + NEW_LINE
+# define	RPL_TOPIC(nickname, username, chan_name, chan_top, command)		DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + " :" + chan_top + NEW_LINE																			
 # define	RPL_KICK(nickname, username, chan_name, kcked_nick, command)	DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + SPACE + kcked_nick + " :" + nickname + NEW_LINE
-
-
-
+# define	PONG_MSG(server_name, nickname)									DOTS + server_name + SPACE + "PONG " + server_name + " :" + nickname + NEW_LINE
+# define	RPL_MODEUPDATECHANOP(origin_nick, origin_user, chan_name, sign, nick)	DOTS + origin_nick + TILD + origin_user + IP_ADD + " MODE " + chan_name + SPACE + sign +"o " + nick + NEW_LINE
 
 // ERRORS
-# define	ERR_NOSUCHNICK(prefix, nickname)				DOTS + prefix + SPACE + "401 " + "" + nickname + " :No such nick/channel" + NEW_LINE
-# define	ERR_NOSUCHSERVER(prefix, server_name)			DOTS + prefix + SPACE + "402 " + "" + server_name + " :No such server" + NEW_LINE
-# define	ERR_NOSUCHCHANNEL(prefix, channel_name)			DOTS + prefix + SPACE + "403 " + "" + channel_name + " :No such channel" + NEW_LINE
-# define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "" + nick + " :Erroneus nickname" + NEW_LINE
-# define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "" + nick + " :Nickname is already in use" + NEW_LINE
-# define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "" + command + " :Not enough parameters" + NEW_LINE
-# define	ERR_NOTONCHANNEL(prefix, channel)				DOTS + prefix + SPACE + "442 " + "" + channel + " :You're not on that channel" + NEW_LINE
-# define	ERR_USERONCHANNEL(prefix, user, channel)		DOTS + prefix + SPACE + "443 " + "" + user + SPACE + channel + " :is already on channel" + NEW_LINE
-// to be used in invite_utils.cpp and others
-# define	ERR_CHANOPRIVSNEEDED(prefix, channel)			DOTS + prefix + SPACE + "482 " + "" + channel + " :You're not channel operator" + NEW_LINE
-
-# define	ERR_INVITEONLYCHAN(prefix, channel)				DOTS + prefix + SPACE + "473 " + "" + channel + " :Cannot join channel (+i)" + NEW_LINE
-# define	ERR_BADCHANNELKEY(prefix, channel)				DOTS + prefix + SPACE + "475 " + "" + channel + " :Cannot join channel (+k)" + NEW_LINE
+# define	ERR_NOSUCHNICK(prefix, nickname)				DOTS + prefix + SPACE + "401 " + "* " + nickname + " :No such nick/channel" + NEW_LINE
+# define	ERR_NOSUCHSERVER(prefix, server_name)			DOTS + prefix + SPACE + "402 " + "* " + server_name + " :No such server" + NEW_LINE
+# define	ERR_NOSUCHCHANNEL(prefix, channel_name)			DOTS + prefix + SPACE + "403 " + "* " + channel_name + " :No such channel" + NEW_LINE
+# define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "* " + nick + " :Erroneus nickname" + NEW_LINE
+# define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "* " + nick + " :Nickname is already in use" + NEW_LINE
+# define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "* " + command + " :Not enough parameters" + NEW_LINE
+# define	ERR_NOTONCHANNEL(prefix, channel)				DOTS + prefix + SPACE + "442 " + "* " + channel + " :You're not on that channel" + NEW_LINE
+# define	ERR_USERONCHANNEL(prefix, user, channel)		DOTS + prefix + SPACE + "443 " + "* " + user + SPACE + channel + " :is already on channel" + NEW_LINE
+# define	ERR_CHANOPRIVSNEEDED(prefix, channel)			DOTS + prefix + SPACE + "482 " + "* " + channel + " :You're not channel operator" + NEW_LINE
+# define	ERR_INVITEONLYCHAN(prefix, channel)				DOTS + prefix + SPACE + "473 " + "* " + channel + " :Cannot join channel (+i)" + NEW_LINE
+# define	ERR_BADCHANNELKEY(prefix, channel)				DOTS + prefix + SPACE + "475 " + "* " + channel + " :Cannot join channel (+k)" + NEW_LINE
 
 
 // NUMERIC REPLIES
-# define	RPL_INVITING(prefix, channel, nick)				DOTS + prefix + SPACE + "341 " + "" + channel + SPACE + nick + "" + NEW_LINE
+# define	RPL_INVITING(prefix, channel, nick)				DOTS + prefix + SPACE + "341 " + "* " + channel + SPACE + nick + "" + NEW_LINE
 
 
 /*****		NOT USED YET		*****/
@@ -100,7 +97,7 @@
 # define	RPL_LISTEND(prefix)										DOTS + prefix + SPACE + "323 " + ":End of /LIST" + NEW_LINE
 # define	RPL_CHANNELMODEIS(prefix, channel, mode, mode_params)	DOTS + prefix + SPACE + "324 " + "" + channel + SPACE + mode + SPACE + mode_params + "" + NEW_LINE
 # define	RPL_NOTOPIC(prefix, channel)							DOTS + prefix + SPACE + "331 " /* + "" */ + channel + " :No topic is set" + NEW_LINE
-# define	RPL_TOPIC(prefix, channel, topic)						DOTS + prefix + SPACE + "332 " + "" + channel + " :" + topic + "" + NEW_LINE
+// # define	RPL_TOPIC(prefix, channel, topic)						DOTS + prefix + SPACE + "332 " + "" + channel + " :" + topic + "" + NEW_LINE
 # define	RPL_SUMMONING(prefix, user)								DOTS + prefix + SPACE + "342 " + "" + user + " :Summoning user to IRC" + NEW_LINE
 # define	RPL_ENDOFWHO(prefix, name)								DOTS + prefix + SPACE + "315 " + "" + name + " :End of /WHO list" + NEW_LINE
 # define	RPL_ENDOFNAMES(prefix, channel)							DOTS + prefix + SPACE + "366 " + "" + channel + " :End of /NAMES list" + NEW_LINE

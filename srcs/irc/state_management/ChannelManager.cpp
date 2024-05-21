@@ -22,9 +22,30 @@ ChannelManager::~ChannelManager()
 Channel	&ChannelManager::get_channel(std::string const &channel)
 {
 	int i = 0;
-	while (channel[i] != ' ')
+	while (channel[i] != ' ' && channel[i])
 		i++;
-	return _channels[channel.substr(0, i)];
+  
+	std::string channel_name = channel.substr(0, i);
+	return _channels[channel_name];
+}
+
+std::set<int>	ChannelManager::get_operators(std::string const & channel_name)
+{
+	Channel channel = get_channel(channel_name);
+	return channel.operators;
+}
+
+std::set<std::string>	ChannelManager::get_channels_for_users(int client_fd)
+{
+	std::map<int, std::set<std::string> >::iterator it = _clientChannels.find(client_fd);
+	if(it != _clientChannels.end())
+		return it->second;
+	return std::set<std::string>();
+}
+
+ClientManager	&ChannelManager::get_client_manager()
+{
+	return *_client_manager;
 }
 
 void	ChannelManager::set_channel_name(std::string const & channel_name)
@@ -49,9 +70,6 @@ void	ChannelManager::init(ClientManager &client_manager)
 
 void	ChannelManager::leave_channel(int client_fd, std::string const &channel)
 {
-	//HERE: cette fonction ne semble pas bien effacer les clients des channels 
-	//cf. command send_msg qui check si le client est dans le channel
-
 	Channel &channel_obj = get_channel(channel);
 	channel_obj.clients_fd.erase(client_fd);
 
@@ -75,12 +93,21 @@ void	ChannelManager::leave_all_channels(int client_fd)
 	return ;
 }
 
-void	ChannelManager::create_channel(std::string const & channel_name, std::string const & password)
+void	ChannelManager::create_channel(std::string const & channel_name, std::string const & password, int const & client_fd)
 {
 	Channel	new_channel;
 
+	std::cout << BCYN "pass = " << password << PRINT_END;
+
 	new_channel.name = channel_name;
 	new_channel.password = password;
+	new_channel.topic = "";
+	new_channel.is_invite_only = false;
+	new_channel.is_topic_restricted_to_operators = false;
+	new_channel.is_key_needed = false;
+	new_channel.user_limit = 2000;
+	new_channel.operators.insert(client_fd);
+
 	_channels[channel_name] = new_channel;
 
 	if (DEBUG)
@@ -103,19 +130,12 @@ bool	ChannelManager::is_user_in_channel(int client_fd, std::string const & chann
 
 void	ChannelManager::join_channel(int client_fd, std::string const & channel_name)
 {
-
-	std::cout << "channel name = " + channel_name << PRINT_END;
-	
 	set_channel_name(channel_name);
 	_channels[channel_name].clients_fd.insert(client_fd);
 	_clientChannels[client_fd].insert(channel_name);
 
 	if (DEBUG)
-	{
-		std::cout << "Joined channel " << channel_name << std::endl;
-		std::cout << "Channel size: " << _channels[channel_name].clients_fd.size() << std::endl;
-		std::cout << client_fd << " Client size: " << _clientChannels[client_fd].size() << std::endl;
-	}
+		std::cout << "Number of clients in channel : " << _channels[channel_name].clients_fd.size() << std::endl;
 
 	return ;
 }
@@ -143,20 +163,33 @@ void	ChannelManager::send_message_to_channel(int client_fd, std::string const & 
 bool	ChannelManager::channel_exists(std::string const & channel_name)
 {
 	if (_channels.find(channel_name) != _channels.end())
+	{
+		if (DEBUG)
+			std::cout << channel_name + " exists" << PRINT_END;
 		return true;
+	}
 
 	if (DEBUG)
 		std::cout << channel_name + " does not exist, it will be created" << PRINT_END;
 	return false;
 }
 
+bool	ChannelManager::is_operator(int client_fd, std::string channel_name)
+{
+	Channel channel = get_channel(channel_name);
+	for (std::set<int>::iterator it = channel.operators.begin(); it != channel.operators.end(); it++)
+	{
+		if (*it == client_fd)
+			return true;
+	}
+	return false;
+}
 
-////////debug
+/*	-----		Debug					-----	*/
 void ChannelManager::print_all_channels()
 {
+	std::cout <<"List of channels" <<std::endl;
 	std::map<std::string, Channel>::iterator it = _channels.begin();
-	std::cout << "Number of channels: " << _channels.size() << PRINT_END;
-
 	while (it != _channels.end())
 	{
 		std::cout << " - " << it->second.name << PRINT_END;
@@ -168,19 +201,26 @@ void ChannelManager::print_all_channels()
 void ChannelManager::print_all_clients(std::string channel_name)
 {
 	Channel &channel = _channels[channel_name];
-	std::set<int>::iterator it = channel.clients_fd.begin();
+	// std::set<int>::iterator it = channel.clients_fd.begin();
 
 	std::cout << "Number of clients in " << channel_name << ": " << channel.clients_fd.size() << PRINT_END;
 
-	while (it != channel.clients_fd.end())
-	{
-		std::cout << " - " << *it << PRINT_END;
-		it++;
-	}
+	// while (it != channel.clients_fd.end())
+	// {
+	// 	std::cout << " - " << *it << PRINT_END;
+	// 	it++;
+	// }
 	return ;
 }
 
-ClientManager &ChannelManager::get_client_manager()
+void	ChannelManager::print_operators(std::string channel_name, UserManager user_manager)
 {
-	return *_client_manager;
+	Channel channel = get_channel(channel_name);
+	for (std::set<int>::iterator it = channel.operators.begin(); it != channel.operators.end(); it++)
+	{
+		Client client = _client_manager->get_client(*it);
+		User user = user_manager.get_user(client.get_fd());
+
+		std::cout <<"- " <<user.get_nickname() <<std::endl;
+	}
 }

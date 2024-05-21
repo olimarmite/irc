@@ -46,8 +46,6 @@ bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager
 	
 	if (nickname.empty())
 	{
-		if (DEBUG)
-			std::cout << BRED << ERR_NONICKNAMEGIVEN(SERVER_NAME) << PRINT_END;
 		client.write(ERR_NONICKNAMEGIVEN(SERVER_NAME));
 		return false;
 	}
@@ -55,16 +53,12 @@ bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager
 	std::string	invalid = " ,*?!@.$:";
 	if (does_nickname_have_channel_prefix(nickname) == true || nickname.find_first_of(invalid) != std::string::npos)
 	{
-		if (DEBUG)
-			std::cout << BRED << ERR_ERRONEUSNICKNAME(SERVER_NAME, nickname) << PRINT_END;
 		client.write(ERR_ERRONEUSNICKNAME(SERVER_NAME, nickname));
 		return false;
 	}
 
 	if (does_nickname_already_exist(nickname, _user_manager) == true)
 	{
-		if (DEBUG)
-			std::cout << BRED << ERR_NICKNAMEINUSE(SERVER_NAME, nickname) << PRINT_END;
 		client.write(ERR_NICKNAMEINUSE(SERVER_NAME, nickname));
 		return false;
 	}
