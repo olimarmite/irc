@@ -168,9 +168,6 @@ bool	ChannelManager::channel_exists(std::string const & channel_name)
 			std::cout << channel_name + " exists" << PRINT_END;
 		return true;
 	}
-
-	if (DEBUG)
-		std::cout << channel_name + " does not exist, it will be created" << PRINT_END;
 	return false;
 }
 

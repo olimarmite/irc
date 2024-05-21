@@ -22,6 +22,12 @@ bool	is_valid_mode(
 		return false;
 	}
 
+	if (!is_valid_mode_syntax(modestring, mode_arg))
+	{
+		client.write(ERR_UNKNOWNMODE(SERVER_NAME, modestring));
+		return false;
+	}
+
 	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == false)
 	{
 		client.write(ERR_NOTONCHANNEL(SERVER_NAME, channel_name));
@@ -34,11 +40,6 @@ bool	is_valid_mode(
 		return false;
 	}
 	
-	if (!is_valid_mode_syntax(modestring, mode_arg))
-	{
-		client.write(ERR_UNKNOWNMODE(SERVER_NAME, modestring));
-		return false;
-	}
 
 	return true;
 }
@@ -159,11 +160,14 @@ void	update_channel_key(ChannelManager & _channel_manager, std::string const & c
 
 void	update_user_limit(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg)
 {
-	int user_limit = 0;
-	std::istringstream iss(mode_arg);
-	if (!iss >> user_limit)
-		return ;
-	
+	int	user_limit = std::atoi(mode_arg.c_str());
+
+	if (DEBUG)
+	{
+		std::cout << BGRN "mode_arg: ---" << mode_arg << "---" << std::endl;	
+		std::cout << BGRN "user limit: " << user_limit << std::endl;
+	}
+
 	if (sign == '+')
 		_channel_manager.get_channel(channel_name).user_limit = user_limit;
 	else if (sign == '-')
@@ -171,31 +175,28 @@ void	update_user_limit(ChannelManager & _channel_manager, std::string const & ch
 	return ;
 }
 
-void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg, int client_fd, UserManager user_manager)
+void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg, int client_fd, UserManager & user_manager)
 {
 	Client cmd_client = _channel_manager.get_client_manager().get_client(client_fd);
 	User cmd_user = user_manager.get_user(client_fd);
 
 	if (user_manager.user_exists(mode_arg) == false)
 	{
-		std::cout <<"User to change mode for does not exist" <<std::endl; //client.write() ?
+		cmd_client.write(ERR_NOSUCHNICK(SERVER_NAME, mode_arg));
 		return;
 	}
-	User user = user_manager.get_user_by_name(mode_arg);
-	if (_channel_manager.is_user_in_channel(user.get_fd(), channel_name) == false)
+
+	if (_channel_manager.is_user_in_channel(user_manager.get_user_by_name(mode_arg).get_fd(), channel_name) == false)
 	{
-		std::cout <<"User to change mode for was not found in channel" <<std::endl; //client.write() ?
+		cmd_client.write(ERR_USERNOTINCHANNEL(cmd_user.get_nickname(), mode_arg, channel_name));
 		return ;
 	}
 	
 	if (sign == '+')
-		_channel_manager.get_channel(channel_name).operators.insert(user.get_fd());
+		_channel_manager.get_channel(channel_name).operators.insert(cmd_user.get_fd());
 	else if (sign == '-')
-		_channel_manager.get_channel(channel_name).operators.erase(user.get_fd());
-	// else
-		//sign error
+		_channel_manager.get_channel(channel_name).operators.erase(cmd_user.get_fd());
 
-	cmd_client.write(RPL_MODEUPDATECHANOP(cmd_user.get_nickname(), cmd_user.get_username(), channel_name, sign, user.get_nickname()));
-
+	cmd_client.write(RPL_MODEUPDATECHANOP(cmd_user.get_nickname(), cmd_user.get_username(), channel_name, sign, cmd_user.get_nickname()));
 	return ;
 }

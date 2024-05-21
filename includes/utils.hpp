@@ -17,10 +17,10 @@ bool	does_nickname_already_exist(std::string const & nickname);
 bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user, Client &client);
 
 // Channel
-bool	is_check_all_channel_valid(std::string const & channel_name, /* std::string const & password, */ Client &client, ChannelManager & _channel_manager);
+bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager, std::string const & password_arg);
 bool	is_valid_channel_prefix(char c);
 bool	is_channel_name_valid(std::string const & channel);
-bool	is_channel_key_protected(Channel & channel, Client &client, std::string const & channel_name, std::string const & password);
+bool	is_channel_key_protected(Channel & channel, Client &client, std::string const & channel_name, std::string const & password, std::string const & password_arg);
 bool	is_channel_invite_only(Channel & channel, Client &client, std::string const & channel_name);
 
 // Invite
@@ -37,10 +37,11 @@ void	update_channel_invite_only(ChannelManager & _channel_manager, std::string c
 void	update_topic_restricted_to_operators(ChannelManager & _channel_manager, std::string const & channel_name, char sign);
 void	update_channel_key(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg);
 void	update_user_limit(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg);
-void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg, int client_fd, UserManager user_manager);
+void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg, int client_fd, UserManager & user_manager);
 
 // Join
-void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &client, std::string const & channel_name);
+void	broadcast_to_all_users(Channel & channel, ClientManager &_client_manager, Client &client, std::string const & channel_name, User &user);
+void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &client, ClientManager & _client_manager, std::string const & channel_name);
 
 // Kick
 bool	is_kick_valid(ChannelManager & _channel_manager, UserManager &_user_manager, Client &client, std::string const & channel_name, std::string const & nickname);

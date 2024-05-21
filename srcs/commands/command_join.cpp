@@ -20,15 +20,24 @@ void	command_join(
 	(void)_client_manager;
 	(void)_server_settings;
 
-	// TODO KARL ecrire sur tous les users du chan quand un user join le chan
-	std::string const & channel_name = args;
+	// TODO faire user_limit
 
-	if (is_check_all_channel_valid(channel_name, client, _channel_manager) == false)
+	std::istringstream	ss(args);
+	std::string			channel_name, password_arg;
+	if (!(ss >> channel_name) || channel_name.empty())
+	{
+		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "join"));
+		return ;
+	}
+
+	ss >> password_arg;
+
+	if (is_check_all_channel_valid(channel_name, client, _channel_manager, password_arg) == false)
 		return ;
 
 	User user = _user_manager.get_user(client.get_fd());
 
-	handle_join_command(_channel_manager, user, client, channel_name);
+	handle_join_command(_channel_manager, user, client, _client_manager, channel_name);
 
 	return ;
 }

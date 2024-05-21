@@ -14,8 +14,6 @@ struct Channel
 	std::string		password;
 	std::set<int>	clients_fd;
 	std::string		topic;
-
-	// -> pour mode
 	bool			is_invite_only;
 	bool			is_topic_restricted_to_operators;
 	bool			is_key_needed;

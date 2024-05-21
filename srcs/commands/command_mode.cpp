@@ -20,28 +20,31 @@ void	command_mode(
 	(void)_client_manager;
 	(void)_server_settings;
 
-	//TODO si pas channel, ignorer le message, return 
-
-
 	User& user = _user_manager.get_user(client.get_fd());
 	if (user.get_is_authenticated() == false)
+	{
+		client.write(ERR_NOTREGISTERED(SERVER_NAME));
 		return ;
+	}
 
 	std::istringstream ss(args);
-	
 	std::string channel_name, modestring, mode_arg;
-
-	// TODO KARL fix cette merde
-	if (!(ss >> channel_name >> modestring >> mode_arg) || channel_name.empty() || modestring.empty())
+	if (!(ss >> channel_name >> modestring) || channel_name.empty() || modestring.empty())
 	{
 		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "mode"));
 		return ;
 	}
 
+	if (channel_name == user.get_nickname())
+		return ;
+
+	if (!(ss >> mode_arg))
+		mode_arg = "";
 	if (DEBUG)
 	{
-		std::cout << "channel_name: " << channel_name << std::endl;
-		std::cout << "modestring: " << modestring << std::endl;
+		std::cout << BHCYN "channel_name: " << channel_name << std::endl;
+		std::cout << BHCYN "modestring: " << modestring << std::endl;
+		std::cout << BHCYN "mode_arg: " << mode_arg << PRINT_END;
 	}
 
 	if (is_valid_mode(_channel_manager, client, channel_name, modestring, mode_arg) == false)
