@@ -33,7 +33,6 @@
 # define	ERR_NOSUCHNICK(prefix, nickname)				DOTS + prefix + SPACE + "401 " + "* " + nickname + " :No such nick/channel" + NEW_LINE
 # define	ERR_NOSUCHSERVER(prefix, server_name)			DOTS + prefix + SPACE + "402 " + "* " + server_name + " :No such server" + NEW_LINE
 # define	ERR_NOSUCHCHANNEL(prefix, channel_name)			DOTS + prefix + SPACE + "403 " + "* " + channel_name + " :No such channel" + NEW_LINE
-// maybe to fix
 # define	ERR_NONICKNAMEGIVEN(prefix)						DOTS + prefix + SPACE + "431 " + "* " + ":No nickname given" + NEW_LINE
 # define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "* " + nick + " :Erroneus nickname" + NEW_LINE
 # define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "* " + nick + " :Nickname is already in use" + NEW_LINE

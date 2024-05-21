@@ -43,10 +43,10 @@ std::set<std::string>	ChannelManager::get_channels_for_users(int client_fd)
 	return std::set<std::string>();
 }
 
-ClientManager	&ChannelManager::get_client_manager()
+/* ClientManager	&ChannelManager::get_client_manager()
 {
 	return *_client_manager;
-}
+} */
 
 void	ChannelManager::set_channel_name(std::string const & channel_name)
 {

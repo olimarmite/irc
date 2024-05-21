@@ -40,7 +40,7 @@ public:
 	Channel&				get_channel(std::string const &channel);
 	std::set<int>			get_operators(std::string const & channel_name);
 	std::set<std::string>	get_channels_for_users(int client_fd);
-	ClientManager&			get_client_manager();
+	// ClientManager&			get_client_manager();
 	void					set_channel_name(std::string const & channel_name);
 	void					set_channel_topic(std::string const & channel_name, std::string const & channel_topic);
 

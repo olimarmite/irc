@@ -40,7 +40,7 @@ void	command_kick(
 		std::cout <<BCYN <<"NICKNAME: //" << nickname + "//"<< PRINT_END;
 	}
 
-	handle_kick_command(_channel_manager, _user_manager, client, channel_name, nickname);
+	handle_kick_command(_channel_manager, _user_manager, _client_manager, client, channel_name, nickname);
 
 	return ;
 }
