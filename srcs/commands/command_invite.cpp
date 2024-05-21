@@ -25,6 +25,8 @@ void	command_invite(
 	(void)_server_settings;
 
 
+	//TODO Olivier - regarder invite, RFC et log irssi
+
 	std::istringstream iss(args);
 	std::string	nickname, channel_name;
 

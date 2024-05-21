@@ -19,6 +19,9 @@ void	command_topic(
 	std::string const &args
 	)
 {
+	
+	(void)_client_manager;
+	(void)_server_settings;
 
 	std::istringstream ss(args);
 

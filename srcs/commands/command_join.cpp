@@ -17,6 +17,10 @@ void	command_join(
 	std::string const &args
 	)
 {
+	(void)_client_manager;
+	(void)_server_settings;
+
+	// TODO KARL ecrire sur tous les users du chan quand un user join le chan
 	std::string const & channel_name = args;
 
 	if (is_check_all_channel_valid(channel_name, client, _channel_manager) == false)

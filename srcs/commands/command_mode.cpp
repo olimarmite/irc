@@ -16,9 +16,13 @@ void	command_mode(
 	Client &client,
 	std::string const &args
 	)
-{
-	//si pas channel, ignorer le message, return
-		
+{	
+	(void)_client_manager;
+	(void)_server_settings;
+
+	//TODO si pas channel, ignorer le message, return 
+
+
 	User& user = _user_manager.get_user(client.get_fd());
 	if (user.get_is_authenticated() == false)
 		return ;
@@ -27,6 +31,7 @@ void	command_mode(
 	
 	std::string channel_name, modestring, mode_arg;
 
+	// TODO KARL fix cette merde
 	if (!(ss >> channel_name >> modestring >> mode_arg) || channel_name.empty() || modestring.empty())
 	{
 		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "mode"));

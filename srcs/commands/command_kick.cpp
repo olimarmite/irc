@@ -18,6 +18,15 @@ void	command_kick(
 	std::string const &args
 	)
 {
+		
+	(void)_client_manager;
+	(void)_server_settings;
+
+	// TODO KARL ecrire sur tous les users du chan quand un user se fait kick du chan
+
+	// TODO CARO verifier que quand un user est kick, il peut plus ecrire la fenetre
+	// TODO KARL regarder sur DALnet et sur modernhorse
+
 	std::istringstream ss(args);
 	std::string channel_name, nickname;
 
