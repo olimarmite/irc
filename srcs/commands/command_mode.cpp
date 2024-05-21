@@ -33,7 +33,7 @@ void	command_mode(
 		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "mode"));
 		return ;
 	}
-
+	// quand on aura fix le bug des nickname qui sont les memes, to delete
 	if (channel_name == user.get_nickname())
 		return ;
 
@@ -48,6 +48,7 @@ void	command_mode(
 
 	if (is_valid_mode(_channel_manager, client, channel_name, modestring, mode_arg) == false)
 		return ;
+
 	update_mode(_channel_manager, _user_manager, _client_manager, channel_name, modestring[0], modestring[1], mode_arg, client.get_fd());
 
 	return ;

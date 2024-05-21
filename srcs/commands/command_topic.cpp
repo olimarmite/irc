@@ -10,6 +10,8 @@
 #include <string>
 
 
+//TODO update avec mode +t
+
 void	command_topic(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
@@ -22,6 +24,7 @@ void	command_topic(
 	
 	(void)_client_manager;
 	(void)_server_settings;
+
 
 	std::istringstream ss(args);
 
@@ -36,12 +39,15 @@ void	command_topic(
 	if (is_topic_valid(_channel_manager, client, channel_name) == false)
 		return ;
 
+
+
 	if (DEBUG)
 	{
 		std::cout <<BCYN <<"channel name : //" + channel_name + "//" <<PRINT_END;
 		std::cout <<BCYN <<"topic : //" + topic + "//" <<PRINT_END;
 	}
 
+	// TODO KARL faire handle_topic_command
 	// handle_topic_command(_channel_manager, _user_manager, client, channel_name, topic, args);
 
 	Channel channel = _channel_manager.get_channel(channel_name);

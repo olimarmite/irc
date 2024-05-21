@@ -79,6 +79,10 @@ bool	is_check_all_channel_valid(std::string const & channel_name, Client &client
 		std::string const & password = _channel_manager.get_channel(channel_name).password;
 		if (is_channel_key_protected(channel, client, channel_name, password, password_arg) == false)
 			return false;
+
+		// TODO faire des tests
+		if (is_user_limit_reached(channel, client) == true)
+			return false;
 	}
 
 	return true;
@@ -121,4 +125,14 @@ bool	is_channel_key_protected(Channel & channel, Client &client, std::string con
 		return false;
 	}
 	return true;
+}
+
+bool	is_user_limit_reached(Channel & channel, Client &client)
+{
+	if (channel.clients_fd.size() >= channel.user_limit)
+	{
+		client.write(ERR_CHANNELISFULL(SERVER_NAME, channel.name));
+		return true;
+	}
+	return false;
 }
