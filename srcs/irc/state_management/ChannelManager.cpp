@@ -160,6 +160,19 @@ void	ChannelManager::send_message_to_channel(int client_fd, std::string const & 
 	return ;
 }
 
+void ChannelManager::send_message_to_channel2(std::string const &channel, std::string const &message)
+{
+	Channel &channel_obj = get_channel(channel);
+
+	std::set<int>::iterator it = channel_obj.clients_fd.begin();
+	while (it != channel_obj.clients_fd.end())
+	{
+		_client_manager->get_client(*it).write(message);
+		it++;
+	}
+}
+
+
 bool	ChannelManager::channel_exists(std::string const & channel_name)
 {
 	if (_channels.find(channel_name) != _channels.end())
@@ -223,4 +236,9 @@ void	ChannelManager::print_operators(std::string channel_name, UserManager user_
 
 		std::cout <<"- " <<user.get_nickname() <<std::endl;
 	}
+}
+
+std::map<std::string, Channel>	ChannelManager::get_all_channels()
+{
+	return _channels;
 }

@@ -49,6 +49,7 @@ void	command_sendmsg(
 	User origin_user = _user_manager.get_user(client.get_fd());
 
 	std::string message = parse_message(args);
+	std::cout <<BRED <<"MESSAGE = " + message <<PRINT_END;//TEST
 
 	if (args[0] != '#') //if private message
 	{
@@ -111,7 +112,7 @@ void	command_sendmsg(
 				std::cout <<BCYN <<"User found in channel " <<channel.name <<PRINT_END;
 				_channel_manager.print_all_clients(channel.name);
 			}
-			_channel_manager.send_message_to_channel(client.get_fd(), channel.name, args, _user_manager); //on envoie le msg dans le channel
+			_channel_manager.send_message_to_channel(client.get_fd(), channel.name, message, _user_manager); //on envoie le msg dans le channel
 		}
 	}
 }

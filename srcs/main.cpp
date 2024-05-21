@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 
 		client_manager.init(command_handler);
 		channel_manager.init(client_manager);
-		command_handler.init(channel_manager, user_manager);
+		command_handler.init(channel_manager, user_manager, client_manager);
 		server.init(client_manager);
 	
 		set_signals();

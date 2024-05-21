@@ -156,7 +156,7 @@ public:
 	~CommandHandler();
 
 	// Methods
-	void	init(ChannelManager &channel_manager, UserManager &user_manager);
+	void	init(ChannelManager &channel_manager, UserManager &user_manager, ClientManager &client_manager);
 	void	handle_command(Client &client, std::string const &msg);
 	void	on_connection(Client &client);
 	void	on_disconnection(Client &client);

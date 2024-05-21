@@ -48,12 +48,15 @@ public:
 	void		create_channel(std::string const & channel_name, std::string const & password, int const & client_fd);
 	bool		is_user_in_channel(int client_fd, std::string const & channel_name);
 	void		send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message, UserManager &_user_manager);
+	//TODO: UN SEUL SEND_MSG_TO_CHANNEL
+	void		send_message_to_channel2(std::string const &channel_name, std::string const &message);
 	void		join_channel(int client_fd, std::string const &channel);
 	void		init(ClientManager &client_manager);
 	void		leave_channel(int client_fd, std::string const &channel);
 	void		leave_all_channels(int client_fd);
 	bool		channel_exists(std::string const & channel_name);
 	bool		is_operator(int client_fd, std::string channel_name);
+	std::map<std::string, Channel>	get_all_channels();
 
 
 	// Debug
