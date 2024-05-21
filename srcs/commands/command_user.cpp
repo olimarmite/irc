@@ -9,6 +9,9 @@
 #include <sstream>
 #include <string>
 
+
+// HERE demander a caro si toujours d'actualité ??
+
 // TODO trouver moyen de recuperer _password du serveur
 // void	command_pass(
 // 	ChannelManager &_channel_manager,
@@ -69,9 +72,17 @@ void	command_user( //ne doit être accessible que à la connection
 
 	User &user = _user_manager.get_user(client.get_fd());
 
-	std::string username = args.substr(0, args.find(' '));
-	user.set_username(username);
+	std::istringstream ss(args);
+	std::string username;
+	std::getline(ss, username, ' ');
 
+	if (username.empty())
+	{
+		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "USER"));
+		return ;
+	}
+
+	user.set_username(username);
 	user.set_is_authenticated(true);
 	if (DEBUG)
 		std::cout <<BHGRN <<"User authentification set to true" <<PRINT_END;

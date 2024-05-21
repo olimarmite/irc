@@ -18,7 +18,6 @@ void	command_auth(
 	std::string const &args
 	)
 {
-	(void)_channel_manager;
 	(void)args;
 	(void)_user_manager;
 	(void)_client_manager;
@@ -26,6 +25,6 @@ void	command_auth(
 
 	User& user = _user_manager.get_user(client.get_fd());
 	user.set_is_authenticated(true);
-	client.write("Authenticated\n");
+	_channel_manager.send_message_to_channel2("", BGRN + user.get_nickname() + " has been authenticated\n");
 	return ;
 }

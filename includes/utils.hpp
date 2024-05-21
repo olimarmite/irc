@@ -22,6 +22,7 @@ bool	is_valid_channel_prefix(char c);
 bool	is_channel_name_valid(std::string const & channel);
 bool	is_channel_key_protected(Channel & channel, Client &client, std::string const & channel_name, std::string const & password, std::string const & password_arg);
 bool	is_channel_invite_only(Channel & channel, Client &client, std::string const & channel_name);
+bool	is_user_limit_reached(Channel & channel, Client &client);
 
 // Invite
 bool	is_valid_invite(std::string const & channel_name, std::string const & nickname, UserManager & _user_manager, ChannelManager & _channel_manager, Client &client);
