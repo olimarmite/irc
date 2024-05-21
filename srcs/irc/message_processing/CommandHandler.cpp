@@ -80,10 +80,11 @@ CommandHandler::~CommandHandler()
 }
 
 
-void CommandHandler::init(ChannelManager &channel_manager, UserManager &user_manager)
+void CommandHandler::init(ChannelManager &channel_manager, UserManager &user_manager, ClientManager &client_manager)
 {
 	_channel_manager = &channel_manager;
 	_user_manager = &user_manager;
+	_client_manager = &client_manager;
 }
 
 void CommandHandler::on_connection(Client &client)

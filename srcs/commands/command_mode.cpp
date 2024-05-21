@@ -17,7 +17,6 @@ void	command_mode(
 	std::string const &args
 	)
 {	
-	(void)_client_manager;
 	(void)_server_settings;
 
 	//TODO si pas channel, ignorer le message, return 
@@ -46,7 +45,7 @@ void	command_mode(
 
 	if (is_valid_mode(_channel_manager, client, channel_name, modestring, mode_arg) == false)
 		return ;
-	update_mode(_channel_manager, channel_name, modestring[0], modestring[1], mode_arg, client.get_fd(), _user_manager);
+	update_mode(_channel_manager, _user_manager, _client_manager, channel_name, modestring[0], modestring[1], mode_arg, client.get_fd());
 
 	return ;
 }

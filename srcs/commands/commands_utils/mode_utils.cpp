@@ -92,7 +92,7 @@ bool	is_valid_mode_syntax(std::string const & modestring, std::string const & mo
 
 
 // Handlers
-void	update_mode(ChannelManager & _channel_manager, std::string const & channel_name, char sign, char mode, std::string const & mode_arg, int client_fd, UserManager user_manager)
+void	update_mode(ChannelManager & _channel_manager, UserManager &_user_manager, ClientManager &_client_manager, std::string const & channel_name, char sign, char mode, std::string const & mode_arg, int client_fd)
 {
 	//TO DO peut etre plus de parsing a faire selon les modes
 
@@ -105,7 +105,7 @@ void	update_mode(ChannelManager & _channel_manager, std::string const & channel_
 	else if (mode == 'l')
 		update_user_limit(_channel_manager, channel_name, sign, mode_arg);
 	else if (mode == 'o') // mettre nickname apres mode
-		update_channel_operator(_channel_manager, channel_name, sign, mode_arg, client_fd, user_manager);
+		update_channel_operator(_channel_manager, _user_manager, _client_manager, channel_name, sign, mode_arg, client_fd);
 
 	return ;
 }
@@ -171,17 +171,17 @@ void	update_user_limit(ChannelManager & _channel_manager, std::string const & ch
 	return ;
 }
 
-void	update_channel_operator(ChannelManager & _channel_manager, std::string const & channel_name, char sign, std::string const & mode_arg, int client_fd, UserManager user_manager)
+void	update_channel_operator(ChannelManager & _channel_manager, UserManager &_user_manager, ClientManager &_client_manager, std::string const & channel_name, char sign, std::string const & mode_arg, int client_fd)
 {
-	Client cmd_client = _channel_manager.get_client_manager().get_client(client_fd);
-	User cmd_user = user_manager.get_user(client_fd);
+	Client cmd_client = _client_manager.get_client(client_fd);
+	User cmd_user = _user_manager.get_user(client_fd);
 
-	if (user_manager.user_exists(mode_arg) == false)
+	if (_user_manager.user_exists(mode_arg) == false)
 	{
 		std::cout <<"User to change mode for does not exist" <<std::endl; //client.write() ?
 		return;
 	}
-	User user = user_manager.get_user_by_name(mode_arg);
+	User user = _user_manager.get_user_by_name(mode_arg);
 	if (_channel_manager.is_user_in_channel(user.get_fd(), channel_name) == false)
 	{
 		std::cout <<"User to change mode for was not found in channel" <<std::endl; //client.write() ?
