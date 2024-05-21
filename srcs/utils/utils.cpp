@@ -62,10 +62,13 @@ bool is_valid_password(std::string const & password)
 }
 
 // Channels
-bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager)
+bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager, std::string const & password_arg)
 {
 	if (is_channel_name_valid(channel_name) == false)
+	{
+		client.write(ERR_NOSUCHCHANNEL(SERVER_NAME, channel_name));
 		return false;
+	}
 
 	if (_channel_manager.channel_exists(channel_name) == true)
 	{
@@ -74,7 +77,7 @@ bool	is_check_all_channel_valid(std::string const & channel_name, Client &client
 			return false;
 
 		std::string const & password = _channel_manager.get_channel(channel_name).password;
-		if (is_channel_key_protected(channel, client, channel_name, password) == false)
+		if (is_channel_key_protected(channel, client, channel_name, password, password_arg) == false)
 			return false;
 	}
 
@@ -90,25 +93,13 @@ bool	is_valid_channel_prefix(char c)
 
 bool	is_channel_name_valid(std::string const & channel)
 {
-	if (channel.empty())
-	{
-		if (DEBUG)
-			std::cout << BRED "Empty Channel Name" << PRINT_END;
-		return false;
-	}
-
 	std::string	invalid = " \x07,";
 	if (
 		(is_valid_channel_prefix(channel[0]) == false) ||
 		(channel.length() > 50) ||
 		(channel.find_first_of(invalid) != std::string::npos)
 		)
-	{
-		if (DEBUG)
-			std::cout << BRED "Invalid channel name" PRINT_END;
 		return false;
-	}
-
 	return true;
 }
 
@@ -122,9 +113,9 @@ bool is_channel_invite_only(Channel & channel, Client &client, std::string const
 	return true;
 }
 
-bool	is_channel_key_protected(Channel & channel, Client &client, std::string const & channel_name, std::string const & password)
+bool	is_channel_key_protected(Channel & channel, Client &client, std::string const & channel_name, std::string const & password, std::string const & password_arg)
 {
-	if (channel.is_key_needed == true && channel.password != password)
+	if (channel.is_key_needed == true && password != password_arg)
 	{
 		client.write(ERR_BADCHANNELKEY(SERVER_NAME, channel_name));
 		return false;

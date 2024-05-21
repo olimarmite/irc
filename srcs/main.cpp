@@ -58,11 +58,11 @@ int main(int argc, char **argv)
 
 	try
 	{
-		Server	server(server_settings.port);
-		ChannelManager channel_manager = ChannelManager();
-		ClientManager client_manager = ClientManager();
-		CommandHandler command_handler = CommandHandler(server_settings);
-		UserManager user_manager = UserManager();
+		Server			server(server_settings.port);
+		ChannelManager	channel_manager = ChannelManager();
+		ClientManager	client_manager = ClientManager();
+		CommandHandler	command_handler = CommandHandler(server_settings);
+		UserManager		user_manager = UserManager();
 
 		client_manager.init(command_handler);
 		channel_manager.init(client_manager);

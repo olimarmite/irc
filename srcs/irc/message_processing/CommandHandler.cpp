@@ -79,7 +79,6 @@ CommandHandler::~CommandHandler()
 {
 }
 
-
 void CommandHandler::init(ChannelManager &channel_manager, UserManager &user_manager, ClientManager &client_manager)
 {
 	_channel_manager = &channel_manager;

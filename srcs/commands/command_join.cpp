@@ -19,15 +19,25 @@ void	command_join(
 {
 	(void)_client_manager;
 	(void)_server_settings;
+  
+	// TODO faire user_limit
 
-	std::string const & channel_name = args;
+	std::istringstream	ss(args);
+	std::string			channel_name, password_arg;
+	if (!(ss >> channel_name) || channel_name.empty())
+	{
+		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "join"));
+		return ;
+	}
 
-	if (is_check_all_channel_valid(channel_name, client, _channel_manager) == false)
+	ss >> password_arg;
+
+	if (is_check_all_channel_valid(channel_name, client, _channel_manager, password_arg) == false)
 		return ;
 
 	User user = _user_manager.get_user(client.get_fd());
 
-	handle_join_command(_channel_manager, user, client, channel_name);
+	handle_join_command(_channel_manager, user, client, _client_manager, channel_name);
 
 	return ;
 }

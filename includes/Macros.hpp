@@ -19,10 +19,6 @@ extern bool g_signals;
 #include <fcntl.h>
 #include <sys/epoll.h>
 
-// #include <sys/types.h>
-// #include <netinet/in.h> //to retrieve ip and port from sockaddr_storage client_addr
-// #include <arpa/inet.h>
-
 /****	Values	****/
 #define	EXPECTED_ARGC	3
 
@@ -38,10 +34,9 @@ extern bool g_signals;
 #define	MAX_REQUESTS 					50
 #define WAIT_UNTIL_SOMETHING_HAPPENS	-1
 
-#define IPv4	AF_INET
-#define IPv6	AF_INET6
+#define IPv4							AF_INET
+#define IPv6							AF_INET6
 
-// #define ALL_IP_TYPES		AF_UNSPEC
 #define ALL_IP_TYPES					AF_INET
 #define TCP_STREAM_SOCKET				SOCK_STREAM
 #define LOCAL_IP						AI_PASSIVE
@@ -52,42 +47,38 @@ extern bool g_signals;
 #define SERVER_IP						ai_flags
 #define PROTOCOL						ai_protocol
 
-// #define IRSSI 0
-// #define NETCAT 1
-
 #define SERVER_NAME	std::string("ircserv")
 
 /****	Errors	****/
 #define ERROR			"Error\n"
 
 // Errors main
-#define	ERROR_ARG				DELIM BRED ERROR "Expected: ./ircserv <port> <password>\n" DELIM PRINT_END
-#define	ERROR_PORT				DELIM BRED ERROR "Invalid port!\n" DELIM PRINT_END
-#define	ERROR_PASS				DELIM BRED ERROR "Invalid password!\n" DELIM PRINT_END
+#define	ERROR_ARG						DELIM BRED ERROR "Expected: ./ircserv <port> <password>\n" DELIM PRINT_END
+#define	ERROR_PORT						DELIM BRED ERROR "Invalid port!\n" DELIM PRINT_END
+#define	ERROR_PASS						DELIM BRED ERROR "Invalid password!\n" DELIM PRINT_END
 
 // Exceptions
-#define	ERROR_SOCKET(errno)			("Failed to create socket!\n" + std::string(strerror(errno)))
-#define	ERROR_BIND(errno)			("Failed to bind socket to port!\n" + std::string(strerror(errno)))
-#define	ERROR_LISTEN(errno)			("Listen failed!\n" + std::string(strerror(errno)))
-#define	ERROR_ACCEPT(errno)			("Accept failed!\n" + std::string(strerror(errno)))
-#define	ERROR_FAIL_MSG(errno)		("Failed to send welcome message to client!\n" + std::string(strerror(errno)))
-#define	ERROR_DC(errno)				("Client disconnected before welcome message was sent!\n" + std::string(strerror(errno)))
-#define	ERROR_EPOLL_CREATE(errno)	("Epoll creation failed!\n" + std::string(strerror(errno)))
-#define ERROR_EPOLL_CTL(errno) 		("Epoll failed to add client fd! " + std::string(strerror(errno)))
-#define	ERROR_EPOLL_WAIT(errno)		("Epoll failed to wait for events!\n" + std::string(strerror(errno)))
-#define	ERROR_GETADDRINFO(errno)	("Getaddrinfo failed!\n" + std::string(strerror(errno)))
-#define	ERROR_FCNTL(errno)			("Fcntl failed to set socket to non-blocking mode\n" + std::string(strerror(errno)))
-#define	ERROR_READ(errno)			("Failed to read from client!\n" + std::string(strerror(errno)))
-#define	ERROR_SEND(errno)			("Failed to send msg to client!\n" + std::string(strerror(errno)))
-#define	ERROR_PASSW(errno)			("Invalid password : connection to server refused\n" + std::string(strerror(errno)))
-#define	ERROR_PSWD(errno)			("Invalid password command! Expected : PASS <password>\n" + std::string(strerror(errno)))
-#define	ERROR_USER(errno)			("Invalid username command! Expected : USER <username>\n" + std::string(strerror(errno)))
-#define	ERROR_NICK(errno)			("Invalid nickname command! Expected : NICK <nickname>\n" + std::string(strerror(errno)))
-#define	ERROR_PRIVMSG(errno)		("Failed to send private message!\n" + std::string(strerror(errno)))
-// #define	ERROR_NICK				DELIM BRED ERROR "Invalid nickname command! Expected : NICK <nickname>\n" DELIM
+#define	ERROR_SOCKET(errno)				("Failed to create socket!\n" + std::string(strerror(errno)))
+#define	ERROR_BIND(errno)				("Failed to bind socket to port!\n" + std::string(strerror(errno)))
+#define	ERROR_LISTEN(errno)				("Listen failed!\n" + std::string(strerror(errno)))
+#define	ERROR_ACCEPT(errno)				("Accept failed!\n" + std::string(strerror(errno)))
+#define	ERROR_FAIL_MSG(errno)			("Failed to send welcome message to client!\n" + std::string(strerror(errno)))
+#define	ERROR_DC(errno)					("Client disconnected before welcome message was sent!\n" + std::string(strerror(errno)))
+#define	ERROR_EPOLL_CREATE(errno)		("Epoll creation failed!\n" + std::string(strerror(errno)))
+#define ERROR_EPOLL_CTL(errno) 			("Epoll failed to add client fd! " + std::string(strerror(errno)))
+#define	ERROR_EPOLL_WAIT(errno)			("Epoll failed to wait for events!\n" + std::string(strerror(errno)))
+#define	ERROR_GETADDRINFO(errno)		("Getaddrinfo failed!\n" + std::string(strerror(errno)))
+#define	ERROR_FCNTL(errno)				("Fcntl failed to set socket to non-blocking mode\n" + std::string(strerror(errno)))
+#define	ERROR_READ(errno)				("Failed to read from client!\n" + std::string(strerror(errno)))
+#define	ERROR_SEND(errno)				("Failed to send msg to client!\n" + std::string(strerror(errno)))
+#define	ERROR_PASSW(errno)				("Invalid password : connection to server refused\n" + std::string(strerror(errno)))
+#define	ERROR_PSWD(errno)				("Invalid password command! Expected : PASS <password>\n" + std::string(strerror(errno)))
+#define	ERROR_USER(errno)				("Invalid username command! Expected : USER <username>\n" + std::string(strerror(errno)))
+#define	ERROR_NICK(errno)				("Invalid nickname command! Expected : NICK <nickname>\n" + std::string(strerror(errno)))
+#define	ERROR_PRIVMSG(errno)			("Failed to send private message!\n" + std::string(strerror(errno)))
 
 /****	Debug	****/
-#define	DEBUG		0
+#define	DEBUG		1
 
 //Constructors & Destructors
 #define	D_CONST		SEP "default constructor called" PRINT_END
