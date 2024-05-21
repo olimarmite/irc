@@ -22,11 +22,6 @@ void	command_kick(
 	(void)_client_manager;
 	(void)_server_settings;
 
-	// TODO KARL ecrire sur tous les users du chan quand un user se fait kick du chan
-
-	// TODO CARO verifier que quand un user est kick, il peut plus ecrire la fenetre
-	// TODO KARL regarder sur DALnet et sur modernhorse
-
 	std::istringstream ss(args);
 	std::string channel_name, nickname;
 
@@ -45,7 +40,7 @@ void	command_kick(
 		std::cout <<BCYN <<"NICKNAME: //" << nickname + "//"<< PRINT_END;
 	}
 
-	handle_kick_command(_channel_manager, _user_manager, client, channel_name, nickname);
+	handle_kick_command(_channel_manager, _user_manager, _client_manager, client, channel_name, nickname);
 
 	return ;
 }

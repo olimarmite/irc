@@ -65,7 +65,7 @@ void	command_topic(
 		std::set<int> clients_in_channel = _channel_manager.get_channel(channel_name).clients_fd;
 		for (std::set<int>::iterator it = clients_in_channel.begin(); it != clients_in_channel.end(); it++)
 		{
-			Client curr_client = _channel_manager.get_client_manager().get_client(*it); //TODO : changer cette ligne avec push olivier qui eviter le getteur
+			Client curr_client = _client_manager.get_client(*it);
 			curr_client.write(RPL_TOPIC(user.get_nickname(), user.get_username(), channel_name, topic, "TOPIC"));
 		}
 	}

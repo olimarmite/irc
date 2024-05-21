@@ -19,7 +19,7 @@ void	command_join(
 {
 	(void)_client_manager;
 	(void)_server_settings;
-
+  
 	// TODO faire user_limit
 
 	std::istringstream	ss(args);

@@ -21,13 +21,9 @@ void	command_nick(
 	// TODO quand 2nd user change de nick, msg n'apparait pas
 	// -> peut etre pas bon client avec le write
 
-	//FIX KARL verifier RPL_NICK quand 2 user
-	// ERR 431 no nick given se print mal
-
-	// TODO KARL quand un user change de nick, envoie a tous ses channel + fenetre de base
-	(void)_client_manager;
 	(void)_server_settings;
 	(void)_channel_manager;
+	(void)_client_manager;
 
 	User	& user = _user_manager.get_user(client.get_fd());
 
@@ -37,9 +33,8 @@ void	command_nick(
 	if (DEBUG)
 		std::cout << "old nickname = " <<user.get_nickname() <<std::endl;
 
-	// TODO handle_nick_command
-	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK"));
-	user.set_nickname(args);
+	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK")); 
+	user.set_nickname(args); //FIX: si on cree 3 clients on va set les 3 au meme nickname alors que irssi les modifie en ajoutant underscore puis un 1 pour les differencier. Du coup il faut qu'on garde ces nouveaux nicknames modifiés par irssi
 
 	if (DEBUG)
 		std::cout << "new nickname = " <<user.get_nickname() <<std::endl;
