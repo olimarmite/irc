@@ -67,6 +67,8 @@ void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_ma
 
 		User user = _user_manager.get_user(client.get_fd());
 		client.write(RPL_KICK(user.get_nickname(), user.get_username(), channel_name, nickname, "KICK"));
+
+		// TODO KARL _client_manager pour ecrire au user qui s'est fait kicked "You have been kicked by blabla"
 		
 	}
 	//---

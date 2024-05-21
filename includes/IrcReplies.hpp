@@ -33,6 +33,8 @@
 # define	ERR_NOSUCHNICK(prefix, nickname)				DOTS + prefix + SPACE + "401 " + "* " + nickname + " :No such nick/channel" + NEW_LINE
 # define	ERR_NOSUCHSERVER(prefix, server_name)			DOTS + prefix + SPACE + "402 " + "* " + server_name + " :No such server" + NEW_LINE
 # define	ERR_NOSUCHCHANNEL(prefix, channel_name)			DOTS + prefix + SPACE + "403 " + "* " + channel_name + " :No such channel" + NEW_LINE
+// maybe to fix
+# define	ERR_NONICKNAMEGIVEN(prefix)						DOTS + prefix + SPACE + "431 " + ":No nickname given" + NEW_LINE
 # define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "* " + nick + " :Erroneus nickname" + NEW_LINE
 # define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "* " + nick + " :Nickname is already in use" + NEW_LINE
 # define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "* " + command + " :Not enough parameters" + NEW_LINE
@@ -63,7 +65,6 @@
 # define	ERR_NOMOTD(prefix)								DOTS + prefix + SPACE + "422 " + ":MOTD File is missing" + NEW_LINE
 # define	ERR_NOADMININFO(prefix, server)					DOTS + prefix + SPACE + "423 " + "" + server + " :No administrative info available" + NEW_LINE
 # define	ERR_FILEERROR(prefix, file_op, file)			DOTS + prefix + SPACE + "424 " + ":File error doing " + file_op + " on " + file + "" + NEW_LINE
-# define	ERR_NONICKNAMEGIVEN(prefix)						DOTS + prefix + SPACE + "431 " + ":No nickname given" + NEW_LINE
 # define	ERR_NICKCOLLISION(prefix, nick)					DOTS + prefix + SPACE + "436 " + "" + nick + " :Nickname collision KILL" + NEW_LINE
 # define	ERR_USERNOTINCHANNEL(prefix, nick, channel)		DOTS + prefix + SPACE + "441 " + "" + nick + SPACE + channel + " :They aren't on that channel" + NEW_LINE
 # define	ERR_NOLOGIN(prefix, user)						DOTS + prefix + SPACE + "444 " + "" + user + " :User not logged in" + NEW_LINE

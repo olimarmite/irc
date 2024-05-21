@@ -32,6 +32,7 @@ void	command_sendmsg(
 	std::string const &args
 	)
 {
+	//FIX CARO quand on envoie un message, ca affiche #chan deux fois (parse message)
 	/*
 		Par default /msg ecrit a un USER et non un channel
 		ex: /msg test salut --> message privé pour le user test
@@ -41,6 +42,9 @@ void	command_sendmsg(
 		chat privé avec un user test (qui n'existe pas).
 	 */
 
+	
+	(void)_client_manager;
+	(void)_server_settings;
 
 	User origin_user = _user_manager.get_user(client.get_fd());
 
