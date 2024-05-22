@@ -11,12 +11,8 @@ void ClientManager::add_client(int client_fd)
 
 void ClientManager::remove_client(int client_fd)
 {
-	if (DEBUG)
-		std::cout << "Client disconnected: " << client_fd << std::endl;
 	_clients[client_fd].disconnect();
 	_clients.erase(client_fd);
-	if (DEBUG)
-		std::cout << "Client removed: " << client_fd << std::endl;
 }
 
 Client &ClientManager::get_client(int client_fd)
@@ -31,7 +27,6 @@ ClientManager::ClientManager() :
 
 ClientManager::~ClientManager()
 {
-
 }
 
 void ClientManager::init(CommandHandler &command_handler)

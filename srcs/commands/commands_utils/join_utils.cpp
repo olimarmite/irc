@@ -27,9 +27,6 @@ void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &
 	if (_channel_manager.channel_exists(channel_name) == false)
 		_channel_manager.create_channel(channel_name, "", client.get_fd());
 
-	if (DEBUG)
-		_channel_manager.print_all_channels();
-
 	if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == false)
 	{
 		_channel_manager.join_channel(client.get_fd(), channel_name);

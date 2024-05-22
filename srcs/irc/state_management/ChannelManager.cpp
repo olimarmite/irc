@@ -89,9 +89,6 @@ void	ChannelManager::leave_all_channels(int client_fd)
 		it++;
 	}
 
-	if (DEBUG)
-		std::cout << "Left all channels" << std::endl;
-
 	return ;
 }
 
@@ -110,9 +107,6 @@ void	ChannelManager::create_channel(std::string const & channel_name, std::strin
 
 	_channels[channel_name] = new_channel;
 
-	if (DEBUG)
-		std::cout << "Created channel: " + channel_name << PRINT_END;
-
 	return ;
 }
 
@@ -122,9 +116,6 @@ bool	ChannelManager::is_user_in_channel(int client_fd, std::string const & chann
 
 	if (channel.clients_fd.find(client_fd) != channel.clients_fd.end())
 		return true;
-
-	if (DEBUG)
-		std::cout << "Didn't find user in " + channel_name << PRINT_END;
 
 	return false;
 }
@@ -176,8 +167,6 @@ bool	ChannelManager::channel_exists(std::string const & channel_name)
 {
 	if (_channels.find(channel_name) != _channels.end())
 	{
-		if (DEBUG)
-			std::cout << channel_name + " exists" << PRINT_END;
 		return true;
 	}
 	return false;

@@ -45,9 +45,6 @@ void CommandHandler::handle_command(Client &client,
 	std::string args;
 	std::string command;
 
-	if (DEBUG)
-		std::cout << BYEL << msg << PRINT_END;
-
 	pos = msg.find(' ');
 	if (pos != std::string::npos)
 	{
