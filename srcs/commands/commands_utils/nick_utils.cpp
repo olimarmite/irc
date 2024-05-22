@@ -60,7 +60,6 @@ bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager
 	if (does_nickname_already_exist(nickname, _user_manager) == true)
 	{
 		client.write(ERR_NICKNAMEINUSE(SERVER_NAME, nickname));
-		// return false;
 		*nick_conflict = true;
 		return true;
 	}

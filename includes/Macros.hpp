@@ -32,7 +32,7 @@ extern bool g_signals;
 
 #define	MAX_PENDING_CONNECTIONS			5
 #define	MAX_REQUESTS 					50
-#define WAIT_UNTIL_SOMETHING_HAPPENS	-1
+#define WAIT_FOR_EVENTS					-1
 
 #define IPv4							AF_INET
 #define IPv6							AF_INET6

@@ -30,9 +30,6 @@ void Client::_on_command(std::string const & command)
 
 void Client::_check_commands_in_buffer()
 {
-	if (DEBUG)
-		std::cout << BGRN <<"Buffer : -----\n" << _read_buffer <<"--------------" << PRINT_END;
-	
 	size_t pos = _read_buffer.find(NEW_LINE);
 
 	while (pos != std::string::npos)
@@ -49,13 +46,9 @@ int Client::read()
 	char buffer[BUFFER_SIZE];
 	int recv_size = 0;
 
-	if (DEBUG)
-		std::cout << "Reading from fd: " << _fd << std::endl;
 	recv_size = recv(_fd, buffer, BUFFER_SIZE, 0);
 	if (recv_size == -1)
 	{
-		if (DEBUG)
-			std::cerr << "Error: recv failed: " << strerror(errno) << std::endl;
 		return recv_size;
 	}
 	if (recv_size > 0)
@@ -77,8 +70,6 @@ void Client::flush_messages()
 		sended_size = send(_fd, _write_buffer.front().c_str(), message_size, 0);
 		if (sended_size == -1)
 		{
-			if (DEBUG)
-				std::cerr << "Error: send failed: " << strerror(errno) << std::endl;
 			return;
 		}
 		if (sended_size < message_size)

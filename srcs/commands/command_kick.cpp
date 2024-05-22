@@ -20,8 +20,6 @@ void	command_kick(
 	std::string const &args
 	)
 {
-		
-	(void)_client_manager;
 	(void)_server_settings;
 
 	std::istringstream ss(args);
@@ -35,12 +33,6 @@ void	command_kick(
 
 	if (is_kick_valid(_channel_manager, _user_manager, client, channel_name, nickname) == false)
 		return ;
-
-	if (DEBUG)
-	{
-		std::cout <<BCYN <<"CHANNEL: //" << channel_name + "//" << PRINT_END;
-		std::cout <<BCYN <<"NICKNAME: //" << nickname + "//"<< PRINT_END;
-	}
 
 	handle_kick_command(_channel_manager, _user_manager, _client_manager, client, channel_name, nickname);
 

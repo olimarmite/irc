@@ -18,14 +18,8 @@ void	command_invite(
 	std::string const &args
 	)
 {
-	(void)_channel_manager;
-	(void)args;
-	(void)_user_manager;
 	(void)_client_manager;
 	(void)_server_settings;
-
-
-	//TODO Olivier - regarder invite, RFC et log irssi
 
 	std::istringstream iss(args);
 	std::string	nickname, channel_name;

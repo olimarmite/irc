@@ -97,6 +97,8 @@ int	Server::create_socket(struct addrinfo const & settings)
 	return server_fd;
 }
 
+/* Settings used to create the server socket and to bind
+said socket to the server's IP/port*/
 struct addrinfo	Server::set_settings()
 {
 	struct addrinfo settings;
@@ -125,16 +127,17 @@ void Server::_setup_socket()
 		std::cout << "Server socket setup done" << std::endl;
 }
 
+/* Creation of epoll_fd to be able to interact with all epoll functions.
+Server_fd is then added to epoll_ctl so that it listens to the server socket.*/
 void Server::_setup_epoll()
 {
 	struct epoll_event settings;
 
-//epoll_fd est un fd de controle, il nous permet d'interragir avec epoll
-	_epoll_fd = epoll_create1(0); //avec flag 0 c'est l'équivalent d'utiliser l'ancienne fx epoll_create()
+
+	_epoll_fd = epoll_create1(0);
 	if (_epoll_fd == INVALID_FD)
 		throw std::runtime_error(ERROR_EPOLL_CREATE(errno));
 
-//ajout du server_fd à epoll
 	settings.events = EPOLLIN;
 	settings.data.fd = _server_fd;
 	if (epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, _server_fd, &settings) == INVALID_NB)
@@ -149,10 +152,7 @@ void Server::_check_epoll_events()
 	struct epoll_event	events[MAX_REQUESTS];
 	int					event_count;
 
-	event_count = epoll_wait(_epoll_fd, events, MAX_REQUESTS, -1); //-1 = timeout (wait until something happens)
-
-	if (DEBUG)
-		std::cout << "Event count: " << event_count << std::endl;
+	event_count = epoll_wait(_epoll_fd, events, MAX_REQUESTS, WAIT_FOR_EVENTS);
 
 	if (event_count == -1)
 	{
@@ -160,13 +160,12 @@ void Server::_check_epoll_events()
 	}
 	for (int i = 0; i < event_count; i++)
 	{
-		if (events[i].data.fd == _server_fd)
+		if (events[i].data.fd == _server_fd) //new client connection requested
 			_accept_new_client();
-		else
+		else //event
 		{
-			if (_client_manager->get_client(events[i].data.fd).read() == 0)
+			if (_client_manager->get_client(events[i].data.fd).read() == 0) //client disconnected from server
 				_client_manager->remove_client(events[i].data.fd);
-			//else : there is an event
 		}
 	}
 }
@@ -175,10 +174,9 @@ void Server::init(ClientManager &client_manager)
 {
 	_client_manager = &client_manager;
 
-	if (DEBUG)
-		std::cout << "Server launching" << std::endl;
 	_setup_socket();
 	_setup_epoll();
+
 	if (DEBUG)
 		std::cout << "Server launched on port " << _port << std::endl <<std::endl;
 }
@@ -194,22 +192,16 @@ void Server::_accept_new_client()
 
 	client_fd = accept(_server_fd, NULL, NULL);
 	if (client_fd == INVALID_FD)
-	{
 			throw std::runtime_error(ERROR_ACCEPT(errno));
-	}
-
-	if (DEBUG)
-		std::cout <<"New client fd : " << client_fd << std::endl;
 
 	struct epoll_event	settings;
 	settings.events = EPOLLIN;
 	settings.data.fd = client_fd;
 	if (epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, client_fd, &settings) == INVALID_NB)
-	{
-			throw std::runtime_error(ERROR_EPOLL_CTL(errno));
-	}
+		throw std::runtime_error(ERROR_EPOLL_CTL(errno));
+
+	_client_manager->add_client(client_fd);
 
 	if (DEBUG)
-		std::cout << "New client connected: " << client_fd << std::endl;
-	_client_manager->add_client(client_fd);
+		std::cout <<"New client fd : " << client_fd << std::endl;
 }

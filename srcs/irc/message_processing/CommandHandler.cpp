@@ -2,11 +2,6 @@
 #include "ClientManager.hpp"
 #include "UserManager.hpp"
 #include "ServerSettings.hpp"
-#include <iostream>
-#include <string>
-
-
-
 
 bool _is_authenticated(Client &client, UserManager &user_manager)
 {
@@ -18,8 +13,8 @@ bool _is_authenticated(Client &client, UserManager &user_manager)
 void CommandHandler::_execute_command(Client &client,
 	const std::string &command, const std::string &args)
 {
+	//TODO: verifier s'il faut garder la fonction command_auth
 	//TODO: do a better auth command control (maybe a flag in the cammand table)
-
 	// if (_is_authenticated(client, *_user_manager) == false)
 	// {
 	// 	if (command != "AUTH" && command != "NICK")
@@ -33,13 +28,6 @@ void CommandHandler::_execute_command(Client &client,
 		std::cout << "Command: " << command << " | Args: " << args << std::endl;
 	for (int i = 0; g_command_table[i].command; i++)
 	{
-		//std::cout << "Args: " << args << std::endl;
-		//if (g_command_table[i].command == "PASS")
-		//{
-			// std::string entered_pass = args;
-			// if (entered_pass != _server_settings.password)
-				//make client leave the server
-		//}
 		if (g_command_table[i].command == command)
 		{
 			g_command_table[i].function(*_channel_manager, *_user_manager, *_client_manager, _server_settings, client, args);
@@ -48,7 +36,6 @@ void CommandHandler::_execute_command(Client &client,
 			return ;
 		}
 	}
-	// client.write("ERROR: Unknown command\n");
 }
 
 void CommandHandler::handle_command(Client &client,

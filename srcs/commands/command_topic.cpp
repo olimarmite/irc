@@ -9,7 +9,6 @@
 #include <iostream>
 #include <string>
 
-
 void	handle_topic_command(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,
@@ -73,13 +72,6 @@ void	command_topic(
 	if (is_topic_valid(_channel_manager, client, channel_name) == false)
 		return ;
 
-
-
-	if (DEBUG)
-	{
-		std::cout <<BCYN <<"channel name : //" + channel_name + "//" <<PRINT_END;
-		std::cout <<BCYN <<"topic : //" + topic + "//" <<PRINT_END;
-	}
 	handle_topic_command(_channel_manager, _user_manager, client, _client_manager, channel_name, topic, args);
 	return ;
 }

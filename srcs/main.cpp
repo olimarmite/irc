@@ -54,6 +54,9 @@ int main(int argc, char **argv)
 	if (is_arg_valid(argc, argv) == false)
 		return EXIT_FAILURE;
 
+	if (set_signals() == EXIT_FAILURE)
+		return EXIT_FAILURE;
+
 	const ServerSettings server_settings(argv[2], argv[1]);
 
 	try
@@ -69,15 +72,10 @@ int main(int argc, char **argv)
 		command_handler.init(channel_manager, user_manager, client_manager);
 		server.init(client_manager);
 	
-		set_signals();
 		while (g_signals == true)
 		{
-			if (DEBUG) //to debug signals
-				std::cout <<std::endl <<BCYN <<"BACK TO MAIN" <<PRINT_END <<std::endl;
 			server.run();
 		}
-		if (DEBUG) //to debug signals
-			std::cout <<BCYN <<"AFTER MAIN" <<PRINT_END;
 	}
 	catch(const std::exception& e)
 	{

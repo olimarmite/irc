@@ -33,18 +33,12 @@ void	command_mode(
 		client.write(ERR_NEEDMOREPARAMS(SERVER_NAME, "mode"));
 		return ;
 	}
-	// quand on aura fix le bug des nickname qui sont les memes, to delete
+
 	if (channel_name == user.get_nickname())
 		return ;
 
 	if (!(ss >> mode_arg))
 		mode_arg = "";
-	if (DEBUG)
-	{
-		std::cout << BHCYN "channel_name: " << channel_name << std::endl;
-		std::cout << BHCYN "modestring: " << modestring << std::endl;
-		std::cout << BHCYN "mode_arg: " << mode_arg << PRINT_END;
-	}
 
 	if (is_valid_mode(_channel_manager, client, channel_name, modestring, mode_arg) == false)
 		return ;
