@@ -17,12 +17,12 @@ bool	does_nickname_already_exist(std::string const & nickname);
 bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user, Client &client, bool *nick_conflict);
 
 // Channel
-bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager, std::string const & password_arg);
+bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager, std::string const & password_arg, UserManager &_user_manager);
 bool	is_valid_channel_prefix(char c);
 bool	is_channel_name_valid(std::string const & channel);
 bool	is_channel_key_protected(Channel & channel, Client &client, std::string const & channel_name, std::string const & password, std::string const & password_arg);
 bool	is_channel_invite_only(Channel & channel, Client &client, std::string const & channel_name);
-bool	is_user_limit_reached(Channel & channel, Client &client);
+bool	is_user_limit_reached(Channel & channel, Client &client, UserManager &_user_manager);
 
 // Invite
 bool	is_valid_invite(std::string const & channel_name, std::string const & nickname, UserManager & _user_manager, ChannelManager & _channel_manager, Client &client);

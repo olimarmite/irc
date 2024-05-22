@@ -30,7 +30,7 @@ void	command_join(
 
 	ss >> password_arg;
 
-	if (is_check_all_channel_valid(channel_name, client, _channel_manager, password_arg) == false)
+	if (is_check_all_channel_valid(channel_name, client, _channel_manager, password_arg, _user_manager) == false)
 		return ;
 
 	User user = _user_manager.get_user(client.get_fd());

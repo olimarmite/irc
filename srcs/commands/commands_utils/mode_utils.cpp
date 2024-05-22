@@ -111,6 +111,7 @@ void	update_mode(ChannelManager & _channel_manager, UserManager &_user_manager, 
 		update_topic_restricted_to_operators(_channel_manager, channel_name, sign);
 	else if (mode == 'k')
 		update_channel_key(_channel_manager, channel_name, sign, mode_arg);
+	//VERIFIER ce qui se passe qd on limite à 1 alors qu'on est deja 2 dedans
 	else if (mode == 'l')
 		update_user_limit(_channel_manager, channel_name, sign, mode_arg);
 	else if (mode == 'o')
