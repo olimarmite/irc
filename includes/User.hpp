@@ -9,8 +9,6 @@ class User
 		std::string		_username;
 		std::string		_nickname;
 		int 			_is_authenticated;
-		// bool			_is_operator; // doit etre dans channelmanager
-		//faire un container des users operateurs car operateur peut etre op de plusieurs channels
 
 	public:
 		// Const & Dest

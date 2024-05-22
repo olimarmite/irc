@@ -101,7 +101,6 @@ bool	is_valid_mode_syntax(std::string const & modestring, std::string const & mo
 	return true;
 }
 
-
 // Handlers
 void	update_mode(ChannelManager & _channel_manager, UserManager &_user_manager, ClientManager &_client_manager, std::string const & channel_name, char sign, char mode, std::string const & mode_arg, int client_fd)
 {
@@ -111,7 +110,7 @@ void	update_mode(ChannelManager & _channel_manager, UserManager &_user_manager, 
 		update_topic_restricted_to_operators(_channel_manager, channel_name, sign);
 	else if (mode == 'k')
 		update_channel_key(_channel_manager, channel_name, sign, mode_arg);
-	//VERIFIER ce qui se passe qd on limite à 1 alors qu'on est deja 2 dedans
+	//TODO : VERIFIER ce qui se passe qd on limite à 1 alors qu'on est deja 2 dedans
 	else if (mode == 'l')
 		update_user_limit(_channel_manager, channel_name, sign, mode_arg);
 	else if (mode == 'o')
@@ -196,8 +195,6 @@ void	update_channel_operator(ChannelManager & _channel_manager, UserManager &_us
 	}
   
 	if (_channel_manager.is_user_in_channel(_user_manager.get_user_by_name(mode_arg).get_fd(), channel_name) == false)
-	// code caro
-	//if (_channel_manager.is_user_in_channel(user.get_fd(), channel_name) == false)
 	{
 		cmd_client.write(ERR_USERNOTINCHANNEL(cmd_user.get_nickname(), mode_arg, channel_name));
 		return ;

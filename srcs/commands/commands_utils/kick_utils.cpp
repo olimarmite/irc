@@ -44,14 +44,6 @@ void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_ma
 {
 	User kicked = _user_manager.get_user_by_name(nickname);
 
-	if (DEBUG)
-	{
-		std::cout <<"----------------" <<std::endl;
-		std::cout <<BRED <<"List of operators in channel " <<channel_name <<PRINT_END;
-		_channel_manager.print_operators(channel_name, _user_manager);
-		std::cout <<"----------------" <<std::endl;
-	}
-
 	if (_channel_manager.is_operator(kicked.get_fd(), channel_name) == false)
 	{
 		User kicker = _user_manager.get_user(client.get_fd());
@@ -62,20 +54,7 @@ void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_ma
 			curr_client.write(RPL_KICK(kicker.get_nickname(), kicker.get_username(), channel_name, nickname, "KICK"));
 		}
 		_channel_manager.leave_channel(kicked.get_fd(), channel_name);
-
-		if (DEBUG)
-		{
-			std::cout <<BBLU <<"User to be kicked is not the channel operator" <<PRINT_END;
-			std::cout <<BBLU <<"User has been kicked" <<PRINT_END;
-			std::cout <<BBLU <<"List of clients in channel " <<channel_name <<PRINT_END;
-			_channel_manager.print_all_clients(channel_name);
-		}
 	}
-	// else
-	// {
-	// 	std::cout <<BRED <<"User to be kicked is the channel operator" <<PRINT_END;
-	// 	client.write("KICK " + channel_name + " " + nickname + " :Cannot kick channel operator\n");
-	// }
 
 	return ;
 }

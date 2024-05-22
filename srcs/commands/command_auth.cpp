@@ -8,7 +8,7 @@
 #include <iostream>
 #include <string>
 
-
+//TODO: verifier s'il faut garder cette fonction
 void	command_auth(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,

@@ -18,9 +18,6 @@ void	command_nick(
 	std::string const &args
 	)
 {
-	// TODO quand 2nd user change de nick, msg n'apparait pas
-	// -> peut etre pas bon client avec le write
-
 	(void)_server_settings;
 	(void)_channel_manager;
 	(void)_client_manager;
@@ -31,28 +28,13 @@ void	command_nick(
 
 	if (is_nickname_valid(args, _user_manager, user, client, &nick_conflict) == false)
 		return ;
-		
-
-	if (DEBUG)
-		std::cout << "old nickname = " <<user.get_nickname() <<std::endl;
 
 	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK")); 
 	user.set_nickname(args);
-
-	if (DEBUG)
-		std::cout << "new nickname = " <<user.get_nickname() <<std::endl;
-
-	if (DEBUG)
-	{
-		std::cout <<"ALL USERS : " <<std::endl;
-		_user_manager.print_all_users();
-	}
 
 	if (nick_conflict == false && user.get_is_authenticated() == false)
 	{
 		client.write(WELCOME_MESSAGE(user.get_username(), user.get_nickname()));
 		user.set_is_authenticated(true);
-		if (DEBUG)
-			std::cout <<BHGRN <<"User authentification set to true" <<PRINT_END;
 	}
 }

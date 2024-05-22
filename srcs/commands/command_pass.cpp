@@ -20,7 +20,6 @@ void	command_pass(
 	(void)_channel_manager;
 	(void)_user_manager;
 	(void)_client_manager;
-	(void)client;
 
 	std::string entered_pass = args;
 	if (entered_pass != _server_settings.password)
