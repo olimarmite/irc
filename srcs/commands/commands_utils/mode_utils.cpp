@@ -196,24 +196,24 @@ void	update_channel_operator(ChannelManager & _channel_manager, UserManager &_us
   
 	if (_channel_manager.is_user_in_channel(_user_manager.get_user_by_name(mode_arg).get_fd(), channel_name) == false)
 	// code caro
-	//User user = _user_manager.get_user_by_name(mode_arg);
 	//if (_channel_manager.is_user_in_channel(user.get_fd(), channel_name) == false)
 	{
 		cmd_client.write(ERR_USERNOTINCHANNEL(cmd_user.get_nickname(), mode_arg, channel_name));
 		return ;
 	}
 	
+	User user = _user_manager.get_user_by_name(mode_arg);
 	if (sign == '+')
 	{
-		_channel_manager.get_channel(channel_name).operators.insert(cmd_user.get_fd());
-		_channel_manager.send_message_to_channel2(channel_name, BGRN + channel_name + ": " + cmd_user.get_nickname() + " is now a channel operator\n");
+		_channel_manager.get_channel(channel_name).operators.insert(user.get_fd());
+		_channel_manager.send_message_to_channel2(channel_name, BGRN + channel_name + ": " + user.get_nickname() + " is now a channel operator\n");
 	}
 	else if (sign == '-')
 	{
-		_channel_manager.get_channel(channel_name).operators.erase(cmd_user.get_fd());
-		_channel_manager.send_message_to_channel2(channel_name, BYEL + channel_name + ": " + cmd_user.get_nickname() + " is no longer a channel operator\n");
+		_channel_manager.get_channel(channel_name).operators.erase(user.get_fd());
+		_channel_manager.send_message_to_channel2(channel_name, BYEL + channel_name + ": " + user.get_nickname() + " is no longer a channel operator\n");
 	}
 
-	cmd_client.write(RPL_MODEUPDATECHANOP(cmd_user.get_nickname(), cmd_user.get_username(), channel_name, sign, cmd_user.get_nickname()));
+	cmd_client.write(RPL_MODEUPDATECHANOP(cmd_user.get_nickname(), cmd_user.get_username(), channel_name, sign, user.get_nickname()));
 	return ;
 }
