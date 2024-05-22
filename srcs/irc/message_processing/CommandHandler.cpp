@@ -33,9 +33,13 @@ void CommandHandler::_execute_command(Client &client,
 		std::cout << "Command: " << command << " | Args: " << args << std::endl;
 	for (int i = 0; g_command_table[i].command; i++)
 	{
+		//std::cout << "Args: " << args << std::endl;
 		//if (g_command_table[i].command == "PASS")
-			//check correct password ( _password)
-			//if not on close le client
+		//{
+			// std::string entered_pass = args;
+			// if (entered_pass != _server_settings.password)
+				//make client leave the server
+		//}
 		if (g_command_table[i].command == command)
 		{
 			g_command_table[i].function(*_channel_manager, *_user_manager, *_client_manager, _server_settings, client, args);

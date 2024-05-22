@@ -136,7 +136,7 @@ const g_command_table_t g_command_table[] = {
 	{"INVITE", command_invite},
 	{"TOPIC", command_topic},
 	{"MODE", command_mode},
-	// {"PASS", command_pass},
+	{"PASS", command_pass},
 	{"USER", command_user},
 	{NULL, NULL}};
 
