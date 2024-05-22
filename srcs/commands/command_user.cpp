@@ -83,11 +83,6 @@ void	command_user( //ne doit être accessible que à la connection
 	}
 
 	user.set_username(username);
-	user.set_is_authenticated(true);
-	if (DEBUG)
-		std::cout <<BHGRN <<"User authentification set to true" <<PRINT_END;
-
-	client.write(WELCOME_MESSAGE(user.get_username()));
 
 	return ;
 }
