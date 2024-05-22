@@ -24,19 +24,13 @@ void	handle_topic_command(
 	User& user = _user_manager.get_user(client.get_fd());
 	if (args.empty() == true)
 	{
-		if (DEBUG)
-			std::cout <<BRED <<"Empty args : //" + args + "//" <<PRINT_END;
 		if (channel.topic.empty() == true)
 		{
-			if (DEBUG)
-				std::cout <<BBLU <<"Empty topic : //" + topic + "//" <<PRINT_END;
 			client.write(RPL_NOTOPIC(user.get_nickname(), channel_name));
 		}
 	}
 	else
 	{
-		if (DEBUG)
-			std::cout <<BBLU <<"topic changed to : //" + topic + "//" <<PRINT_END;
 		_channel_manager.set_channel_topic(channel_name, topic);
 		
 		std::set<int> clients_in_channel = _channel_manager.get_channel(channel_name).clients_fd;

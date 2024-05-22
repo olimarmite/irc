@@ -78,7 +78,7 @@ extern bool g_signals;
 #define	ERROR_PRIVMSG(errno)			("Failed to send private message!\n" + std::string(strerror(errno)))
 
 /****	Debug	****/
-#define	DEBUG		0
+#define	DEBUG		1
 
 //Constructors & Destructors
 #define	D_CONST		SEP "default constructor called" PRINT_END
