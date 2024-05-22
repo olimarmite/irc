@@ -195,7 +195,7 @@ void Server::_accept_new_client()
 	client_fd = accept(_server_fd, NULL, NULL);
 	if (client_fd == INVALID_FD)
 	{
-		throw std::runtime_error(ERROR_ACCEPT(errno));
+			throw std::runtime_error(ERROR_ACCEPT(errno));
 	}
 
 	if (DEBUG)
@@ -206,7 +206,7 @@ void Server::_accept_new_client()
 	settings.data.fd = client_fd;
 	if (epoll_ctl(_epoll_fd, EPOLL_CTL_ADD, client_fd, &settings) == INVALID_NB)
 	{
-		throw std::runtime_error(ERROR_EPOLL_CTL(errno));
+			throw std::runtime_error(ERROR_EPOLL_CTL(errno));
 	}
 
 	if (DEBUG)

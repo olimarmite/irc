@@ -62,7 +62,7 @@ bool is_valid_password(std::string const & password)
 }
 
 // Channels
-bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager, std::string const & password_arg)
+bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager, std::string const & password_arg, UserManager &_user_manager)
 {
 	if (is_channel_name_valid(channel_name) == false)
 	{
@@ -81,7 +81,7 @@ bool	is_check_all_channel_valid(std::string const & channel_name, Client &client
 			return false;
 
 		// TODO faire des tests
-		if (is_user_limit_reached(channel, client) == true)
+		if (is_user_limit_reached(channel, client, _user_manager) == true)
 			return false;
 	}
 
@@ -127,11 +127,12 @@ bool	is_channel_key_protected(Channel & channel, Client &client, std::string con
 	return true;
 }
 
-bool	is_user_limit_reached(Channel & channel, Client &client)
+bool	is_user_limit_reached(Channel & channel, Client &client, UserManager &_user_manager)
 {
 	if (channel.clients_fd.size() >= channel.user_limit)
 	{
-		client.write(ERR_CHANNELISFULL(SERVER_NAME, channel.name));
+		User user = _user_manager.get_user(client.get_fd());
+		client.write(ERR_CHANNELISFULL(SERVER_NAME, channel.name, user.get_nickname()));
 		return true;
 	}
 	return false;

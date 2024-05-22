@@ -81,10 +81,10 @@ void	ChannelManager::leave_channel(int client_fd, std::string const &channel)
 void	ChannelManager::leave_all_channels(int client_fd)
 {
 	std::set<std::string> channels_set = _clientChannels[client_fd];
-	std::cout << client_fd << " Client size: " << _clientChannels[client_fd].size() << std::endl;
 
 	std::set<std::string>::iterator it = channels_set.begin();
-	std::cout << "Leaving all channels" << std::endl;
+	if (DEBUG)
+		std::cout << "Leaving all channels" << std::endl;
 	while (it != channels_set.end())
 	{
 		leave_channel(client_fd, *it);
