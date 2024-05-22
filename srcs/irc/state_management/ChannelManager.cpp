@@ -97,7 +97,8 @@ void	ChannelManager::create_channel(std::string const & channel_name, std::strin
 {
 	Channel	new_channel;
 
-	std::cout << BCYN "pass = " << password << PRINT_END;
+	if (DEBUG)
+		std::cout << BCYN "pass = " << password << PRINT_END;
 
 	new_channel.name = channel_name;
 	new_channel.password = password;

@@ -6,4 +6,4 @@
 // #include <iostream>
 
 int		set_signals(void);
-void	sigint_handler(int signal);
+void	signals_handler(int signal);

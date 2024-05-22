@@ -10,16 +10,15 @@ int	set_signals(void)
 
 	memset(&signal, 0, sizeof(signal));
 	signal.sa_flags = SA_SIGINFO | SA_RESTART;
-	signal.sa_handler = &sigint_handler;
-	if (sigaction(SIGINT, &signal, NULL) == -1)
+	signal.sa_handler = &signals_handler;
+	if (sigaction(SIGINT, &signal, NULL) == -1 || sigaction(SIGQUIT, &signal, NULL) == -1)
 		return (EXIT_FAILURE); //verifier
-	// signal.sa_handler = SIG_IGN; //TODO : check which signals to ignore
 	return (EXIT_SUCCESS);
 }
 
 /* void	signal_handler(int signal, \
 siginfo_t *info, void *ucontext) */
-void	sigint_handler(int signal)
+void	signals_handler(int signal)
 {
 	if (DEBUG)
 		std::cout <<BCYN <<"in signal handler" <<PRINT_END;
