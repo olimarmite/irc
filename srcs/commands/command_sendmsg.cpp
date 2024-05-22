@@ -4,7 +4,7 @@
 #include "UserManager.hpp"
 #include <string>
 
-// TODO KARL
+// TODO KARL, refactoriser le code
 
 std::string parse_nickname(std::string args)
 {

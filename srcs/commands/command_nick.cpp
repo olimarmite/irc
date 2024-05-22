@@ -18,6 +18,8 @@ void	command_nick(
 	std::string const &args
 	)
 {
+	// FIX nick qui marche pas bien a un impact sur kick
+	
 	// TODO quand 2nd user change de nick, msg n'apparait pas
 	// -> peut etre pas bon client avec le write
 

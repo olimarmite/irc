@@ -9,6 +9,9 @@
 
 bool	is_valid_invite(std::string const & channel_name, std::string const & nickname, UserManager & _user_manager, ChannelManager & _channel_manager, Client &client)
 {
+	
+	// check if user is operator des le debut 
+	
 	if (_user_manager.user_exists(nickname) == false)
 	{
 		client.write(ERR_NOSUCHNICK(SERVER_NAME, nickname));
@@ -38,6 +41,18 @@ bool	is_valid_invite(std::string const & channel_name, std::string const & nickn
 		client.write(ERR_USERONCHANNEL(SERVER_NAME, nickname, channel_name));
 		return false;
 	}
+
+	// HERE KARL A TESTER A 42 parce compile pas a la maison
+	// TODO : check if channel has user_limit
+	// if (_channel_manager.get_channel(channel_name).user_limit > 0)
+	// {
+	// 	if (_channel_manager.get_channel(channel_name).clients_fd.size() >= _channel_manager.get_channel(channel_name).user_limit)
+	// 	{
+	// 		client.write(ERR_CHANNELISFULL(SERVER_NAME, channel_name));
+	// 		return false;
+	// 	}
+	// }
+	// check - key protected channel
 
 	return true;
 }

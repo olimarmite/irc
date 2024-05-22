@@ -10,7 +10,45 @@
 #include <string>
 
 
-//TODO update avec mode +t
+void	handle_topic_command(
+	ChannelManager &_channel_manager,
+	UserManager &_user_manager,
+	Client &client,
+	ClientManager &_client_manager,
+	std::string const &channel_name,
+	std::string const &topic,
+	std::string const &args
+	)
+{
+	Channel channel = _channel_manager.get_channel(channel_name);
+
+	User& user = _user_manager.get_user(client.get_fd());
+	if (args.empty() == true)
+	{
+		if (DEBUG)
+			std::cout <<BRED <<"Empty args : //" + args + "//" <<PRINT_END;
+		if (channel.topic.empty() == true)
+		{
+			if (DEBUG)
+				std::cout <<BBLU <<"Empty topic : //" + topic + "//" <<PRINT_END;
+			client.write(RPL_NOTOPIC(user.get_nickname(), channel_name));
+		}
+	}
+	else
+	{
+		if (DEBUG)
+			std::cout <<BBLU <<"topic changed to : //" + topic + "//" <<PRINT_END;
+		_channel_manager.set_channel_topic(channel_name, topic);
+		
+		std::set<int> clients_in_channel = _channel_manager.get_channel(channel_name).clients_fd;
+		for (std::set<int>::iterator it = clients_in_channel.begin(); it != clients_in_channel.end(); it++)
+		{
+			Client curr_client = _client_manager.get_client(*it);
+			curr_client.write(RPL_TOPIC(user.get_nickname(), user.get_username(), channel_name, topic, "TOPIC"));
+		}
+	}
+	return ;
+}
 
 void	command_topic(
 	ChannelManager &_channel_manager,
@@ -21,13 +59,9 @@ void	command_topic(
 	std::string const &args
 	)
 {
-	
-	(void)_client_manager;
 	(void)_server_settings;
 
-
 	std::istringstream ss(args);
-
 	std::string channel_name, topic;
 
 	if (!(ss >> channel_name >> topic) || channel_name.empty() || topic.empty())
@@ -46,35 +80,6 @@ void	command_topic(
 		std::cout <<BCYN <<"channel name : //" + channel_name + "//" <<PRINT_END;
 		std::cout <<BCYN <<"topic : //" + topic + "//" <<PRINT_END;
 	}
-
-	// TODO KARL faire handle_topic_command
-	// handle_topic_command(_channel_manager, _user_manager, client, channel_name, topic, args);
-
-	Channel channel = _channel_manager.get_channel(channel_name);
-
-	User& user = _user_manager.get_user(client.get_fd());
-	if (args.empty() == true)
-	{
-		std::cout <<BRED <<"Empty args : //" + args + "//" <<PRINT_END;
-		if (channel.topic.empty() == true)
-		{
-			std::cout <<BBLU <<"Empty topic : //" + topic + "//" <<PRINT_END;
-			client.write(RPL_NOTOPIC(user.get_nickname(), channel_name));
-		}
-	}
-	else
-	{
-		if (DEBUG)
-			std::cout <<BBLU <<"topic changed to : //" + topic + "//" <<PRINT_END;
-		_channel_manager.set_channel_topic(channel_name, topic);
-		
-		std::set<int> clients_in_channel = _channel_manager.get_channel(channel_name).clients_fd;
-		for (std::set<int>::iterator it = clients_in_channel.begin(); it != clients_in_channel.end(); it++)
-		{
-			Client curr_client = _client_manager.get_client(*it);
-			curr_client.write(RPL_TOPIC(user.get_nickname(), user.get_username(), channel_name, topic, "TOPIC"));
-		}
-	}
-
+	handle_topic_command(_channel_manager, _user_manager, client, _client_manager, channel_name, topic, args);
 	return ;
 }
