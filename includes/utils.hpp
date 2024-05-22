@@ -26,7 +26,7 @@ bool	is_user_limit_reached(Channel & channel, Client &client);
 
 // Invite
 bool	is_valid_invite(std::string const & channel_name, std::string const & nickname, UserManager & _user_manager, ChannelManager & _channel_manager, Client &client);
-
+void	handle_invite_command(ChannelManager & _channel_manager, UserManager & _user_manager, ClientManager & _client_manager, Client &client, std::string const & channel_name, std::string const & nickname);
 // Mode
 bool	is_valid_mode(ChannelManager & _channel_manager, Client &client, std::string const & channel_name, std::string const & modestring, std::string const & mode_arg);
 bool	is_valid_mode_syntax(std::string const & modestring, std::string const & mode_arg);
@@ -50,3 +50,8 @@ void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_ma
 
 // Topic
 bool	is_topic_valid(ChannelManager & _channel_manager, Client &client, std::string const & channel_name);
+
+// Sendmsg
+std::string parse_nickname(std::string args);
+std::string parse_message(std::string args);
+bool	is_it_private_message(std::string args);

@@ -24,9 +24,6 @@ void	command_invite(
 	(void)_client_manager;
 	(void)_server_settings;
 
-
-	//TODO Olivier - regarder invite, RFC et log irssi
-
 	std::istringstream iss(args);
 	std::string	nickname, channel_name;
 
@@ -39,19 +36,7 @@ void	command_invite(
 	if (is_valid_invite(channel_name, nickname, _user_manager, _channel_manager, client) == false)
 		return ;
 
-
-	//TODO KARL
-	// handle_invite_command(_channel_manager, _user_manager, _client_manager, client, channel_name, nickname);
-
-	
-	int	user_fd = 0;
-
-	Channel &channel = _channel_manager.get_channel(channel_name);
-	User &user_to_invite = _user_manager.get_user(user_fd);
-
-	nickname = user_to_invite.get_nickname();
-	channel.clients_fd.insert(user_to_invite.get_fd());
-	client.write(RPL_INVITING(SERVER_NAME, channel_name, nickname));
+	handle_invite_command(_channel_manager, _user_manager, _client_manager, client, channel_name, nickname);
 
 	return ;
 }
