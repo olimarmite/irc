@@ -33,6 +33,11 @@ void	command_invite(
 	if (is_valid_invite(channel_name, nickname, _user_manager, _channel_manager, client) == false)
 		return ;
 
+
+	//TODO KARL
+	// handle_invite_command(_channel_manager, _user_manager, _client_manager, client, channel_name, nickname);
+
+	
 	int	user_fd = 0;
 
 	Channel &channel = _channel_manager.get_channel(channel_name);
