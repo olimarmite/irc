@@ -33,6 +33,10 @@ bool	is_kick_valid(ChannelManager &_channel_manager, UserManager &_user_manager,
 		return false;
 	}
 
+	User to_be_kicked = _user_manager.get_user_by_name(nickname);
+	if (_channel_manager.is_operator(to_be_kicked.get_fd(), channel_name) == true)
+		client.write("Cannot kick channel operator\n");
+
 	return true;
 }
 
@@ -67,11 +71,11 @@ void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_ma
 			_channel_manager.print_all_clients(channel_name);
 		}
 	}
-	else
-	{
-		std::cout <<BRED <<"User to be kicked is the channel operator" <<PRINT_END;
-		client.write("KICK " + channel_name + " " + nickname + " :Cannot kick channel operator");
-	}
+	// else
+	// {
+	// 	std::cout <<BRED <<"User to be kicked is the channel operator" <<PRINT_END;
+	// 	client.write("KICK " + channel_name + " " + nickname + " :Cannot kick channel operator\n");
+	// }
 
 	return ;
 }
