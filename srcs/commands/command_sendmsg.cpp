@@ -122,7 +122,8 @@ void	command_sendmsg(
 
 	User origin_user = _user_manager.get_user(client.get_fd());
 	std::string message = parse_message(args);
-	std::cout <<BRED <<"MESSAGE = " + message <<PRINT_END;//TEST
+	if (DEBUG)
+		std::cout <<BRED <<"MESSAGE = " + message <<PRINT_END;//TEST
 
 	// ---------- CODE KARL ------
 	/*
