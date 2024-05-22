@@ -14,7 +14,7 @@ bool	is_valid_password(std::string const & password);
 // Nickname
 bool	does_nickname_have_channel_prefix(std::string const & nickname);
 bool	does_nickname_already_exist(std::string const & nickname);
-bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user, Client &client);
+bool	is_nickname_valid(std::string const & nickname, UserManager & _user_manager, User & user, Client &client, bool *nick_conflict);
 
 // Channel
 bool	is_check_all_channel_valid(std::string const & channel_name, Client &client, ChannelManager & _channel_manager, std::string const & password_arg);

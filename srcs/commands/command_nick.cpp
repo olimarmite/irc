@@ -25,16 +25,19 @@ void	command_nick(
 	(void)_channel_manager;
 	(void)_client_manager;
 
+	bool nick_conflict = false;
+
 	User	& user = _user_manager.get_user(client.get_fd());
 
-	if (is_nickname_valid(args, _user_manager, user, client) == false)
+	if (is_nickname_valid(args, _user_manager, user, client, &nick_conflict) == false)
 		return ;
+		
 
 	if (DEBUG)
 		std::cout << "old nickname = " <<user.get_nickname() <<std::endl;
 
 	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK")); 
-	user.set_nickname(args); //FIX: si on cree 3 clients on va set les 3 au meme nickname alors que irssi les modifie en ajoutant underscore puis un 1 pour les differencier. Du coup il faut qu'on garde ces nouveaux nicknames modifiés par irssi
+	user.set_nickname(args);
 
 	if (DEBUG)
 		std::cout << "new nickname = " <<user.get_nickname() <<std::endl;
@@ -43,5 +46,13 @@ void	command_nick(
 	{
 		std::cout <<"ALL USERS : " <<std::endl;
 		_user_manager.print_all_users();
+	}
+
+	if (nick_conflict == false && user.get_is_authenticated() == false)
+	{
+		client.write(WELCOME_MESSAGE(user.get_username(), user.get_nickname()));
+		user.set_is_authenticated(true);
+		if (DEBUG)
+			std::cout <<BHGRN <<"User authentification set to true" <<PRINT_END;
 	}
 }

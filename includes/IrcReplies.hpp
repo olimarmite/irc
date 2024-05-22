@@ -13,12 +13,12 @@
 /*****		USED				*****/
 
 // NON-NUMERIC REPLIES
-# define	WELCOME_MESSAGE(username)										DOTS + SERVER_NAME + " 001 " + username + \
-																			" :Welcome to the " + SERVER_NAME + " IRC Network " + username + \
+# define	WELCOME_MESSAGE(username, nickname)										DOTS + SERVER_NAME + " 001 " + nickname + \
+																			" :Welcome to the " + SERVER_NAME + " IRC Network " + nickname + \
 																			TILD + username + IP_ADD + NEW_LINE + \
-																			DOTS + SERVER_NAME + " 002 " + username + \
+																			DOTS + SERVER_NAME + " 002 " + nickname + \
 																			" :Your host is ircserv, running version bahamut-2.2.2" + NEW_LINE + \
-																			DOTS + SERVER_NAME + " 003 " + username + \
+																			DOTS + SERVER_NAME + " 003 " + nickname + \
 																			" :This server was created Tue Apr 30 2024 at 16:38:57 UTC" + NEW_LINE
 
 # define	NICK_CHANGED(old_nick, username, new_nick, command)				DOTS + old_nick + TILD + username + IP_ADD + SPACE + command + " :" + new_nick + NEW_LINE
