@@ -132,7 +132,7 @@ bool	is_user_limit_reached(Channel & channel, Client &client, UserManager &_user
 	if (channel.clients_fd.size() >= channel.user_limit)
 	{
 		User user = _user_manager.get_user(client.get_fd());
-		client.write(ERR_CHANNELISFULL(SERVER_NAME, channel.name, user.get_nickname()));
+		client.write(ERR_CHANNELISFULL(SERVER_NAME, channel.name));
 		return true;
 	}
 	return false;

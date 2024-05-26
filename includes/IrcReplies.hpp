@@ -42,7 +42,7 @@
 # define	ERR_USERONCHANNEL(prefix, user, invitee_nickname, channel)		DOTS + prefix + SPACE + "443 " + "" + user + SPACE + invitee_nickname + SPACE + channel + " :is already on channel" + NEW_LINE
 # define	ERR_NOTREGISTERED(prefix)						DOTS + prefix + SPACE + "451 " + ":You have not registered" + NEW_LINE
 # define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "* " + command + " :Not enough parameters" + NEW_LINE
-# define	ERR_CHANNELISFULL(prefix, channel, nickname)				DOTS + prefix + SPACE + "471 " + "" + nickname + SPACE + channel + " :Cannot join channel (+l)" + NEW_LINE
+# define	ERR_CHANNELISFULL(prefix, channel)				DOTS + prefix + SPACE + "471 " + "" + channel + " :Cannot join channel (+l)" + NEW_LINE
 # define	ERR_UNKNOWNMODE(prefix, char)					DOTS + prefix + SPACE + "472 " + "" + char + " :is unknown mode char to me" + NEW_LINE
 # define	ERR_INVITEONLYCHAN(prefix, channel)				DOTS + prefix + SPACE + "473 " + "* " + channel + " :Cannot join channel (+i)" + NEW_LINE
 # define	ERR_BADCHANNELKEY(prefix, channel)				DOTS + prefix + SPACE + "475 " + "* " + channel + " :Cannot join channel (+k)" + NEW_LINE
