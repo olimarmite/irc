@@ -33,7 +33,7 @@ void	handle_join_command(ChannelManager & _channel_manager, User &user, Client &
 		
 		Channel channel = _channel_manager.get_channel(channel_name);
 
-		client.write(RPL_TOPIC(user.get_nickname(), user.get_username(), channel_name, channel.topic, "TOPIC"));
+		client.write(CHAN_TOPIC(channel_name, channel.topic));
 		client.write(JOINED_CHANNEL(user.get_nickname(), user.get_username(), channel_name, "JOIN"));
 		broadcast_to_all_users(channel, _client_manager, client, channel_name, user);
 	}
