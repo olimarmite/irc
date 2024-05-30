@@ -28,6 +28,7 @@
 # define	RPL_KICK(nickname, username, chan_name, kcked_nick, command)	DOTS + nickname + TILD + username + IP_ADD + SPACE + command + SPACE + chan_name + SPACE + kcked_nick + " :" + nickname + NEW_LINE
 # define	PONG_MSG(server_name, nickname)									DOTS + server_name + SPACE + "PONG " + server_name + " :" + nickname + NEW_LINE
 # define	RPL_MODEUPDATECHANOP(og_nick, og_user, chan_name, sign, nick)	DOTS + og_nick + TILD + og_user + IP_ADD + " MODE " + chan_name + SPACE + sign +"o " + nick + NEW_LINE
+#define		CHAN_TOPIC(chan_name, topic)									DOTS + SERVER_NAME + SPACE + "332 " + "casomarr " + chan_name + " :" + topic + NEW_LINE
 
 // ERRORS
 # define	ERR_NOSUCHNICK(prefix, nickname)				DOTS + prefix + SPACE + "401 " + "* " + nickname + " :No such nick/channel" + NEW_LINE
