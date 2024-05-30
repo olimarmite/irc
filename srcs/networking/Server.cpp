@@ -58,7 +58,10 @@ void	Server::bind_socket_to_port(struct addrinfo server_settings)
 
 	ret = bind(_server_fd, server_info->ai_addr, server_info->ai_addrlen);
 	if (ret == INVALID_PORT)
+	{
+		freeaddrinfo(server_info);
 		throw std::runtime_error(ERROR_BIND(errno));
+	}
 
 	freeaddrinfo(server_info);
 
