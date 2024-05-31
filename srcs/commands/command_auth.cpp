@@ -25,6 +25,6 @@ void	command_auth(
 
 	User& user = _user_manager.get_user(client.get_fd());
 	user.set_is_authenticated(true);
-	_channel_manager.send_message_to_channel2("", BGRN + user.get_nickname() + " has been authenticated\n");
+	_channel_manager.send_message_to_channel2("", /* BGRN +  */user.get_nickname() + " has been authenticated\n");
 	return ;
 }
