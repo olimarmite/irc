@@ -129,7 +129,6 @@ void	ChannelManager::join_channel(int client_fd, std::string const & channel_nam
 	return ;
 }
 
-//TODO CARO : changer nom de cette fonction
 void	ChannelManager::send_message_to_channel(int client_fd, std::string const & channel_name, std::string const & message, UserManager &_user_manager)
 {
 	Channel	& channel = _channels[channel_name];
