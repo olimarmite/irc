@@ -2,6 +2,7 @@
 #include "CommandHandler.hpp"
 #include "Macros.hpp"
 #include "Server.hpp"
+#include <cerrno>
 #include <netinet/in.h>
 #include <stdexcept>
 #include <string>
@@ -159,6 +160,8 @@ void Server::_check_epoll_events()
 
 	if (event_count == -1)
 	{
+		if (errno == EINTR)
+			return ;
 		throw std::runtime_error(ERROR_EPOLL_WAIT(errno));
 	}
 	for (int i = 0; i < event_count; i++)
@@ -168,9 +171,11 @@ void Server::_check_epoll_events()
 		else //event
 		{
 			if (_client_manager->get_client(events[i].data.fd).read() == 0) //client disconnected from server
-				_client_manager->remove_client(events[i].data.fd);
+				_client_manager->get_client(events[i].data.fd).disconnect();
 		}
 	}
+	_client_manager->destroy_unused_clients();
+
 }
 
 void Server::init(ClientManager &client_manager)

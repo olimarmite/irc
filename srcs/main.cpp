@@ -6,7 +6,9 @@
 #include "IrcReplies.hpp"
 #include "signals.hpp"
 #include <cstdlib>
+#include <exception>
 #include <iostream>
+#include <ostream>
 #include <string>
 #include "UserManager.hpp"
 #include "ServerSettings.hpp"
@@ -48,6 +50,19 @@
 	/connect DALnet
 */
 
+void server_loop(Server &server)
+{
+	try {
+		while (g_signals == true)
+		{
+			server.run();
+		}
+	}
+	catch (const std::exception &e)
+	{
+		std::cout << "Error: " << e.what() << std::endl;
+	}
+}
 
 int main(int argc, char **argv)
 {
@@ -57,30 +72,32 @@ int main(int argc, char **argv)
 	if (set_signals() == EXIT_FAILURE)
 		return EXIT_FAILURE;
 
-	const ServerSettings server_settings(argv[2], argv[1]);
-
 	try
 	{
-		Server			server(server_settings.port);
-		ChannelManager	channel_manager = ChannelManager();
-		ClientManager	client_manager = ClientManager();
-		CommandHandler	command_handler = CommandHandler(server_settings);
-		UserManager		user_manager = UserManager();
 
-		client_manager.init(command_handler);
-		channel_manager.init(client_manager);
-		command_handler.init(channel_manager, user_manager, client_manager);
-		server.init(client_manager);
-	
-		while (g_signals == true)
-		{
-			server.run();
-		}
+
+	const ServerSettings server_settings(argv[2], argv[1]);
+
+	Server			server(server_settings.port);
+	ChannelManager	channel_manager = ChannelManager();
+	ClientManager	client_manager = ClientManager();
+	CommandHandler	command_handler = CommandHandler(server_settings);
+	UserManager		user_manager = UserManager();
+
+	client_manager.init(command_handler);
+	channel_manager.init(client_manager);
+	command_handler.init(channel_manager, user_manager, client_manager);
+	server.init(client_manager);
+
+	server_loop(server);
+
+	client_manager.disconnect_all_clients();
 	}
-	catch(const std::exception& e)
+	catch (std::exception &e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cout << "Error: " << e.what() << std::endl;	
 	}
+	
 
 	return EXIT_SUCCESS;
 }

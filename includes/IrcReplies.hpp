@@ -39,7 +39,7 @@
 # define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "* " + nick + " :Erroneus nickname" + NEW_LINE
 # define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "* " + nick + " :Nickname is already in use" + NEW_LINE
 # define	ERR_NOTONCHANNEL(prefix, channel)				DOTS + prefix + SPACE + "442 " + "* " + channel + " :You're not on that channel" + NEW_LINE
-// TO DO KARL message is not correct
+// TODO KARL message is not correct
 # define	ERR_USERONCHANNEL(prefix, user, invitee_nickname, channel)		DOTS + prefix + SPACE + "443 " + "" + user + SPACE + invitee_nickname + SPACE + channel + " :is already on channel" + NEW_LINE
 # define	ERR_NOTREGISTERED(prefix)						DOTS + prefix + SPACE + "451 " + ":You have not registered" + NEW_LINE
 # define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "* " + command + " :Not enough parameters" + NEW_LINE

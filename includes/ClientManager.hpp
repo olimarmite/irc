@@ -19,5 +19,7 @@ public:
 	void	init(CommandHandler &command_handler);
 	void	add_client(int client_fd);
 	void	remove_client(int client_fd);
+	void	disconnect_all_clients();
 	Client &get_client(int client_fd);
+	void	destroy_unused_clients();
 };
