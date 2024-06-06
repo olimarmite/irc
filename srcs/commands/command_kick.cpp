@@ -9,8 +9,6 @@
 #include <iostream>
 #include <string>
 
-//TODO Kick fais des trucs bizarres, peut etre du a nickname 
-
 void	command_kick(
 	ChannelManager &_channel_manager,
 	UserManager &_user_manager,

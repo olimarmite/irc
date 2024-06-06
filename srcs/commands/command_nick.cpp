@@ -30,7 +30,8 @@ void	command_nick(
 		return ;
 
 	if (nick_conflict)
-		return ; 
+		return ;
+	std::string	old_nickname = user.get_nickname();
 	user.set_nickname(args);
 
 	if (user.get_is_registered() == false
@@ -43,12 +44,12 @@ void	command_nick(
 			client.write(WELCOME_MESSAGE(user.get_username(), user.get_nickname()));
 			user.set_is_registered(true);
 		}
-		else {
+		else
+		{
 			client.write(ERR_PASSWDMISMATCH(SERVER_NAME));
 			client.disconnect();
 		}
 	}
-	else {
-		client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK")); 
-	}
+	else
+		client.write(NICK_CHANGED(old_nickname, user.get_username(), args, "NICK"));
 }

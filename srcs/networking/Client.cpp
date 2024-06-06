@@ -97,7 +97,7 @@ void Client::write(std::string const & message)
 
 void Client::init(int fd, CommandHandler &command_handler)
 {
-	std::cout << "NEW CLIENT fd:" << fd << std::endl;
+	std::cout << "New client fd:" << fd << std::endl;
 	_fd = fd;
 	_read_buffer = "";
 	_write_buffer = std::queue<std::string>();
@@ -108,7 +108,7 @@ void Client::init(int fd, CommandHandler &command_handler)
 
 void Client::disconnect()
 {
-	std::cout << "disconnect Client fd:" << _fd << std::endl;
+	std::cout << "Disconnect Client fd:" << _fd << std::endl;
 	if (_fd == INVALID_FD)
 		return;
 	_command_handler->on_disconnection(*this);

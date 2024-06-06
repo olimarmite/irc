@@ -82,7 +82,6 @@ int	Server::create_socket(struct addrinfo const & settings)
 		throw std::runtime_error(ERROR_SOCKET(errno)); // + errno
 	}
 
-//--------------------------------------TEST
 // Set the socket to non-blocking mode
 	int flags = fcntl(server_fd, F_GETFL, 0);
 	if (flags == -1)
@@ -92,8 +91,6 @@ int	Server::create_socket(struct addrinfo const & settings)
 	int ret = fcntl(server_fd, F_SETFL, flags);
 	if (ret == -1)
 		throw std::runtime_error(ERROR_FCNTL(errno));
-
-//--------------------------------------TEST
 
 	if (DEBUG)
 		std::cout << "Server socket created" << std::endl;

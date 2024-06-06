@@ -15,7 +15,6 @@ bool _is_authenticated(Client &client, UserManager &user_manager)
 void CommandHandler::_execute_command(Client &client,
 	const std::string &command, const std::string &args)
 {
-	//TODO: do a better auth command control (maybe a flag in the cammand table)
 	if (_is_authenticated(client, *_user_manager) == false)
 	{
 		if (command != "PASS" && command != "NICK" && command != "USER" && command != "CAP")

@@ -14,6 +14,8 @@ void	command_sendmsg(
 	std::string const &args
 	)
 {
+	(void)_server_settings;
+	
 	User origin_user = _user_manager.get_user(client.get_fd());
 	std::string message = parse_message(args);
 	if (DEBUG)
@@ -30,9 +32,6 @@ void	command_sendmsg(
 		std::string nickname = parse_nickname(args);
 		if (_user_manager.user_exists(nickname) == true)
 		{
-			if (DEBUG)
-				std::cout <<BBLU <<"Nick/channel found" <<PRINT_END;
-
 			User dest_user = _user_manager.get_user_by_name(nickname);
 			Client dest_client = _client_manager.get_client(dest_user.get_fd());
 
@@ -41,8 +40,6 @@ void	command_sendmsg(
 		}
 		else
 		{
-			if (DEBUG)
-				std::cout <<BRED <<"Nick/channel not found" <<PRINT_END;
 			User origin_user = _user_manager.get_user(client.get_fd());
 			client.write(ERR_NOSUCHNICK(SERVER_NAME, nickname));
 			return ;
@@ -53,33 +50,19 @@ void	command_sendmsg(
 		if (DEBUG)
 			_channel_manager.print_all_channels();
 
-		Channel channel = _channel_manager.get_channel(args);
-
-		if (_channel_manager.channel_exists(channel.name) == false) //if channel n'existe pas alors le creer
+		std::string	channel_name = parse_channel_name(args);
+		if (_channel_manager.channel_exists(channel_name) == false)
 		{
-			if (DEBUG)
-				std::cout <<BBLU <<"Channel doesn't exist : creation of new channel" <<PRINT_END;
-			command_join(_channel_manager, _user_manager, _client_manager, _server_settings, client, args);
-
+			User origin_user = _user_manager.get_user(client.get_fd());
+			client.write(ERR_NOSUCHNICK(SERVER_NAME, channel_name));
+			return ;
 		}
 		else
 		{
-			if (DEBUG)
-				std::cout <<BBLU <<"Channel exists" <<PRINT_END;
-
-			if (_channel_manager.is_user_in_channel(client.get_fd(), channel.name) == false) //if user n'est pas dans le channel
-			{
-				if (DEBUG)
-					std::cout <<BCYN <<"User not in channel" <<PRINT_END;
-				//TODO : RPL client not in channel
+			if (_channel_manager.is_user_in_channel(client.get_fd(), channel_name) == false)
 				return ;
-			}
-			if (DEBUG)
-			{
-				std::cout <<BCYN <<"User found in channel " <<channel.name <<PRINT_END;
-				_channel_manager.print_all_clients(channel.name);
-			}
-			_channel_manager.send_message_to_channel(client.get_fd(), channel.name, message, _user_manager); //on envoie le msg dans le channel
+
+			_channel_manager.send_message_to_channel(client.get_fd(), channel_name, message, _user_manager);
 		}
 	}
 }

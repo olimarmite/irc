@@ -18,8 +18,6 @@ int	set_signals(void)
 	return (EXIT_SUCCESS);
 }
 
-/* void	signal_handler(int signal, \
-siginfo_t *info, void *ucontext) */
 void	signals_handler(int signal)
 {
 	(void)signal;

@@ -7,6 +7,15 @@
 #include "../includes/ClientManager.hpp"
 #include "../includes/IrcReplies.hpp"
 
+std::string	parse_channel_name(std::string args)
+{
+	std::istringstream	ss(args);
+	std::string			channel_name;
+	std::getline(ss, channel_name, ' ');
+
+	return channel_name;
+}
+
 std::string parse_nickname(std::string args)
 {
 	std::istringstream	ss(args);
@@ -33,5 +42,3 @@ bool	is_it_private_message(std::string args)
 		return true;
 	return false;
 }
-//void	handle_priave_message(UserManager &_user_manager, ClientManager &_client_manager, Client &client, std::string args)
-//void	handle_channel_message(ChannelManager &_channel_manager, UserManager &_user_manager, ClientManager &_client_manager, const ServerSettings &_server_settings, Client &client, std::string args)

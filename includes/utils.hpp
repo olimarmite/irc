@@ -52,6 +52,7 @@ void	handle_kick_command(ChannelManager &_channel_manager, UserManager &_user_ma
 bool	is_topic_valid(ChannelManager & _channel_manager, Client &client, std::string const & channel_name);
 
 // Sendmsg
+std::string	parse_channel_name(std::string args);
 std::string parse_nickname(std::string args);
 std::string parse_message(std::string args);
 bool	is_it_private_message(std::string args);

@@ -39,7 +39,6 @@
 # define	ERR_ERRONEUSNICKNAME(prefix, nick)				DOTS + prefix + SPACE + "432 " + "* " + nick + " :Erroneus nickname" + NEW_LINE
 # define	ERR_NICKNAMEINUSE(prefix, nick)					DOTS + prefix + SPACE + "433 " + "* " + nick + " :Nickname is already in use" + NEW_LINE
 # define	ERR_NOTONCHANNEL(prefix, channel)				DOTS + prefix + SPACE + "442 " + "* " + channel + " :You're not on that channel" + NEW_LINE
-// TODO KARL message is not correct
 # define	ERR_USERONCHANNEL(prefix, user, invitee_nickname, channel)		DOTS + prefix + SPACE + "443 " + "" + user + SPACE + invitee_nickname + SPACE + channel + " :is already on channel" + NEW_LINE
 # define	ERR_NOTREGISTERED(prefix)						DOTS + prefix + SPACE + "451 " + ":You have not registered" + NEW_LINE
 # define	ERR_NEEDMOREPARAMS(prefix, command)				DOTS + prefix + SPACE + "461 " + "* " + command + " :Not enough parameters" + NEW_LINE
@@ -52,8 +51,6 @@
 
 // NUMERIC REPLIES
 # define	RPL_INVITING(prefix, channel, inviting_usr, invitee_usr)		DOTS + prefix + SPACE + "341 " + "" + inviting_usr + SPACE + invitee_usr + SPACE + channel + NEW_LINE
-
-// :Karl!kquerel@127 INVITE Caro #channel1
 #define		RPL_INVITED(inviter_nick, inviter_usr, invitee_nick, chan_name, command)	DOTS + inviter_nick + TILD + inviter_usr + IP_ADD + SPACE + command + SPACE + invitee_nick + " :" + chan_name + NEW_LINE
 
 /*****		NOT USED YET		*****/

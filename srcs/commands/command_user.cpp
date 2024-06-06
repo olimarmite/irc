@@ -44,13 +44,13 @@ void	command_user(
 		if (user.get_used_password() == _server_settings.password)
 		{
 			client.write(WELCOME_MESSAGE(user.get_username(), user.get_nickname()));
-			user.set_is_registered(true);
+			user.set_is_registered(true);	
 		}
-		else {
+		else
+		{
 			client.write(ERR_PASSWDMISMATCH(SERVER_NAME));
 			client.disconnect();
 		}
 	}
-
 	return ;
 }

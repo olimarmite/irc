@@ -3,7 +3,7 @@ NAME	=	ircserv
 
 # Compiler #
 CXX			=	c++
-CXX_FLAGS	=	-Wall -Wextra -Werror -std=c++98 -g3 #attention a ne pas push avec
+CXX_FLAGS	=	-Wall -Wextra -Werror -std=c++98
 RM			=	rm -rf
 
 # Objects #
@@ -13,12 +13,47 @@ OBJ_DIR		=	.objFiles
 SRC_DIR		=	srcs
 INC_DIR		=	includes
 
+SRC_FILES	:=	./srcs/irc/state_management/ChannelManager.cpp \
+				./srcs/irc/state_management/UserManager.cpp \
+				./srcs/irc/message_processing/CommandHandler.cpp \
+				./srcs/utils/utils.cpp \
+				./srcs/signals/signals.cpp \
+				./srcs/commands/command_join.cpp \
+				./srcs/commands/command_user.cpp \
+				./srcs/commands/command_topic.cpp \
+				./srcs/commands/commands_utils/join_utils.cpp \
+				./srcs/commands/commands_utils/nick_utils.cpp \
+				./srcs/commands/commands_utils/invite_utils.cpp \
+				./srcs/commands/commands_utils/sendmsg_utils.cpp \
+				./srcs/commands/commands_utils/mode_utils.cpp \
+				./srcs/commands/commands_utils/kick_utils.cpp \
+				./srcs/commands/commands_utils/topic_utils.cpp \
+				./srcs/commands/command_nick.cpp \
+				./srcs/commands/command_pass.cpp \
+				./srcs/commands/command_invite.cpp \
+				./srcs/commands/command_mode.cpp \
+				./srcs/commands/command_kick.cpp \
+				./srcs/commands/command_sendmsg.cpp \
+				./srcs/networking/Client.cpp \
+				./srcs/networking/Server.cpp \
+				./srcs/networking/ClientManager.cpp \
+				./srcs/models/User.cpp \
+				./srcs/main.cpp
 
-SRC_FILES	:=	$(shell find $(SRC_DIR) -name "*.cpp") # TODO Changer ca a la fin mdr
+OBJ_FILES	:=	$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
-# SRC_FILES	:=	$(wildcard $(SRC_DIR)/*.cpp) #a verifier si on a le droit a wildcard
-OBJ_FILES	:=	$(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES)) #a verifier si on a le droit a patsubst
-INC_FILES	:=	$(wildcard $(INC_DIR)/*.hpp)
+INC_FILES	:=	./includes/signals.hpp \
+.				./includes/Macros.hpp \
+.				./includes/CommandHandler.hpp \
+.				./includes/ChannelManager.hpp \
+.				./includes/User.hpp \
+.				./includes/ClientManager.hpp \
+.				./includes/Client.hpp \
+.				./includes/IrcReplies.hpp \
+.				./includes/Server.hpp \
+.				./includes/utils.hpp \
+.				./includes/ServerSettings.hpp \
+.				./includes/UserManager.hpp
 
 #Colors:
 GREEN		=	\e[92;5;118m
@@ -41,8 +76,6 @@ $(NAME): $(OBJ_FILES) $(INC_FILES)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp $(INC_FILES)
 	@mkdir -p $(dir $@)
 	@$(CXX) $(CXX_FLAGS) -I $(INC_DIR) -c $< -o $@
-	@$(eval COUNT=$(shell expr $(COUNT) + 1))
-	@printf "$(GREEN)	- Compiling: [%-50s] %d%%$(RESET)\r" "$$(printf '▉%.0s' $$(seq 1 $$(expr $(COUNT) \* 50 / $(TOTAL))))" $$(expr $(COUNT) \* 100 / $(TOTAL))
 
 clean:
 	@$(RM) $(OBJ_DIR)

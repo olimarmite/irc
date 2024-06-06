@@ -80,7 +80,6 @@ bool	is_check_all_channel_valid(std::string const & channel_name, Client &client
 		if (is_channel_key_protected(channel, client, channel_name, password, password_arg) == false)
 			return false;
 
-		// TODO faire des tests
 		if (is_user_limit_reached(channel, client, _user_manager) == true)
 			return false;
 	}

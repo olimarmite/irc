@@ -110,7 +110,6 @@ void	update_mode(ChannelManager & _channel_manager, UserManager &_user_manager, 
 		update_topic_restricted_to_operators(_channel_manager, channel_name, sign);
 	else if (mode == 'k')
 		update_channel_key(_channel_manager, channel_name, sign, mode_arg);
-	//TODO : VERIFIER ce qui se passe qd on limite à 1 alors qu'on est deja 2 dedans
 	else if (mode == 'l')
 		update_user_limit(_channel_manager, channel_name, sign, mode_arg);
 	else if (mode == 'o')
@@ -124,12 +123,12 @@ void	update_channel_invite_only(ChannelManager & _channel_manager, std::string c
 	if (sign == '+')
 	{
 		_channel_manager.get_channel(channel_name).is_invite_only = true;
-		_channel_manager.send_message_to_channel2(channel_name, BYEL + channel_name + ": Is now invite only\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": Is now invite only\n");
 	}
 	else if (sign == '-')
 	{
 		_channel_manager.get_channel(channel_name).is_invite_only = false;
-		_channel_manager.send_message_to_channel2(channel_name,  BGRN + channel_name + ": Is no longer invite only\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": Is no longer invite only\n");
 	}
 	return ;
 }
@@ -139,12 +138,12 @@ void	update_topic_restricted_to_operators(ChannelManager & _channel_manager, std
 	if (sign == '+')
 	{
 		_channel_manager.get_channel(channel_name).is_topic_restricted_to_operators = true;
-		_channel_manager.send_message_to_channel2(channel_name, BYEL + channel_name + ": Topic is now restricted to operators\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": Topic is now restricted to operators\n");
 	}
 	else if (sign == '-')
 	{
 		_channel_manager.get_channel(channel_name).is_topic_restricted_to_operators = false;
-		_channel_manager.send_message_to_channel2(channel_name, /* BGRN +  */channel_name + ": Topic is no longer restricted to operators\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": Topic is no longer restricted to operators\n");
 	}
 	return ;
 }
@@ -155,13 +154,13 @@ void	update_channel_key(ChannelManager & _channel_manager, std::string const & c
 	{
 		_channel_manager.get_channel(channel_name).is_key_needed = true;
 		_channel_manager.get_channel(channel_name).password = mode_arg;
-		_channel_manager.send_message_to_channel2(channel_name, BYEL + channel_name + ": Key is required to join\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": Key is required to join\n");
 	}
 	else if (sign == '-')
 	{
 		_channel_manager.get_channel(channel_name).is_key_needed = false;
 		_channel_manager.get_channel(channel_name).password = "";
-		_channel_manager.send_message_to_channel2(channel_name, /* BGRN +  */channel_name + ": Key is no longer required to join\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": Key is no longer required to join\n");
 	}
 	return ;
 }
@@ -173,12 +172,12 @@ void	update_user_limit(ChannelManager & _channel_manager, std::string const & ch
 	if (sign == '+')
 	{
 		_channel_manager.get_channel(channel_name).user_limit = user_limit;
-		_channel_manager.send_message_to_channel2(channel_name, BYEL + channel_name + ": User limit set to " + mode_arg + "\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": User limit set to " + mode_arg + "\n");
 	}
 	else if (sign == '-')
 	{
 		_channel_manager.get_channel(channel_name).user_limit = -1;
-		_channel_manager.send_message_to_channel2(channel_name, /* BGRN +  */channel_name + ": User limit removed\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": User limit removed\n");
 	}
 	return ;
 }
@@ -204,12 +203,12 @@ void	update_channel_operator(ChannelManager & _channel_manager, UserManager &_us
 	if (sign == '+')
 	{
 		_channel_manager.get_channel(channel_name).operators.insert(user.get_fd());
-		_channel_manager.send_message_to_channel2(channel_name, /* BGRN +  */channel_name + ": " + user.get_nickname() + " is now a channel operator\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": " + user.get_nickname() + " is now a channel operator\n");
 	}
 	else if (sign == '-')
 	{
 		_channel_manager.get_channel(channel_name).operators.erase(user.get_fd());
-		_channel_manager.send_message_to_channel2(channel_name, BYEL + channel_name + ": " + user.get_nickname() + " is no longer a channel operator\n");
+		_channel_manager.send_message_to_channel2(channel_name, channel_name + ": " + user.get_nickname() + " is no longer a channel operator\n");
 	}
 
 	cmd_client.write(RPL_MODEUPDATECHANOP(cmd_user.get_nickname(), cmd_user.get_username(), channel_name, sign, user.get_nickname()));
