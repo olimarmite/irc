@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstring>
 #include <ostream>
+#include <stdexcept>
 #include <sys/epoll.h>
 #include <sys/socket.h>
 #include <iostream>
@@ -15,7 +16,8 @@ Client::Client() :
 	_fd(INVALID_FD),
 	_read_buffer(""),
 	_write_buffer(std::queue<std::string>()),
-	_command_handler(NULL)
+	_command_handler(NULL),
+	_connection_status(DISCONNECTED)
 {
 }
 
@@ -32,10 +34,11 @@ void Client::_check_commands_in_buffer()
 {
 	size_t pos = _read_buffer.find(NEW_LINE);
 
-	while (pos != std::string::npos)
+	while (_connection_status == CONNECTED && pos != std::string::npos)
 	{
 		std::string command = _read_buffer.substr(0, pos);
 		_read_buffer.erase(0, pos + NEW_LINE.length());
+		std::cout << "< " << command << std::endl;
 		_on_command(command);
 		pos = _read_buffer.find(NEW_LINE);
 	}
@@ -67,7 +70,7 @@ void Client::flush_messages()
 	while (!_write_buffer.empty())
 	{
 		message_size = _write_buffer.front().size();
-		sended_size = send(_fd, _write_buffer.front().c_str(), message_size, 0);
+		sended_size = send(_fd, _write_buffer.front().c_str(), message_size, MSG_DONTWAIT | MSG_NOSIGNAL);
 		if (sended_size == -1)
 		{
 			return;
@@ -87,26 +90,34 @@ void Client::flush_messages()
 
 void Client::write(std::string const & message)
 {
+	std::cout << "> " << message << std::endl;
 	_write_buffer.push(message);
 	flush_messages();
 }
 
 void Client::init(int fd, CommandHandler &command_handler)
 {
+	std::cout << "NEW CLIENT fd:" << fd << std::endl;
 	_fd = fd;
 	_read_buffer = "";
 	_write_buffer = std::queue<std::string>();
 	_command_handler = &command_handler;
 	_command_handler->on_connection(*this);
+	_connection_status = CONNECTED;
 }
 
 void Client::disconnect()
 {
+	std::cout << "disconnect Client fd:" << _fd << std::endl;
 	if (_fd == INVALID_FD)
 		return;
 	_command_handler->on_disconnection(*this);
 	close(_fd);
+	_connection_status = DISCONNECTED;
 	_fd = INVALID_FD;
+	_read_buffer = "";
+	_write_buffer = std::queue<std::string>();
+
 }
 
 int Client::get_fd() const

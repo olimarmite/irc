@@ -70,7 +70,7 @@ void	command_sendmsg(
 			if (_channel_manager.is_user_in_channel(client.get_fd(), channel.name) == false) //if user n'est pas dans le channel
 			{
 				if (DEBUG)
-					std::cout <<BCYN <<"User not in channel (was kicked out?)" <<PRINT_END;
+					std::cout <<BCYN <<"User not in channel" <<PRINT_END;
 				//TODO : RPL client not in channel
 				return ;
 			}

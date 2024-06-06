@@ -9,6 +9,12 @@
 
 class	Server;
 
+enum ConnectionStatus
+{
+	CONNECTED,
+	DISCONNECTED,
+};
+
 class Client
 {
   private:
@@ -16,6 +22,8 @@ class Client
 	std::string _read_buffer;
 	std::queue<std::string> _write_buffer;
 	CommandHandler *_command_handler;
+	ConnectionStatus _connection_status;
+	
 
 	void _check_commands_in_buffer();
 	void _on_command(std::string const &command);
@@ -30,6 +38,5 @@ class Client
 	void disconnect();
 	void init(int fd, CommandHandler &command_handler);
 	int get_fd() const;
-
 	Client &operator=(Client const &rhs);
 };

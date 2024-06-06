@@ -20,7 +20,7 @@ void	command_mode(
 	(void)_server_settings;
 
 	User& user = _user_manager.get_user(client.get_fd());
-	if (user.get_is_authenticated() == false)
+	if (user.get_is_registered() == false)
 	{
 		client.write(ERR_NOTREGISTERED(SERVER_NAME));
 		return ;

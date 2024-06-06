@@ -1,12 +1,13 @@
 #include "User.hpp"
 #include "Macros.hpp"
+#include <string>
 
 User::User() :
-	_fd(INVALID_FD), _username(""), _nickname(""), _is_authenticated(false)
+	_fd(INVALID_FD), _username(""), _nickname(""), _is_registered(false)
 {}
 
 User::User(int client_fd) :
-	_fd(client_fd), _username(""), _nickname(""), _is_authenticated(false)
+	_fd(client_fd), _username(""), _nickname(""), _is_registered(false)
 {
 	(void)_fd;
 }
@@ -38,12 +39,22 @@ int	User::get_fd() const
 	return _fd;
 }
 
-int	User::get_is_authenticated() const
+int	User::get_is_registered() const
 {
-	return _is_authenticated;
+	return _is_registered;
 }
 
-void	User::set_is_authenticated(int is_authenticated)
+void	User::set_is_registered(int is_registered)
 {
-	_is_authenticated = is_authenticated;
+	_is_registered = is_registered;
+}
+
+void	User::set_used_password(std::string password)
+{
+	_used_password = password;
+}
+
+std::string	const &User::get_used_password() const
+{
+	return _used_password;
 }

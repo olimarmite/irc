@@ -29,12 +29,26 @@ void	command_nick(
 	if (is_nickname_valid(args, _user_manager, user, client, &nick_conflict) == false)
 		return ;
 
-	client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK")); 
+	if (nick_conflict)
+		return ; 
 	user.set_nickname(args);
 
-	if (nick_conflict == false && user.get_is_authenticated() == false)
+	if (user.get_is_registered() == false
+		&& user.get_nickname().empty() == false
+		&& user.get_username().empty() == false)
 	{
-		client.write(WELCOME_MESSAGE(user.get_username(), user.get_nickname()));
-		user.set_is_authenticated(true);
+
+		if (user.get_used_password() == _server_settings.password)
+		{
+			client.write(WELCOME_MESSAGE(user.get_username(), user.get_nickname()));
+			user.set_is_registered(true);
+		}
+		else {
+			client.write(ERR_PASSWDMISMATCH(SERVER_NAME));
+			client.disconnect();
+		}
+	}
+	else {
+		client.write(NICK_CHANGED(user.get_nickname(), user.get_username(), args, "NICK")); 
 	}
 }

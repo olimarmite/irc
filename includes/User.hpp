@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Macros.hpp"
+#include <string>
 
 class User
 {
@@ -8,7 +9,8 @@ class User
 		int				_fd;
 		std::string		_username;
 		std::string		_nickname;
-		int 			_is_authenticated;
+		std::string		_used_password;
+		int 			_is_registered;
 
 	public:
 		// Const & Dest
@@ -19,8 +21,10 @@ class User
 		// Get & Set
 		void				set_username(std::string username);
 		void				set_nickname(std::string username);
-		void				set_is_authenticated(int is_authenticated);
-		int					get_is_authenticated() const;
+		void				set_used_password(std::string password);
+		std::string const &	get_used_password() const;
+		void				set_is_registered(int is_registered);
+		int					get_is_registered() const;
 		std::string const &	get_username() const;
 		std::string const &	get_nickname() const;
 		int					get_fd() const;
