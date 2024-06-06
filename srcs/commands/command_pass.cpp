@@ -6,8 +6,6 @@
 #include "User.hpp"
 #include "UserManager.hpp"
 #include "utils.hpp"
-// #include <iostream>
-// #include <string>
 #include "IrcReplies.hpp"
 
 void	command_pass(
